@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="defectos_activos">Defectos activos</string>
+    <string name="tomar">Tomar</string>
+    <string name="toma_la_foto">Toma la foto</string>
+    <string name="todo">TODO</string>
+    <string name="cerrados_recientemente">Cerrados Recientemente</string>
+    <string name="linkup">LinkUp</string>
+    <string name="sin_atender">Sin atender</string>
+    <string name="ver_mas">VER MAS</string>
+    <string name="modulos">Modulos</string>
+    <string name="cerrado">Cerrado</string>
+    <string name="activo">Activo</string>
+    <string name="asignado">Asignado</string>
+    <string name="fecha_estimada">Fecha Estimada</string>
+    <string name="prioridad">Prioridad</string>
+    <string name="baja">Baja</string>
+    <string name="media">Media</string>
+    <string name="alta">Alta</string>
+    <string name="sap">#SAP</string>
+    <string name="comentarios">Comentarios</string>
+    <string name="actividades">Actividades</string>
+    <string name="cerrar_defecto">Cerrar defecto</string>
+    <string name="asignarme_defecto">Asignarme Defecto</string>
+    <string name="tiempo_paro">tiempo Paro</string>
+    <string name="motivo">Motivo</string>
+    <string name="tiempo">Tiempo</string>
+    <string name="agregar_motivo_de_paro">Agregar Motivo de Paro</string>
+    <string name="asignarme_paro">Asignarme Paro</string>
+    <string name="cerrar_paros">Cerrar Paros</string>
+    <string name="bajo_construccion">Bajo construccion!!</string>
+    <string name="android_studio">Android Studio</string>
+    <string name="android_studio_android_com">android.studio@android.com</string>
+    <string name="que_defecto_encontraste">¿Que defecto encontraste?</string>
+    <string name="usuarios_recordados">Usuarios recordados</string>
+    <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
+    <string name="defectos">Defectos</string>
+    <string name="fallas">Fallas</string>
+    <string name="vqi">VQI</string>
+    <string name="cargando_indicador">00</string>
+    <string name="crr">CRR</string>
+    <string name="cpqi">CPQI</string>
+    <string name="plan_attainment">PLAN ATTAINMENT</string>
+    <string name="title_mecanico">Mecanico</string>
+    <string name="entornos_disponibles">Entornos Disponibles</string>
+    <string name="title_login">Login</string>
+</resources>

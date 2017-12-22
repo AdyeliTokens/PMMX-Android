@@ -1,0 +1,190 @@
+<resources>
+    <string name="app_name">PMMX</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_mecanico_main">Mecanico</string>
+    <string name="title_activity_modulo">Modulo</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="title_activity_origen">OrigenActivity</string>
+    <string name="title_activity_paro">ParoActivity</string>
+    <string name="title_activity_perfil">PerfilActivity</string>
+    <string name="title_activity_prueba">pruebaActivity</string>
+    <string name="title_activity_work_center">WorkCenterActivity</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_defectos">Defectos</string>
+    <string name="title_activity_paros">Paros</string>
+    <string name="title_activity_comentarios">Comentarios</string>
+    <string name="title_activity_profile">Settings</string>
+    <string name="title_activity_operador">Operador</string>
+    <string name="title_activity_fab">FabActivity</string>
+    <string name="title_activity_defecto">DefectoActivity</string>
+    <string name="title_activity_agregar_defecto">Agregar Defecto</string>
+    <string name="title_activity_tabs_ejemplo">TabsEjemploActivity</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_line_leader">LineLeaderActivity</string>
+    <string name="title_activity_about_maya">AboutMayaActivity</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_shift_leader">Shift Leader</string>
+    <string name="title_activity_riper">RiperActivity</string>
+    <string name="title_mecanico">Mecanico</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="section_format">Hello World from section: %1$d</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System esync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="large_text">
+    </string>
+    <string name="cargando">Cargando…</string>
+
+    <string name="falla_notification_title_template">Falla: %1$s</string>
+
+
+    <string name="falla_notification_placeholder_text_template">You said %1$s and lorem ipsum dolor
+        sit amet, consectetur adipiscing elit. Etiam non enim magna. Morbi dictum, velit vel semper
+        venenatis, magna odio volutpat velit, at ullamcorper nulla lacus sed turpis. Pellentesque
+        vitae metus elit, nec tincidunt tellus. Integer sed nisl sem, ullamcorper ornare lacus. Duis
+        ac mauris sed massa congue volutpat. Donec sed erat sit amet turpis viverra rhoncus sit amet
+        nec magna. Donec lacinia ligula at libero tortor.
+    </string>
+
+    <string name="action_share">Share</string>
+    <string name="action_reply">Reply</string>
+    <string name="defectos_activos">Defectos activos</string>
+    <string name="fallas_activas">Fallas activas</string>
+    <string name="tomar">Tomar</string>
+    <string name="toma_la_foto">Toma la foto</string>
+    <string name="todo">TODO</string>
+    <string name="cerrados_recientemente">Cerrados Recientemente</string>
+    <string name="linkup">LinkUp</string>
+    <string name="sin_atender">Sin atender</string>
+    <string name="ver_mas">VER MAS</string>
+    <string name="modulos">Modulos</string>
+    <string name="cerrado">Cerrado</string>
+    <string name="activo">Activo</string>
+    <string name="asignado">Asignado</string>
+    <string name="fecha_estimada">Fecha Estimada</string>
+    <string name="prioridad">Prioridad</string>
+    <string name="baja">Baja</string>
+    <string name="media">Media</string>
+    <string name="alta">Alta</string>
+    <string name="sap">#SAP</string>
+    <string name="comentarios">Comentarios</string>
+    <string name="actividades">Actividades</string>
+    <string name="cerrar_defecto">Cerrar defecto</string>
+    <string name="asignarme_defecto">Asignarme Defecto</string>
+    <string name="tiempo_paro">tiempo Paro</string>
+    <string name="motivo">Motivo</string>
+    <string name="tiempo">Tiempo</string>
+    <string name="agregar_motivo_de_paro">Agregar Motivo de Paro</string>
+    <string name="asignarme_paro">Asignarme Paro</string>
+    <string name="cerrar_paros">Cerrar Paros</string>
+    <string name="bajo_construccion">Bajo construccion!!</string>
+    <string name="android_studio">Android Studio</string>
+    <string name="android_studio_android_com">android.studio@android.com</string>
+    <string name="que_defecto_encontraste">¿Que defecto encontraste?</string>
+
+    <string name="usuarios_recordados">Usuarios recordados</string>
+    <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
+    <string name="defectos">Defectos</string>
+    <string name="fallas">Fallas</string>
+    <string name="vqi">VQI</string>
+    <string name="cargando_indicador">00</string>
+    <string name="crr">CRR</string>
+    <string name="title_activity_vqi">VQI</string>
+    <string name="cpqi">CPQI</string>
+    <string name="plan_attainment">PLAN ATTAINMENT</string>
+
+    <string name="entornos_disponibles">Entornos Disponibles</string>
+    <string name="title_login">Login</string>
+</resources>

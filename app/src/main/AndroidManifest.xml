@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pmi.ispmmx.maya">
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera2.full" />
+    <uses-feature android:name="android.hardware.location.gps" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/maya" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
+
+        <service android:name=".Services.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".Services.FirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- SplashActivity -->
+        <activity
+            android:name=".Activities.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- OperadorActivity -->
+        <activity
+            android:name=".Activities.Perfiles.OperadorActivity"
+            android:label="@string/title_activity_operador"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- LoginActivity -->
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- DefectoActivity -->
+        <activity
+            android:name=".Activities.DefectoActivity"
+            android:label="@string/title_activity_defecto"
+            android:parentActivityName=".Activities.Perfiles.OperadorActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.Perfiles.OperadorActivity" />
+        </activity>
+        <!-- AgregarDefectoActivity -->
+        <activity
+            android:name=".Activities.AgregarDefectoActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <!-- ProfileActivity -->
+        <!-- MecanicoActivity -->
+        <activity
+            android:name=".Activities.Perfiles.MecanicoActivity"
+            android:label="@string/title_mecanico"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- MecanicoActivity -->
+        <activity
+            android:name=".Activities.Operaciones.OrigenActivity"
+            android:label="@string/title_activity_modulo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- MecanicoActivity -->
+        <activity
+            android:name=".Activities.ParoActivity"
+            android:label="@string/title_activity_paro"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- MecanicoActivity -->
+        <activity android:name=".Activities.Camara2Activity" />
+        <!-- MecanicoActivity -->
+        <activity android:name=".Activities.Camara1Activity" />
+        <!-- MecanicoActivity -->
+        <!-- MecanicoActivity -->
+        <activity
+            android:name=".DefectosActivity"
+            android:label="@string/title_activity_defectos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.ParosActivity"
+            android:label="@string/title_activity_paros"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.ComentariosActivity"
+            android:label="@string/title_activity_comentarios"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.WorkCenterActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".Activities.Perfiles.LineLeaderActivity"
+            android:label="@string/title_activity_line_leader"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.AboutMayaActivity"
+            android:label="@string/title_activity_about_maya"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ItemListActivity"
+            android:label="@string/title_item_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ItemDetailActivity"
+            android:label="@string/title_item_detail"
+            android:parentActivityName=".ItemListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pmi.ispmmx.maya.ItemListActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.Perfiles.ShiftLeaderActivity"
+            android:label="@string/title_activity_shift_leader"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.VQIActivity"
+            android:label="@string/title_activity_vqi"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.Perfiles.RiperActivity"
+            android:label="@string/title_activity_riper"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.PhotoActivity">
+
+        </activity>
+    </application>
+
+</manifest>

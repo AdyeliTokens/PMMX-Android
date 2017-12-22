@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single"></group>
+
+    <item android:title="Opciones">
+        <menu>
+
+            <item
+                android:id="@+id/close_sesion"
+                android:icon="@drawable/ic_input_black_24dp"
+                android:title="Cerrar Sesion" />
+
+        </menu>
+    </item>
+
+</menu>

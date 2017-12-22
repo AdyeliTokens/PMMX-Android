@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#005a94</color>
+    <color name="colorPrimary">#0086c7</color>
+    <color name="colorPrimaryLight">#00a0d4</color>
+    <color name="colorFondoApp">#07598d</color>
+    <!--  -->
+
+    <color name="colorPrimaryText">#181818</color>
+    <color name="colorSecondaryText">#adadad</color>
+    <color name="colorTersearyText">#2381ef</color>
+
+    <color name="colorTabIndicator">#ffffff</color>
+    <color name="colorTabDesIndicator">#2b68ad</color>
+
+    <color name="colorIconsBlack">#000000</color>
+    <color name="colorIconsBlueDark">#2166a7</color>
+    <color name="colorIconsBlue">#03a9f4</color>
+
+
+
+    <color name="colorFondoCardView">#e7ebed</color>
+    <color name="colorFondoCardViewAlter">#FFFFFF</color>
+    <color name="colorCabezeras">#eceff1</color>
+    <color name="colorYellow">#ffeb3b</color>
+
+
+    <color name="colorAccent">#03a9f4</color>
+
+
+    <color name="colorWhite">#ffffff</color>
+
+
+    <color name="colorDivider">#bdbdbd</color>
+
+    <color name="colorRedScale8">#d32f2f</color>
+    <color name="colorRedScale7">#ef5350</color>
+
+
+    <color name="colorGrayScale7">#607d8b</color>
+    <color name="colorGrayScale6">#78909c</color>
+
+
+    <color name="colorBlueScale7">#1c5791</color>
+    <color name="colorBlueScale6">#2166a7</color>
+    <color name="colorBlueScale5">#2773bf</color>
+    <color name="colorBlueScale4">#2f80d2</color>
+    <color name="colorBlueScale3">#2b81d6</color>
+    <color name="colorBlueScale2">#3091f0</color>
+    <color name="colorBlueScale1">#53dffa</color>
+</resources>
