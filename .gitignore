@@ -1,3 +1,4 @@
 .gradle/
 build/android-profile/
+build/
 app/build/
