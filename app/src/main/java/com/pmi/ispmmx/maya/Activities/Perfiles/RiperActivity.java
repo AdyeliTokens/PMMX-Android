@@ -60,8 +60,7 @@ public class RiperActivity extends AppCompatActivity
     private SharedPreferences pref;
     private Retrofit retrofit;
 
-    private WorkCenterFragment workCenterFragment;
-    private LookBookFragment lookBookFragment;
+
 
     private Toolbar _toolbar;
     private TabLayout _tabLayout;
@@ -77,7 +76,7 @@ public class RiperActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shift_leader);
+        setContentView(R.layout.activity_riper);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         elementosUI();
@@ -164,43 +163,10 @@ public class RiperActivity extends AppCompatActivity
     }
 
     private void createFragments() {
-        workCenterFragment = new WorkCenterFragment();
-        workCenterFragment.workCenterList = new ArrayList<>();
-        workCenterFragment.iniciarAdapter();
-        lookBookFragment = new LookBookFragment();
+
     }
 
     private void generarTabs() {
-        _tabLayout.addTab(_tabLayout.newTab().setText("Mantenimiento"));
-
-
-        _tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-
-        ShiftLeaderPageAdapter shiftLeaderPageAdapter = new ShiftLeaderPageAdapter(getSupportFragmentManager(), _tabLayout.getTabCount(), workCenterFragment);
-
-        _viewPager.setAdapter(shiftLeaderPageAdapter);
-        _viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(_tabLayout));
-
-
-        _tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-
-                _viewPager.setCurrentItem(position);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
 
 
     }
