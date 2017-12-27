@@ -2,3 +2,7 @@
 build/android-profile/
 build/
 app/build/
+.idea/libraries/android_android_26.xml
+.idea/modules.xml
+.idea/workspace.xml
+app/app.iml
