@@ -122,8 +122,6 @@ public class OperadorActivity extends AppCompatActivity implements
     private TabLayout _tabLayout;
     private DrawerLayout _drawer;
     private TextView _navUsername;
-    private TextView _navApellido1;
-    private TextView _navApellido2;
     private TextView _navPosition;
     private ViewPager _viewPager;
     private ImageView _imgUsuario;
@@ -224,7 +222,7 @@ public class OperadorActivity extends AppCompatActivity implements
             }
         });
 
-        _navUsername.setText(nombre + " "+ apellido1  + " "+ apellido2+".");
+        _navUsername.setText(String.format("%s %s %s.", nombre, apellido1, apellido2));
 
         _navPosition.setText(puesto);
 
@@ -541,7 +539,7 @@ public class OperadorActivity extends AppCompatActivity implements
     private Bitmap getBitmap(String path) {
 
         Uri uri = Uri.fromFile(new File(path));
-        InputStream in = null;
+        InputStream in;
         try {
             final int IMAGE_MAX_SIZE = 1000000; // 1.2MP
             in = getContentResolver().openInputStream(uri);
@@ -550,7 +548,9 @@ public class OperadorActivity extends AppCompatActivity implements
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(in, null, o);
-            in.close();
+            if (in != null) {
+                in.close();
+            }
 
 
             int scale = 1;
@@ -560,7 +560,7 @@ public class OperadorActivity extends AppCompatActivity implements
             }
             Log.d("", "scale = " + scale + ", orig-width: " + o.outWidth + ", orig-height: " + o.outHeight);
 
-            Bitmap b = null;
+            Bitmap b;
             in = getContentResolver().openInputStream(uri);
             if (scale > 1) {
                 scale--;
@@ -588,7 +588,9 @@ public class OperadorActivity extends AppCompatActivity implements
             } else {
                 b = BitmapFactory.decodeStream(in);
             }
-            in.close();
+            if (in != null) {
+                in.close();
+            }
 
             Log.d("", "bitmap size - width: " + b.getWidth() + ", height: " +
                     b.getHeight());
@@ -755,7 +757,7 @@ public class OperadorActivity extends AppCompatActivity implements
             public void onResponse(@NonNull Call<WorkCenter> call, @NonNull Response<WorkCenter> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        workCenter.setId(response.body().getId());
+                        workCenter = response.body();
                         retrofiCallVQI();
                         workCenterFragment.llenarInformacion(response.body());
                     }
