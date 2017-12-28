@@ -10,22 +10,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pmi.ispmmx.maya.Adapters.BusinessUnitAdapter;
+import com.pmi.ispmmx.maya.Adapters.LinkUpAdapter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.BussinesUnit;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.R;
 
 import java.util.List;
 
-public class BusinessUnitFragment extends Fragment {
-    public List<BussinesUnit> bussinesUnitList;
+public class AreaFragment extends Fragment {
+
+    public List<WorkCenter> workCenters;
     public RecyclerView.Adapter mAdapter;
     private View view;
     private RecyclerView mRecycleView;
     private RecyclerView.LayoutManager mLayoutManager;
     private OnInteractionListener mListener;
 
-    public BusinessUnitFragment() {
+    public AreaFragment() {
 
     }
 
@@ -38,7 +39,7 @@ public class BusinessUnitFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_business_unit, container, false);
+        view = inflater.inflate(R.layout.fragment_work_center, container, false);
         elementosUI();
         iniciarRecycle();
 
@@ -65,39 +66,33 @@ public class BusinessUnitFragment extends Fragment {
 
 
     private void elementosUI() {
-        mRecycleView = view.findViewById(R.id.rv_business_units);
+        mRecycleView = view.findViewById(R.id.rv_work_center);
 
     }
 
     public void iniciarAdapter() {
-        mAdapter = new BusinessUnitAdapter(bussinesUnitList, R.layout.cardview_business_unit, new BusinessUnitAdapter.OnItemClickListener() {
+        mAdapter = new LinkUpAdapter(workCenters, R.layout.cardview_link_up, new LinkUpAdapter.OnItemClickListener() {
+
             @Override
-            public void OnItemClick(BussinesUnit bussinesUnit, int position) {
-                mListener.onClickBusinessUnit(bussinesUnit);
+            public void OnItemClick(WorkCenter workCenter, int position) {
+
             }
 
             @Override
-            public void OnWorkCenterClick(WorkCenter workCenter, int position) {
-                mListener.onClickWorkCenter(workCenter);
-            }
+            public boolean OnLongClick(WorkCenter workCenter, int position) {
 
-            @Override
-            public boolean OnWorkCenterLongClick(WorkCenter workCenter, int position) {
-                mListener.onLongClickWorkCenter(workCenter);
                 return true;
             }
 
             @Override
             public void OnBadgeDefectoClick(WorkCenter workCenter, int position) {
-                mListener.onBadgeDefectoClick(workCenter, position);
+
             }
 
             @Override
             public void OnBadgeParoClick(WorkCenter workCenter, int position) {
-                mListener.onBadgeParoClick(workCenter, position);
+
             }
-
-
         });
         mAdapter.notifyDataSetChanged();
 
@@ -127,3 +122,4 @@ public class BusinessUnitFragment extends Fragment {
         boolean onLongClickWorkCenter(WorkCenter workCenter);
     }
 }
+

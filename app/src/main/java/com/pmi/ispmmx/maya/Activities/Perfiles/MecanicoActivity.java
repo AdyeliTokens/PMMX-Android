@@ -321,6 +321,11 @@ public class MecanicoActivity extends AppCompatActivity implements
 
 
     @Override
+    public void getWorkCenters() {
+
+    }
+
+    @Override
     public void onBadgeDefectoClick(WorkCenter workCenter, int position) {
         retrofitDefectosActivos(workCenter);
     }

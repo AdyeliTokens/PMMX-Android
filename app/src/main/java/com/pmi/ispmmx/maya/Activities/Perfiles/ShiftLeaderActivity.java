@@ -58,7 +58,6 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.Activities.ParosActivity;
 import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.R;
-import com.pmi.ispmmx.maya.SettingsActivity;
 import com.pmi.ispmmx.maya.ShadowTransformer;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -432,8 +431,7 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
     }
 
     private void startsettingsActivity() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+
     }
 
     private void ocultarBottomSheet() {

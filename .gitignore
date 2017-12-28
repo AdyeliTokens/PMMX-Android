@@ -6,3 +6,4 @@ app/build/
 .idea/modules.xml
 .idea/workspace.xml
 app/app.iml
+*.xml___jb_tmp___

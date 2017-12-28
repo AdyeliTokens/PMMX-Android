@@ -4,28 +4,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.pmi.ispmmx.maya.Fragments.BusinessUnitFragment;
-import com.pmi.ispmmx.maya.Fragments.IndicadoresFragment;
-import com.pmi.ispmmx.maya.Fragments.LookBookFragment;
-import com.pmi.ispmmx.maya.Fragments.WorkCenterFragment;
+import com.pmi.ispmmx.maya.Fragments.AreaFragment;
 
 
 public class RiperPagerAdapter extends FragmentStatePagerAdapter {
 
     private int numberOfTabs;
-    private BusinessUnitFragment businessUnitFragment;
+    private AreaFragment areaFragment;
 
-    public RiperPagerAdapter(FragmentManager fm, int numberOfTabs, BusinessUnitFragment businessUnitFragment) {
+    public RiperPagerAdapter(FragmentManager fm, int numberOfTabs, AreaFragment areaFragment) {
         super(fm);
         this.numberOfTabs = numberOfTabs;
-        this.businessUnitFragment = businessUnitFragment;
+        this.areaFragment = areaFragment;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return businessUnitFragment;
+                return areaFragment;
             default:
                 return null;
         }

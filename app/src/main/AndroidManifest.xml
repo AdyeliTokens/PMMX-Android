@@ -118,9 +118,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.WorkCenterActivity" />
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
-        <activity
             android:name=".Activities.Perfiles.LineLeaderActivity"
             android:label="@string/title_activity_line_leader"
             android:theme="@style/AppTheme.NoActionBar" />

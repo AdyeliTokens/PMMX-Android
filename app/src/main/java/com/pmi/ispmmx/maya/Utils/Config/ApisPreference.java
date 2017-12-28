@@ -20,5 +20,6 @@ public class ApisPreference {
     public static final String ApiVQI = "api/VQI";
     public static final String ApiNoConformidades = "api/NoConformidades";
     public static final String ApiShiftLeader = "api/ShiftLeaders";
+    public static final String ApiPesador = "api/Pesadores";
 
 }

@@ -28,10 +28,9 @@ import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.RiperPagerAdapter;
 import com.pmi.ispmmx.maya.CircleTransform;
-import com.pmi.ispmmx.maya.Fragments.BusinessUnitFragment;
-import com.pmi.ispmmx.maya.Fragments.WorkCenterFragment;
+import com.pmi.ispmmx.maya.Fragments.AreaFragment;
+import com.pmi.ispmmx.maya.Interfaces.IPesadorService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.BussinesUnit;
-import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
@@ -41,7 +40,11 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -49,13 +52,8 @@ import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS
 
 public class RiperActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        BusinessUnitFragment.OnInteractionListener {
+        AreaFragment.OnInteractionListener {
 
-    private Button mButton;
-    private ViewPager mViewPager;
-
-
-    private boolean mShowingFragments = false;
 
 
     private SharedPreferences pref;
@@ -69,7 +67,12 @@ public class RiperActivity extends AppCompatActivity
     private TextView _navPosition;
     private ViewPager _viewPager;
     private ImageView _imgUsuario;
-    private BusinessUnitFragment businessUnitFragment;
+
+
+    private AreaFragment areaFragment;
+
+
+    private IPesadorService pesadorservice;
 
 
     @Override
@@ -83,10 +86,15 @@ public class RiperActivity extends AppCompatActivity
 
         inicializarEntidades();
         iniciarRetrofit();
+        createServicios();
         createFragments();
         generarTabs();
 
 
+    }
+
+    private void createServicios() {
+        pesadorservice = retrofit.create(IPesadorService.class);
     }
 
     @Override
@@ -106,7 +114,6 @@ public class RiperActivity extends AppCompatActivity
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-
 
     private void elementosUI() {
         _toolbar = findViewById(R.id.toolbar);
@@ -162,22 +169,19 @@ public class RiperActivity extends AppCompatActivity
     }
 
     private void createFragments() {
-        businessUnitFragment = new BusinessUnitFragment();
-        businessUnitFragment.bussinesUnitList = new ArrayList<>();
-        businessUnitFragment.iniciarAdapter();
+        areaFragment = new AreaFragment();
+        areaFragment.workCenters = new ArrayList<>();
+        areaFragment.iniciarAdapter();
 
     }
 
     private void generarTabs() {
 
-
         _tabLayout.addTab(_tabLayout.newTab().setText("Indicadores"));
-
 
         _tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-
-        RiperPagerAdapter riperPagerAdapter = new RiperPagerAdapter(getSupportFragmentManager(), _tabLayout.getTabCount(), businessUnitFragment);
+        RiperPagerAdapter riperPagerAdapter = new RiperPagerAdapter(getSupportFragmentManager(), _tabLayout.getTabCount(), areaFragment);
 
         _viewPager.setAdapter(riperPagerAdapter);
         _viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(_tabLayout));
@@ -313,6 +317,11 @@ public class RiperActivity extends AppCompatActivity
     }
 
     @Override
+    public void getWorkCenters() {
+        retrofiCallWorkCenters();
+    }
+
+    @Override
     public void onBadgeDefectoClick(WorkCenter workCenter, int position) {
 
     }
@@ -340,6 +349,29 @@ public class RiperActivity extends AppCompatActivity
     private void startPerfilActivity() {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
+    }
+
+
+    private void retrofiCallWorkCenters() {
+        pesadorservice.getWorkCenters(pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0)).enqueue(new Callback<List<WorkCenter>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<WorkCenter>> call, @NonNull Response<List<WorkCenter>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        areaFragment.workCenters.clear();
+                        areaFragment.workCenters.addAll(response.body());
+                        areaFragment.mAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    messageDialog(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<WorkCenter>> call, @NonNull Throwable t) {
+                messageDialog("Por favor!! Validatu conexion a internet");
+            }
+        });
     }
 }
 
