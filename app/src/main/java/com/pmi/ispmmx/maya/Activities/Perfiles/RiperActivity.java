@@ -25,13 +25,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pmi.ispmmx.maya.Activities.LoginActivity;
-import com.pmi.ispmmx.maya.Adapters.Pages.ShiftLeaderPageAdapter;
+import com.pmi.ispmmx.maya.Activities.ProfileActivity;
+import com.pmi.ispmmx.maya.Adapters.Pages.RiperPagerAdapter;
 import com.pmi.ispmmx.maya.CircleTransform;
-import com.pmi.ispmmx.maya.Fragments.LookBookFragment;
+import com.pmi.ispmmx.maya.Fragments.BusinessUnitFragment;
 import com.pmi.ispmmx.maya.Fragments.WorkCenterFragment;
+import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.BussinesUnit;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
-import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -48,7 +49,7 @@ import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS
 
 public class RiperActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        WorkCenterFragment.OnInteractionListener {
+        BusinessUnitFragment.OnInteractionListener {
 
     private Button mButton;
     private ViewPager mViewPager;
@@ -61,16 +62,14 @@ public class RiperActivity extends AppCompatActivity
     private Retrofit retrofit;
 
 
-
     private Toolbar _toolbar;
     private TabLayout _tabLayout;
     private DrawerLayout _drawer;
     private TextView _navUsername;
-    private TextView _navApellido1;
-    private TextView _navApellido2;
     private TextView _navPosition;
     private ViewPager _viewPager;
     private ImageView _imgUsuario;
+    private BusinessUnitFragment businessUnitFragment;
 
 
     @Override
@@ -86,8 +85,6 @@ public class RiperActivity extends AppCompatActivity
         iniciarRetrofit();
         createFragments();
         generarTabs();
-
-
 
 
     }
@@ -126,6 +123,7 @@ public class RiperActivity extends AppCompatActivity
         _navUsername = _headerView.findViewById(R.id.textViewNombreUser);
         _navPosition = _headerView.findViewById(R.id.textViewPuestoUser);
     }
+
     private void personalizarHeaderBar() {
         String nombre = pref.getString(OperadorPreference.NOMBRE_PERSONA_SHARED_PREF, "no available");
         String apellido1 = pref.getString(OperadorPreference.APELLIDO1_PERSONA_SHARED_PREF, "no available");
@@ -148,12 +146,13 @@ public class RiperActivity extends AppCompatActivity
             }
         });
 
-        _navUsername.setText(nombre + " "+ apellido1  + " "+ apellido2+".");
+        _navUsername.setText(String.format("%s %s %s.", nombre, apellido1, apellido2));
 
         _navPosition.setText(puesto);
 
         menuAnimation();
     }
+
     private void menuAnimation() {
         ActionBarDrawerToggle _toggle = new ActionBarDrawerToggle(
                 this, _drawer, _toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -163,11 +162,45 @@ public class RiperActivity extends AppCompatActivity
     }
 
     private void createFragments() {
+        businessUnitFragment = new BusinessUnitFragment();
+        businessUnitFragment.bussinesUnitList = new ArrayList<>();
+        businessUnitFragment.iniciarAdapter();
 
     }
 
     private void generarTabs() {
 
+
+        _tabLayout.addTab(_tabLayout.newTab().setText("Indicadores"));
+
+
+        _tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+
+        RiperPagerAdapter riperPagerAdapter = new RiperPagerAdapter(getSupportFragmentManager(), _tabLayout.getTabCount(), businessUnitFragment);
+
+        _viewPager.setAdapter(riperPagerAdapter);
+        _viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(_tabLayout));
+
+
+        _tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+
+                _viewPager.setCurrentItem(position);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
     }
 
@@ -280,32 +313,12 @@ public class RiperActivity extends AppCompatActivity
     }
 
     @Override
-    public void refreshWorkCenters() {
+    public void onBadgeDefectoClick(WorkCenter workCenter, int position) {
 
     }
 
     @Override
-    public void getWorkCenters() {
-
-    }
-
-    @Override
-    public boolean onLongClickOrigen(Origen origen) {
-        return false;
-    }
-
-    @Override
-    public void onBadgeDefectoClick(Origen origen, int position) {
-
-    }
-
-    @Override
-    public void onBadgeParoClick(Origen origen, int position) {
-
-    }
-
-    @Override
-    public void onClickOrigen(Origen origen) {
+    public void onBadgeParoClick(WorkCenter workCenter, int position) {
 
     }
 
@@ -315,13 +328,13 @@ public class RiperActivity extends AppCompatActivity
     }
 
     @Override
-    public void hideViews() {
+    public void onClickBusinessUnit(BussinesUnit bussinesUnit) {
 
     }
 
     @Override
-    public void showViews() {
-
+    public boolean onLongClickWorkCenter(WorkCenter workCenter) {
+        return false;
     }
 
     private void startPerfilActivity() {
