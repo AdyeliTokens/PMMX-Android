@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.R;
 
@@ -64,6 +66,7 @@ public class LinkUpAdapter extends RecyclerView.Adapter<LinkUpAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView _imgOpciones;
+        private ImageView _imgNombreCorto;
         private CardView _cvLinkUp;
         private TextView _nombreLinkUp;
         private TextView _numParos;
@@ -82,13 +85,27 @@ public class LinkUpAdapter extends RecyclerView.Adapter<LinkUpAdapter.ViewHolder
             _numParos = itemView.findViewById(R.id.txt_num_paros);
             _numDefectos = itemView.findViewById(R.id.txt_num_defectos);
             _imgOpciones = itemView.findViewById(R.id.img_opciones);
+            _imgNombreCorto = itemView.findViewById(R.id.img_nombre_corto);
 
             _layout = itemView.findViewById(R.id.layoutOrigen);
 
         }
 
         public void blind(final WorkCenter workCenter, final OnItemClickListener listener) {
-            _nombreLinkUp.setText(workCenter.getNombreCorto());
+            ColorGenerator generator = ColorGenerator.MATERIAL;
+            int color = generator.getColor(workCenter.getNombreCorto());
+            TextDrawable drawable = TextDrawable.builder()
+                    .beginConfig()
+                    .withBorder(0)
+                    .width(220)  // width in px
+                    .height(220)
+                    .bold()
+                    .toUpperCase()
+                    .fontSize(50)/* thickness in px */
+                    .endConfig()
+                    .buildRound(workCenter.getNombreCorto(), color);
+            _imgNombreCorto.setImageDrawable(drawable);
+            _nombreLinkUp.setText(workCenter.getNombre());
             if (workCenter.getDefectosActivos() > 0) {
                 _numDefectos.setText("" + workCenter.getDefectosActivos() + "");
                 _badgeDefectos.setVisibility(View.VISIBLE);

@@ -338,7 +338,7 @@ public class RiperActivity extends AppCompatActivity
 
     @Override
     public void onClickWorkCenter(WorkCenter workCenter) {
-        retrofiCallMarcas();
+        retrofiCallMarcas(workCenter);
     }
 
     @Override
@@ -379,13 +379,13 @@ public class RiperActivity extends AppCompatActivity
         });
     }
 
-    private void retrofiCallMarcas() {
+    private void retrofiCallMarcas(final WorkCenter workCenter) {
         marcaService.getMarcas().enqueue(new Callback<List<Marca>>() {
             @Override
             public void onResponse(@NonNull Call<List<Marca>> call, @NonNull Response<List<Marca>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        startBSParosActivos(response.body());
+                        startBSParosActivos(workCenter , response.body());
                     }
                 } else {
                     messageDialog(response.errorBody().toString());
@@ -400,8 +400,8 @@ public class RiperActivity extends AppCompatActivity
     }
 
 
-    private void startBSParosActivos(List<Marca> marcas) {
-        BottomSheetDialogFragment newFragment = IngresarDesperdicioDialogFragment.newInstance(marcas);
+    private void startBSParosActivos(WorkCenter workCenter, List<Marca> marcas) {
+        BottomSheetDialogFragment newFragment = IngresarDesperdicioDialogFragment.newInstance(workCenter , marcas);
         newFragment.show(getSupportFragmentManager(), newFragment.getTag());
 
     }
