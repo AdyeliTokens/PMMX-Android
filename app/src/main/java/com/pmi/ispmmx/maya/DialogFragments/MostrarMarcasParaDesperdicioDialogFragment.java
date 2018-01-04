@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.pmi.ispmmx.maya.Adapters.MarcaAdapter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
@@ -24,7 +23,7 @@ import com.pmi.ispmmx.maya.R;
 import java.util.List;
 
 
-public class IngresarDesperdicioDialogFragment extends BottomSheetDialogFragment {
+public class MostrarMarcasParaDesperdicioDialogFragment extends BottomSheetDialogFragment {
 
     private View _view;
     private CardView _cvTitle;
@@ -40,8 +39,8 @@ public class IngresarDesperdicioDialogFragment extends BottomSheetDialogFragment
     private RecyclerView _rvLista;
     private RecyclerView.LayoutManager _mLayout;
 
-    public static IngresarDesperdicioDialogFragment newInstance(WorkCenter workCenter, List<Marca> entornoList) {
-        final IngresarDesperdicioDialogFragment fragment = new IngresarDesperdicioDialogFragment();
+    public static MostrarMarcasParaDesperdicioDialogFragment newInstance(WorkCenter workCenter, List<Marca> entornoList) {
+        final MostrarMarcasParaDesperdicioDialogFragment fragment = new MostrarMarcasParaDesperdicioDialogFragment();
         fragment.marcasList = entornoList;
         fragment.workCenter = workCenter;
         return fragment;
@@ -51,7 +50,7 @@ public class IngresarDesperdicioDialogFragment extends BottomSheetDialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        _view = inflater.inflate(R.layout.bottom_sheet_ingresar_desperdicio, container, false);
+        _view = inflater.inflate(R.layout.bottom_sheet_mostrar_marcas_para_desperdicio, container, false);
         return _view;
     }
 
@@ -88,7 +87,7 @@ public class IngresarDesperdicioDialogFragment extends BottomSheetDialogFragment
         mAdapter = new MarcaAdapter(marcasList, R.layout.cardview_marca, new MarcaAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(Marca marca) {
-                mListener.onMarcaClicked(marca);
+                mListener.onMarcaClicked(workCenter, marca);
             }
         });
     }
@@ -112,7 +111,7 @@ public class IngresarDesperdicioDialogFragment extends BottomSheetDialogFragment
     }
 
     public interface Listener {
-        void onMarcaClicked(Marca marca);
+        void onMarcaClicked(WorkCenter workCenter, Marca marca);
     }
 
 

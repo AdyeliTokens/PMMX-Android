@@ -40,6 +40,8 @@ import com.pmi.ispmmx.maya.Activities.DefectoActivity;
 import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.Operaciones.OrigenActivity;
 import com.pmi.ispmmx.maya.Activities.ParoActivity;
+import com.pmi.ispmmx.maya.Activities.ParosActivity;
+import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.CardPagerAdapter;
 import com.pmi.ispmmx.maya.CircleTransform;
 import com.pmi.ispmmx.maya.DefectosActivity;
@@ -55,8 +57,6 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.Defecto;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
-import com.pmi.ispmmx.maya.Activities.ParosActivity;
-import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.ShadowTransformer;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
@@ -78,7 +78,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS;
 
 public class ShiftLeaderActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener,OrigenDialogFragment.OnInteractionListener,
+        NavigationView.OnNavigationItemSelectedListener, OrigenDialogFragment.OnInteractionListener,
         ParosActivosPorOrigenDialogFragment.OnInteractionListener,
         DefectoActivosPorOrigenDialogFragment.OnInteractionListener {
 
@@ -125,10 +125,9 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
 
         elementosUI();
         personalizarHeaderBar();
-        
+
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        
 
 
         retrofit = new Retrofit.Builder()
@@ -182,14 +181,13 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
                         }
 
 
-
                         mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
 
                         mViewPager.setAdapter(mCardAdapter);
                         mViewPager.setPageTransformer(false, mCardShadowTransformer);
-                        mViewPager.setOffscreenPageLimit(3);
-                        mCardShadowTransformer.enableScaling(true);
-                        mFragmentCardShadowTransformer.enableScaling(true);
+                        //mViewPager.setOffscreenPageLimit(3);
+                        //mCardShadowTransformer.enableScaling(true);
+                        //mFragmentCardShadowTransformer.enableScaling(true);
                     }
                 } else {
 
@@ -213,11 +211,12 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
         NavigationView _navigationView = findViewById(R.id.nav_view);
         _navigationView.setNavigationItemSelectedListener(this);
         View _headerView = _navigationView.getHeaderView(0);
-        
+
         _imgUsuario = _headerView.findViewById(R.id.img_persona);
         _navUsername = _headerView.findViewById(R.id.textViewNombreUser);
         _navPosition = _headerView.findViewById(R.id.textViewPuestoUser);
     }
+
     private void personalizarHeaderBar() {
         String nombre = pref.getString(OperadorPreference.NOMBRE_PERSONA_SHARED_PREF, "no available");
         String apellido1 = pref.getString(OperadorPreference.APELLIDO1_PERSONA_SHARED_PREF, "no available");
@@ -240,11 +239,12 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
             }
         });
 
-        _navUsername.setText(nombre + " "+ apellido1  + " "+ apellido2+".");
+        _navUsername.setText(String.format("%s %s %s.", nombre, apellido1, apellido2));
         _navPosition.setText(puesto);
 
         menuAnimation();
     }
+
     private void menuAnimation() {
         ActionBarDrawerToggle _toggle = new ActionBarDrawerToggle(
                 this, _drawer, _toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -252,7 +252,6 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
         _drawer.setDrawerListener(_toggle);
         _toggle.syncState();
     }
-
 
 
     @Override
@@ -316,9 +315,6 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    
-    
 
 
     private void startBSOrigen(Origen origen) {
@@ -402,7 +398,6 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
 
 
     }
-
 
 
     private void startDefectoActivity(Defecto defecto, View foto) {
@@ -653,7 +648,6 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
     public void onClickParosActivos(Origen origen) {
         startParosActivity();
     }
-
 
 
     @Override
