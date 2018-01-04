@@ -1,8 +1,6 @@
 package com.pmi.ispmmx.maya.Utils.Config;
 
-/**
- * Created by ispmmx on 7/29/17.
- */
+
 
 public class ApisPreference {
     public static final String GET_USER = "api/User";
@@ -21,5 +19,6 @@ public class ApisPreference {
     public static final String ApiNoConformidades = "api/NoConformidades";
     public static final String ApiShiftLeader = "api/ShiftLeaders";
     public static final String ApiPesador = "api/Pesadores";
+    public static final String ApiMarcas = "api/Marcas";
 
 }

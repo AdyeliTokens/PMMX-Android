@@ -23,7 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/todo"
@@ -31,6 +30,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_more_vert" />
+
+        <ImageView
+            android:id="@+id/img_nombre_corto"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_opciones"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/gradient_login" />
 
         <TextView
             android:id="@+id/tv_nombre"
@@ -46,7 +57,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cv_NumParos"
-            app:layout_constraintStart_toEndOf="@+id/img_opciones"
+            app:layout_constraintStart_toEndOf="@+id/img_nombre_corto"
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.v7.widget.CardView

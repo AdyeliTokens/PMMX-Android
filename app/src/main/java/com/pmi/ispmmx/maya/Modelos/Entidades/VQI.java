@@ -38,9 +38,6 @@ public class VQI {
         return fecha;
     }
 
-    public int getObjetivo() {
-        return objetivo;
-    }
 
     public Date getFechaApi() {
         int idx1 = fechaApi.indexOf("(");
@@ -50,5 +47,10 @@ public class VQI {
         fecha = new Date(l);
         return fecha;
     }
+
+    public int getObjetivo() {
+        return objetivo;
+    }
+
 
 }

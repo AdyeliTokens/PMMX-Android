@@ -75,7 +75,7 @@ public class AreaFragment extends Fragment {
 
             @Override
             public void OnItemClick(WorkCenter workCenter, int position) {
-
+                mListener.onClickWorkCenter(workCenter);
             }
 
             @Override

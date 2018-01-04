@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -20,7 +21,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,10 +28,13 @@ import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.RiperPagerAdapter;
 import com.pmi.ispmmx.maya.CircleTransform;
+import com.pmi.ispmmx.maya.DialogFragments.IngresarDesperdicioDialogFragment;
 import com.pmi.ispmmx.maya.Fragments.AreaFragment;
+import com.pmi.ispmmx.maya.Interfaces.IMarcaService;
 import com.pmi.ispmmx.maya.Interfaces.IPesadorService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.BussinesUnit;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
+import com.pmi.ispmmx.maya.Modelos.Entidades.Marca;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -52,8 +55,8 @@ import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS
 
 public class RiperActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        AreaFragment.OnInteractionListener {
-
+        AreaFragment.OnInteractionListener,
+        IngresarDesperdicioDialogFragment.Listener {
 
 
     private SharedPreferences pref;
@@ -73,6 +76,7 @@ public class RiperActivity extends AppCompatActivity
 
 
     private IPesadorService pesadorservice;
+    private IMarcaService marcaService;
 
 
     @Override
@@ -95,6 +99,7 @@ public class RiperActivity extends AppCompatActivity
 
     private void createServicios() {
         pesadorservice = retrofit.create(IPesadorService.class);
+        marcaService = retrofit.create(IMarcaService.class);
     }
 
     @Override
@@ -298,7 +303,7 @@ public class RiperActivity extends AppCompatActivity
     }
 
     private void messageDialog(String message) {
-        Snackbar.make(findViewById(R.id.coordinator_operador), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Snackbar.make(findViewById(R.id.coordinator_pesador), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 
     private void logout() {
@@ -333,7 +338,7 @@ public class RiperActivity extends AppCompatActivity
 
     @Override
     public void onClickWorkCenter(WorkCenter workCenter) {
-
+        retrofiCallMarcas();
     }
 
     @Override
@@ -372,6 +377,38 @@ public class RiperActivity extends AppCompatActivity
                 messageDialog("Por favor!! Validatu conexion a internet");
             }
         });
+    }
+
+    private void retrofiCallMarcas() {
+        marcaService.getMarcas().enqueue(new Callback<List<Marca>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Marca>> call, @NonNull Response<List<Marca>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        startBSParosActivos(response.body());
+                    }
+                } else {
+                    messageDialog(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Marca>> call, @NonNull Throwable t) {
+                messageDialog("Por favor!! Validatu conexion a internet");
+            }
+        });
+    }
+
+
+    private void startBSParosActivos(List<Marca> marcas) {
+        BottomSheetDialogFragment newFragment = IngresarDesperdicioDialogFragment.newInstance(marcas);
+        newFragment.show(getSupportFragmentManager(), newFragment.getTag());
+
+    }
+
+    @Override
+    public void onMarcaClicked(Marca marca) {
+
     }
 }
 
