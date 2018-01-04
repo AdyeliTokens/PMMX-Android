@@ -87,7 +87,7 @@ public class MostrarMarcasParaDesperdicioDialogFragment extends BottomSheetDialo
         mAdapter = new MarcaAdapter(marcasList, R.layout.cardview_marca, new MarcaAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(Marca marca) {
-                mListener.onMarcaClicked(marca);
+                mListener.onMarcaClicked(workCenter, marca);
             }
         });
     }
@@ -111,7 +111,7 @@ public class MostrarMarcasParaDesperdicioDialogFragment extends BottomSheetDialo
     }
 
     public interface Listener {
-        void onMarcaClicked(Marca marca);
+        void onMarcaClicked(WorkCenter workCenter, Marca marca);
     }
 
 
