@@ -2,7 +2,6 @@ package com.pmi.ispmmx.maya.DialogFragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
@@ -12,34 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.pmi.ispmmx.maya.Adapters.SeccionPagerAdapter;
-import com.pmi.ispmmx.maya.CardPagerAdapter;
-import com.pmi.ispmmx.maya.Interfaces.IDefectoService;
-import com.pmi.ispmmx.maya.Interfaces.IFotoService;
-import com.pmi.ispmmx.maya.Interfaces.IParoService;
-import com.pmi.ispmmx.maya.Interfaces.IShiftLeaderService;
-import com.pmi.ispmmx.maya.Interfaces.IVQIService;
+import com.pmi.ispmmx.maya.Modelos.Entidades.Desperdicio;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
-import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Marca;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.ShadowTransformer;
-import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
-import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class IngresarCantidadDeDesperdicioDialogFragment extends BottomSheetDialogFragment {
@@ -47,16 +29,23 @@ public class IngresarCantidadDeDesperdicioDialogFragment extends BottomSheetDial
     private View _view;
     private CardView _cvTitle;
     private Listener mListener;
-    private WorkCenter workCenter;
+
     private TextView _title;
     private TextView _subTitle;
     private ViewPager mViewPager;
     private SeccionPagerAdapter mCardAdapter;
     private ShadowTransformer mCardShadowTransformer;
 
-    public static IngresarCantidadDeDesperdicioDialogFragment newInstance(WorkCenter workCenter, Marca marca) {
+    private WorkCenter workCenter;
+    private Marca marca;
+    private List<ModuloSeccion> moduloSeccions;
+
+    public static IngresarCantidadDeDesperdicioDialogFragment newInstance(WorkCenter workCenter, Marca marca, List<ModuloSeccion> moduloSeccions) {
         final IngresarCantidadDeDesperdicioDialogFragment fragment = new IngresarCantidadDeDesperdicioDialogFragment();
         fragment.workCenter = workCenter;
+        fragment.marca = marca;
+        fragment.moduloSeccions = moduloSeccions;
+
         return fragment;
     }
 
@@ -78,7 +67,7 @@ public class IngresarCantidadDeDesperdicioDialogFragment extends BottomSheetDial
     }
 
     private void elementosUI() {
-        _cvTitle= _view.findViewById(R.id.cv_title);
+        _cvTitle = _view.findViewById(R.id.cv_title);
         ColorGenerator generator = ColorGenerator.MATERIAL;
         int color = generator.getColor(workCenter.getNombreCorto());
         _cvTitle.setBackgroundColor(color);
@@ -88,16 +77,23 @@ public class IngresarCantidadDeDesperdicioDialogFragment extends BottomSheetDial
         _subTitle.setText(workCenter.getNombreCorto());
 
 
-
         mViewPager = _view.findViewById(R.id.viewPager);
         mCardAdapter = new SeccionPagerAdapter(new SeccionPagerAdapter.OnItemClickListener() {
 
+            @Override
+            public void OnClickGuardar(Desperdicio desperdicio) {
+                desperdicio.setIdMarca(marca.getId());
+                desperdicio.setIdWorkCenter(workCenter.getId());
+                mListener.GenerarDesperdicio(desperdicio);
+            }
+
         });
 
-        mCardAdapter.addCardItem(new ModuloSeccion(), getContext());
-        mCardAdapter.addCardItem(new ModuloSeccion(), getContext());
-        mCardAdapter.addCardItem(new ModuloSeccion(), getContext());
-        mCardAdapter.addCardItem(new ModuloSeccion(), getContext());
+
+        for (ModuloSeccion ms : moduloSeccions) {
+            mCardAdapter.addCardItem(ms, getContext());
+        }
+
 
         mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
 
@@ -137,9 +133,8 @@ public class IngresarCantidadDeDesperdicioDialogFragment extends BottomSheetDial
     }
 
     public interface Listener {
-
+        void GenerarDesperdicio(Desperdicio desperdicio);
     }
-
 
 
 }

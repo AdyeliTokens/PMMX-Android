@@ -31,9 +31,13 @@ import com.pmi.ispmmx.maya.CircleTransform;
 import com.pmi.ispmmx.maya.DialogFragments.IngresarCantidadDeDesperdicioDialogFragment;
 import com.pmi.ispmmx.maya.DialogFragments.MostrarMarcasParaDesperdicioDialogFragment;
 import com.pmi.ispmmx.maya.Fragments.AreaFragment;
+import com.pmi.ispmmx.maya.Interfaces.IDesperdicioService;
 import com.pmi.ispmmx.maya.Interfaces.IMarcaService;
+import com.pmi.ispmmx.maya.Interfaces.IModuloSeccionesService;
 import com.pmi.ispmmx.maya.Interfaces.IPesadorService;
+import com.pmi.ispmmx.maya.Modelos.Entidades.Desperdicio;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.BussinesUnit;
+import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Marca;
 import com.pmi.ispmmx.maya.R;
@@ -58,7 +62,7 @@ public class RiperActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AreaFragment.OnInteractionListener,
         MostrarMarcasParaDesperdicioDialogFragment.Listener,
-        IngresarCantidadDeDesperdicioDialogFragment.Listener{
+        IngresarCantidadDeDesperdicioDialogFragment.Listener {
 
 
     private SharedPreferences pref;
@@ -79,6 +83,8 @@ public class RiperActivity extends AppCompatActivity
 
     private IPesadorService pesadorservice;
     private IMarcaService marcaService;
+    private IDesperdicioService desperdicioService;
+    private IModuloSeccionesService moduloSeccionesService;
 
 
     @Override
@@ -96,12 +102,13 @@ public class RiperActivity extends AppCompatActivity
         createFragments();
         generarTabs();
 
-
     }
 
     private void createServicios() {
         pesadorservice = retrofit.create(IPesadorService.class);
         marcaService = retrofit.create(IMarcaService.class);
+        desperdicioService = retrofit.create(IDesperdicioService.class);
+        moduloSeccionesService = retrofit.create(IModuloSeccionesService.class);
     }
 
     @Override
@@ -387,7 +394,7 @@ public class RiperActivity extends AppCompatActivity
             public void onResponse(@NonNull Call<List<Marca>> call, @NonNull Response<List<Marca>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        startBSParosActivos(workCenter , response.body());
+                        startBSParosActivos(workCenter, response.body());
                     }
                 } else {
                     messageDialog(response.errorBody().toString());
@@ -402,16 +409,64 @@ public class RiperActivity extends AppCompatActivity
     }
 
 
+    private void retrofiCallModuloSecciones(final WorkCenter workCenter, final Marca marca) {
+        moduloSeccionesService.getModuloSeccionesApi().enqueue(new Callback<List<ModuloSeccion>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<ModuloSeccion>> call, @NonNull Response<List<ModuloSeccion>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        BottomSheetDialogFragment newFragment = IngresarCantidadDeDesperdicioDialogFragment.newInstance(workCenter, marca, response.body());
+                        newFragment.show(getSupportFragmentManager(), newFragment.getTag());
+                    }
+                } else {
+                    messageDialog(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<ModuloSeccion>> call, @NonNull Throwable t) {
+                messageDialog("Por favor!! Validatu conexion a internet");
+            }
+        });
+    }
+    private void retrofitGuardarPostDesperdicio(Desperdicio  desperdicio) {
+        desperdicioService.postDesperdicio(desperdicio).enqueue(new Callback<Desperdicio>() {
+            @Override
+            public void onResponse(@NonNull Call<Desperdicio> call, @NonNull Response<Desperdicio> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        messageDialog("Desperdicio generado correctamente #"+response.body().getId());
+                    }
+                } else {
+                    messageDialog(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Desperdicio> call, @NonNull Throwable t) {
+                messageDialog("Por favor!! Validatu conexion a internet");
+            }
+        });
+    }
+
+
     private void startBSParosActivos(WorkCenter workCenter, List<Marca> marcas) {
-        BottomSheetDialogFragment newFragment = MostrarMarcasParaDesperdicioDialogFragment.newInstance(workCenter , marcas);
+        BottomSheetDialogFragment newFragment = MostrarMarcasParaDesperdicioDialogFragment.newInstance(workCenter, marcas);
         newFragment.show(getSupportFragmentManager(), newFragment.getTag());
 
     }
 
     @Override
     public void onMarcaClicked(WorkCenter workCenter, Marca marca) {
-        BottomSheetDialogFragment newFragment = IngresarCantidadDeDesperdicioDialogFragment.newInstance(workCenter , marca);
-        newFragment.show(getSupportFragmentManager(), newFragment.getTag());
+        retrofiCallModuloSecciones(workCenter, marca);
+
+
+    }
+
+    @Override
+    public void GenerarDesperdicio(Desperdicio desperdicio) {
+        desperdicio.setIdPersona(pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0));
+        retrofitGuardarPostDesperdicio(desperdicio);
     }
 }
 

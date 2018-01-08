@@ -20,19 +20,20 @@
             android:padding="24dp">
 
             <TextView
-                android:id="@+id/titleTextView"
+                android:id="@+id/modulo_seccion_title"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/cantidad_desperdicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="number" />
 
             <Button
+                android:id="@+id/btn_guardar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
