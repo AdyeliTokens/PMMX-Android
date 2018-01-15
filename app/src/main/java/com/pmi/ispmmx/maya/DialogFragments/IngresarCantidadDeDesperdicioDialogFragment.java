@@ -85,6 +85,7 @@ public class IngresarCantidadDeDesperdicioDialogFragment extends BottomSheetDial
                 desperdicio.setIdMarca(marca.getId());
                 desperdicio.setIdWorkCenter(workCenter.getId());
                 mListener.GenerarDesperdicio(desperdicio);
+                cerrar();
             }
 
         });
@@ -112,6 +113,10 @@ public class IngresarCantidadDeDesperdicioDialogFragment extends BottomSheetDial
 
     private void iniciarAdapter() {
 
+    }
+
+    private void cerrar(){
+        this.dismiss();
     }
 
 

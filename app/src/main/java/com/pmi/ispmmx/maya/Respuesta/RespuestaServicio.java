@@ -1,8 +1,19 @@
 package com.pmi.ispmmx.maya.Respuesta;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class RespuestaServicio<T> implements IRespuestaServicio<T> {
+    @SerializedName("Mensaje")
+    @Expose
     private String mensaje;
+
+    @SerializedName("EjecucionCorrecta")
+    @Expose
     private boolean ejecucionCorrecta;
+
+    @SerializedName("Respuesta")
+    @Expose
     private T respuesta;
 
     public RespuestaServicio() {

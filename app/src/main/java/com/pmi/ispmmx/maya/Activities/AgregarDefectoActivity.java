@@ -1,6 +1,8 @@
 package com.pmi.ispmmx.maya.Activities;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -13,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +23,7 @@ import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -40,6 +44,7 @@ import com.pmi.ispmmx.maya.Interfaces.IDefectoService;
 import com.pmi.ispmmx.maya.Interfaces.IFotoService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.Defecto;
 import com.pmi.ispmmx.maya.R;
+import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.DrawingView;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -65,6 +70,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AgregarDefectoActivity extends AppCompatActivity {
+    private NotificationManager mNotifyManager;
+    private NotificationCompat.Builder mBuilder;
+    int id = 1;
+
     static final int PICTURE_FROM_CAMARA = 1000;
     private static final int MY_PERMISSIONS_REQUEST_CAMARA = 10;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 20;
@@ -636,17 +645,28 @@ public class AgregarDefectoActivity extends AppCompatActivity {
                 .build();
 
         final IDefectoService defectoServicio = retrofitAdapter.create(IDefectoService.class);
-        Call<Defecto> paroCall = defectoServicio.postDefecto(defecto);
-
-        paroCall.enqueue(new Callback<Defecto>() {
+        defectoServicio.postDefecto(defecto).enqueue(new Callback<RespuestaServicio<Defecto>>() {
             @Override
-            public void onResponse(Call<Defecto> call, Response<Defecto> response) {
-                Defecto def = response.body();
-                crearImagen(def.getId());
+            public void onResponse(Call<RespuestaServicio<Defecto>> call, Response<RespuestaServicio<Defecto>> response) {
+                RespuestaServicio<Defecto> respuesta = response.body();
+                if(respuesta.getEjecucionCorrecta()){
+                    mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mBuilder = new NotificationCompat.Builder(AgregarDefectoActivity.this);
+                    mBuilder.setContentTitle("Download")
+                            .setContentText("Download in progress")
+                            .setSmallIcon(R.drawable.ic_flash_off_white_24dp);
+
+                    new Downloader().execute();
+                    crearImagen(respuesta.getRespuesta().getId());
+                }
+                else{
+                    messageDialog(respuesta.getMensaje());
+                }
+
             }
 
             @Override
-            public void onFailure(Call<Defecto> call, Throwable t) {
+            public void onFailure(Call<RespuestaServicio<Defecto>> call, Throwable t) {
 
             }
         });
@@ -666,6 +686,51 @@ public class AgregarDefectoActivity extends AppCompatActivity {
         _fab.setEnabled(true);
         progressDialog.hide();
         Snackbar.make(findViewById(R.id.constraintLayout), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    }
+
+    private class Downloader extends AsyncTask<Void, Integer, Integer> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Displays the progress bar for the first time.
+            mBuilder.setProgress(100, 0, false);
+            mNotifyManager.notify(id, mBuilder.build());
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            // Update progress
+            mBuilder.setProgress(100, values[0], false);
+            mNotifyManager.notify(id, mBuilder.build());
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int i;
+            for (i = 0; i <= 100; i += 5) {
+                // Sets the progress indicator completion percentage
+                publishProgress(Math.min(i, 100));
+                try {
+                    // Sleep for 5 seconds
+                    Thread.sleep(2 * 1000);
+                } catch (InterruptedException e) {
+                    Log.d("TAG", "sleep failure");
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            mBuilder.setContentText("Download complete");
+            // Removes the progress bar
+            mBuilder.setProgress(0, 0, false);
+            mNotifyManager.notify(id, mBuilder.build());
+        }
     }
 
 }

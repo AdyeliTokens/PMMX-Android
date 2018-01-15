@@ -88,6 +88,7 @@ public class MostrarMarcasParaDesperdicioDialogFragment extends BottomSheetDialo
             @Override
             public void OnItemClick(Marca marca) {
                 mListener.onMarcaClicked(workCenter, marca);
+                cerrar();
             }
         });
     }
@@ -110,9 +111,11 @@ public class MostrarMarcasParaDesperdicioDialogFragment extends BottomSheetDialo
         super.onDetach();
     }
 
+    private void cerrar() {
+        this.dismiss();
+    }
+
     public interface Listener {
         void onMarcaClicked(WorkCenter workCenter, Marca marca);
     }
-
-
 }

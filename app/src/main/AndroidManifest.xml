@@ -23,7 +23,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/maya" />
@@ -154,9 +153,8 @@
             android:name=".Activities.Perfiles.RiperActivity"
             android:label="@string/title_activity_riper"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.PhotoActivity">
-
-        </activity>
+        <activity android:name=".Activities.PhotoActivity"></activity>
+        <activity android:name=".CRRActivity"></activity>
     </application>
 
 </manifest>
