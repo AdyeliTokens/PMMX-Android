@@ -23,7 +23,8 @@
                 android:id="@+id/modulo_seccion_title"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/cargando" />
 
             <EditText
                 android:id="@+id/cantidad_desperdicio"
@@ -37,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Button" />
+                android:text="@string/guardar" />
         </LinearLayout>
 
     </FrameLayout>

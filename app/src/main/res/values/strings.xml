@@ -188,4 +188,5 @@
     <string name="entornos_disponibles">Entornos Disponibles</string>
     <string name="title_login">Login</string>
     <string name="selecciona_una_marca_para_poder_ingresar_su_desperdicio">Selecciona una marca para poder ingresar su desperdicio.</string>
+    <string name="guardar">Guardar</string>
 </resources>

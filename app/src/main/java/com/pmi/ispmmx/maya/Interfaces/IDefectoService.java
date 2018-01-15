@@ -2,6 +2,7 @@ package com.pmi.ispmmx.maya.Interfaces;
 
 import com.google.gson.JsonArray;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.Defecto;
+import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.ApisPreference;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public interface IDefectoService {
     Call<List<Defecto>> getDefectosByOrigen(@Query("idOrigen") int idOrigen, @Query("activo") Boolean activo, @Query("diasDesde") int diasDesde, @Query("diasHasta") int diasHasta, @Query("cantidad") int cantidad);
 
     @POST(ApisPreference.ApiDefecto)
-    Call<Defecto> postDefecto(@Body Defecto defecto);
+    Call<RespuestaServicio<Defecto>> postDefecto(@Body Defecto defecto);
 
     @Multipart
     @POST("/")

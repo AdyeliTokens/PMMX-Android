@@ -436,6 +436,7 @@ public class RiperActivity extends AppCompatActivity
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         messageDialog("Desperdicio generado correctamente #"+response.body().getId());
+
                     }
                 } else {
                     messageDialog(response.errorBody().toString());
