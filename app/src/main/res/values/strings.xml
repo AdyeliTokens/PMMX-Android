@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PMMX</string>
+    <string name="app_name">Maya Innovation</string>
 
     <string name="title_home">Home</string>
     <string name="title_activity_login">Sign in</string>
@@ -185,7 +185,7 @@
     <string name="cpqi">CPQI</string>
     <string name="plan_attainment">PLAN ATTAINMENT</string>
 
-    <string name="entornos_disponibles">Entornos Disponibles</string>
+    <string name="entornos_disponibles">Interfaces disponibles</string>
     <string name="title_login">Login</string>
     <string name="selecciona_una_marca_para_poder_ingresar_su_desperdicio">Selecciona una marca para poder ingresar su desperdicio.</string>
     <string name="guardar">Guardar</string>
