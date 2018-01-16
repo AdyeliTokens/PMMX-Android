@@ -49,7 +49,6 @@ public class EntornosDialogFragment extends BottomSheetDialogFragment {
         elementosUI();
         iniciarAdapter();
         iniciarRecycle();
-
     }
 
     private void elementosUI() {
@@ -66,8 +65,6 @@ public class EntornosDialogFragment extends BottomSheetDialogFragment {
         _rvListaEntornos.setLayoutManager(_mLayout);
         _rvListaEntornos.setNestedScrollingEnabled(false);
         _rvListaEntornos.setAdapter(mAdapter);
-
-
     }
 
     private void iniciarAdapter() {

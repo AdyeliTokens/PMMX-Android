@@ -2,6 +2,7 @@ package com.pmi.ispmmx.maya.Interfaces;
 
 import com.pmi.ispmmx.maya.Modelos.Entidades.User;
 import com.pmi.ispmmx.maya.Modelos.LoginViewModel;
+import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.ApisPreference;
 
 import retrofit2.Call;
@@ -15,5 +16,5 @@ import retrofit2.http.POST;
 public interface ILoginService {
 
     @POST(ApisPreference.ApiLogin)
-    Call<User> postLogin(@Body LoginViewModel model);
+    Call<RespuestaServicio<User>> postLogin(@Body LoginViewModel model);
 }

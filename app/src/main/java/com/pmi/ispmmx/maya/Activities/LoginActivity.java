@@ -24,6 +24,7 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Entorno;
 import com.pmi.ispmmx.maya.Modelos.Entidades.User;
 import com.pmi.ispmmx.maya.Modelos.LoginViewModel;
 import com.pmi.ispmmx.maya.R;
+import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 
@@ -118,20 +119,26 @@ public class LoginActivity extends AppCompatActivity implements EntornosDialogFr
     }
 
     private void login(LoginViewModel model) {
-        loginService.postLogin(model).enqueue(new Callback<User>() {
+        loginService.postLogin(model).enqueue(new Callback<RespuestaServicio<User>>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<RespuestaServicio<User>> call, @NonNull Response<RespuestaServicio<User>> response) {
                 if (response.isSuccessful()) {
-                    if (isValidUser(response.body())) {
-                        onLoginSuccess(response.body());
+                    if(response.body().getEjecucionCorrecta()){
+                        if (isValidUser(response.body().getRespuesta())) {
+                            onLoginSuccess(response.body().getRespuesta());
+                        }
                     }
+                    else{
+                        messageDialog("Error!! " + response.body().getMensaje());
+                    }
+
                 } else {
                     messageDialog("Error!! " + response.errorBody().toString());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RespuestaServicio<User>> call, @NonNull Throwable t) {
                 messageDialog("Error!! " + t.getMessage());
             }
         });
