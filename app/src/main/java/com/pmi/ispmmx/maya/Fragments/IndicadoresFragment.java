@@ -141,6 +141,11 @@ public class IndicadoresFragment extends Fragment {
         configVQIChart(vqiList);
     }
 
+    public void llenarInformacion_CRR(List<VQI> vqiList) {
+        _vqiIndicador.setText(vqiList.get(vqiList.size() - 1).getVqi_total() + "");
+        _vqiObjetivo.setText(vqiList.get(vqiList.size() - 1).getObjetivo() + "");
+        configVQIChart(vqiList);
+    }
 
 
     @Override
