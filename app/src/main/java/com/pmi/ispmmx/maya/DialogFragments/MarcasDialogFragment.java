@@ -23,7 +23,7 @@ import com.pmi.ispmmx.maya.R;
 import java.util.List;
 
 
-public class MostrarMarcasParaDesperdicioDialogFragment extends BottomSheetDialogFragment {
+public class MarcasDialogFragment extends BottomSheetDialogFragment {
 
     private View _view;
     private CardView _cvTitle;
@@ -39,8 +39,8 @@ public class MostrarMarcasParaDesperdicioDialogFragment extends BottomSheetDialo
     private RecyclerView _rvLista;
     private RecyclerView.LayoutManager _mLayout;
 
-    public static MostrarMarcasParaDesperdicioDialogFragment newInstance(WorkCenter workCenter, List<Marca> entornoList) {
-        final MostrarMarcasParaDesperdicioDialogFragment fragment = new MostrarMarcasParaDesperdicioDialogFragment();
+    public static MarcasDialogFragment newInstance(WorkCenter workCenter, List<Marca> entornoList) {
+        final MarcasDialogFragment fragment = new MarcasDialogFragment();
         fragment.marcasList = entornoList;
         fragment.workCenter = workCenter;
         return fragment;
@@ -50,7 +50,7 @@ public class MostrarMarcasParaDesperdicioDialogFragment extends BottomSheetDialo
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        _view = inflater.inflate(R.layout.bottom_sheet_mostrar_marcas_para_desperdicio, container, false);
+        _view = inflater.inflate(R.layout.bottom_sheet_marcas, container, false);
         return _view;
     }
 

@@ -29,7 +29,7 @@ import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.RiperPagerAdapter;
 import com.pmi.ispmmx.maya.CircleTransform;
 import com.pmi.ispmmx.maya.DialogFragments.IngresarCantidadDeDesperdicioDialogFragment;
-import com.pmi.ispmmx.maya.DialogFragments.MostrarMarcasParaDesperdicioDialogFragment;
+import com.pmi.ispmmx.maya.DialogFragments.MarcasDialogFragment;
 import com.pmi.ispmmx.maya.Fragments.AreaFragment;
 import com.pmi.ispmmx.maya.Interfaces.IDesperdicioService;
 import com.pmi.ispmmx.maya.Interfaces.ILineLeaderService;
@@ -62,7 +62,7 @@ import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS
 public class LineLeaderActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AreaFragment.OnInteractionListener,
-        MostrarMarcasParaDesperdicioDialogFragment.Listener,
+        MarcasDialogFragment.Listener,
         IngresarCantidadDeDesperdicioDialogFragment.Listener {
 
     private SharedPreferences pref;
@@ -451,7 +451,7 @@ public class LineLeaderActivity extends AppCompatActivity
     }
 
     private void startBSParosActivos(WorkCenter workCenter, List<Marca> marcas) {
-        BottomSheetDialogFragment newFragment = MostrarMarcasParaDesperdicioDialogFragment.newInstance(workCenter, marcas);
+        BottomSheetDialogFragment newFragment = MarcasDialogFragment.newInstance(workCenter, marcas);
         newFragment.show(getSupportFragmentManager(), newFragment.getTag());
 
     }
