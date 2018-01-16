@@ -7,3 +7,4 @@ app/build/
 .idea/workspace.xml
 app/app.iml
 *.xml___jb_tmp___
+local.properties
