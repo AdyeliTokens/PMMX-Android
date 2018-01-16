@@ -98,9 +98,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- MecanicoActivity -->
-        <activity android:name=".Activities.Camara2Activity" />
         <!-- MecanicoActivity -->
-        <activity android:name=".Activities.Camara1Activity" />
         <!-- MecanicoActivity -->
         <!-- MecanicoActivity -->
         <activity
@@ -153,8 +151,9 @@
             android:name=".Activities.Perfiles.RiperActivity"
             android:label="@string/title_activity_riper"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.PhotoActivity"></activity>
-        <activity android:name=".CRRActivity"></activity>
+        <activity android:name=".Activities.PhotoActivity" />
+        <activity android:name=".CRRActivity" />
+        <activity android:name=".PlanAttainmentActivity"></activity>
     </application>
 
 </manifest>

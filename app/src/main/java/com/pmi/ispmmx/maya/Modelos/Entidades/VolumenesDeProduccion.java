@@ -7,8 +7,12 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 
 import java.util.Date;
 
+/**
+ * Created by chan jacky chan on 16/01/2018.
+ */
 
-public class Desperdicio {
+public class VolumenesDeProduccion {
+
 
     @SerializedName("Id")
     @Expose
@@ -28,10 +32,6 @@ public class Desperdicio {
     @Expose
     private int idPersona;
 
-    @SerializedName("IdSeccion")
-    @Expose
-    private int idSeccion;
-
     @SerializedName("IdWorkCenter")
     @Expose
     private int idWorkCenter;
@@ -44,10 +44,6 @@ public class Desperdicio {
     @SerializedName("Reportante")
     @Expose
     private Persona reportante;
-
-    @SerializedName("Seccion")
-    @Expose
-    private ModuloSeccion moduloSeccion;
 
     @SerializedName("WorkCenter")
     @Expose
@@ -65,11 +61,25 @@ public class Desperdicio {
         this.id = id;
     }
 
+    public double getCantidad() {
+        return cantidad;
+    }
+
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
 
     public Date getFecha() {
+        int idx1 = fechaApi.indexOf("(");
+        int idx2 = fechaApi.indexOf(")") - 5;
+        String s = fechaApi.substring(idx1 + 1, idx2);
+        long l = Long.valueOf(s);
+        fecha = new Date(l);
+        return fecha;
+    }
+
+
+    public Date getFechaApi() {
         int idx1 = fechaApi.indexOf("(");
         int idx2 = fechaApi.indexOf(")") - 5;
         String s = fechaApi.substring(idx1 + 1, idx2);
@@ -90,10 +100,6 @@ public class Desperdicio {
         this.idPersona = idPersona;
     }
 
-    public void setIdSeccion(int idSeccion) {
-        this.idSeccion = idSeccion;
-    }
-
     public int getIdWorkCenter() {
         return idWorkCenter;
     }
@@ -102,8 +108,20 @@ public class Desperdicio {
         this.idWorkCenter = idWorkCenter;
     }
 
+    public int getIdMarca() {
+        return idMarca;
+    }
+
     public void setIdMarca(int idMarca) {
         this.idMarca = idMarca;
+    }
+
+    public Persona getReportante() {
+        return reportante;
+    }
+
+    public void setReportante(Persona reportante) {
+        this.reportante = reportante;
     }
 
     public WorkCenter getWorkCenter() {

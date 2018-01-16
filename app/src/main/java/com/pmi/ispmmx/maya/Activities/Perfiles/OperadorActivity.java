@@ -43,9 +43,12 @@ import com.pmi.ispmmx.maya.Activities.AgregarDefectoActivity;
 import com.pmi.ispmmx.maya.Activities.DefectoActivity;
 import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ParoActivity;
+import com.pmi.ispmmx.maya.Activities.ParosActivity;
 import com.pmi.ispmmx.maya.Activities.PhotoActivity;
+import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Activities.VQIActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.OperadorPagerAdapter;
+import com.pmi.ispmmx.maya.CRRActivity;
 import com.pmi.ispmmx.maya.CircleTransform;
 import com.pmi.ispmmx.maya.DefectosActivity;
 import com.pmi.ispmmx.maya.DialogFragments.DefectoActivosPorOrigenDialogFragment;
@@ -64,8 +67,7 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.Modelos.Entidades.VQI;
-import com.pmi.ispmmx.maya.Activities.ParosActivity;
-import com.pmi.ispmmx.maya.Activities.ProfileActivity;
+import com.pmi.ispmmx.maya.PlanAttainmentActivity;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -152,8 +154,6 @@ public class OperadorActivity extends AppCompatActivity implements
         createFragments();
         generarTabs();
 
-
-
     }
 
     @Override
@@ -199,6 +199,7 @@ public class OperadorActivity extends AppCompatActivity implements
         _navUsername = _headerView.findViewById(R.id.textViewNombreUser);
         _navPosition = _headerView.findViewById(R.id.textViewPuestoUser);
     }
+
     private void personalizarHeaderBar() {
         String nombre = pref.getString(OperadorPreference.NOMBRE_PERSONA_SHARED_PREF, "no available");
         String apellido1 = pref.getString(OperadorPreference.APELLIDO1_PERSONA_SHARED_PREF, "no available");
@@ -227,6 +228,7 @@ public class OperadorActivity extends AppCompatActivity implements
 
         menuAnimation();
     }
+
     private void menuAnimation() {
         ActionBarDrawerToggle _toggle = new ActionBarDrawerToggle(
                 this, _drawer, _toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -283,9 +285,6 @@ public class OperadorActivity extends AppCompatActivity implements
 
 
     }
-
-
-
 
 
     @Override
@@ -466,12 +465,12 @@ public class OperadorActivity extends AppCompatActivity implements
 
     @Override
     public void onClickPLAN() {
-        messageDialog("PLAN ATTAINMENT en contruccion!! Regresa luego.");
+        startPlanAttainmentActivity();
     }
 
     @Override
     public void onClickCRR() {
-        messageDialog("CRR en contruccion!! Regresa luego.");
+        startCRRActivity();
     }
 
     @Override
@@ -711,6 +710,18 @@ public class OperadorActivity extends AppCompatActivity implements
 
     private void startVQIActivity() {
         Intent intent = new Intent(this, VQIActivity.class);
+        intent.putExtra("idWorkCenter", workCenter.getId());
+        startActivity(intent);
+    }
+
+    private void startCRRActivity() {
+        Intent intent = new Intent(this, CRRActivity.class);
+        intent.putExtra("idWorkCenter", workCenter.getId());
+        startActivity(intent);
+    }
+
+    private void startPlanAttainmentActivity() {
+        Intent intent = new Intent(this, PlanAttainmentActivity.class);
         intent.putExtra("idWorkCenter", workCenter.getId());
         startActivity(intent);
     }

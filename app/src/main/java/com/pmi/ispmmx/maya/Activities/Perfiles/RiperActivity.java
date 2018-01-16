@@ -29,7 +29,7 @@ import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.RiperPagerAdapter;
 import com.pmi.ispmmx.maya.CircleTransform;
 import com.pmi.ispmmx.maya.DialogFragments.IngresarCantidadDeDesperdicioDialogFragment;
-import com.pmi.ispmmx.maya.DialogFragments.MostrarMarcasParaDesperdicioDialogFragment;
+import com.pmi.ispmmx.maya.DialogFragments.MarcasDialogFragment;
 import com.pmi.ispmmx.maya.Fragments.AreaFragment;
 import com.pmi.ispmmx.maya.Interfaces.IDesperdicioService;
 import com.pmi.ispmmx.maya.Interfaces.IMarcaService;
@@ -61,7 +61,7 @@ import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS
 public class RiperActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AreaFragment.OnInteractionListener,
-        MostrarMarcasParaDesperdicioDialogFragment.Listener,
+        MarcasDialogFragment.Listener,
         IngresarCantidadDeDesperdicioDialogFragment.Listener {
 
 
@@ -430,6 +430,7 @@ public class RiperActivity extends AppCompatActivity
         });
     }
     private void retrofitGuardarPostDesperdicio(Desperdicio  desperdicio) {
+        desperdicio.setIdPersona(pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0));
         desperdicioService.postDesperdicio(desperdicio).enqueue(new Callback<Desperdicio>() {
             @Override
             public void onResponse(@NonNull Call<Desperdicio> call, @NonNull Response<Desperdicio> response) {
@@ -452,7 +453,7 @@ public class RiperActivity extends AppCompatActivity
 
 
     private void startBSParosActivos(WorkCenter workCenter, List<Marca> marcas) {
-        BottomSheetDialogFragment newFragment = MostrarMarcasParaDesperdicioDialogFragment.newInstance(workCenter, marcas);
+        BottomSheetDialogFragment newFragment = MarcasDialogFragment.newInstance(workCenter, marcas);
         newFragment.show(getSupportFragmentManager(), newFragment.getTag());
 
     }
