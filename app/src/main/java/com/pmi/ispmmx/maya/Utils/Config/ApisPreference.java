@@ -25,4 +25,5 @@ public class ApisPreference {
 
 
     public static final String ApiLineLeader = "api/LineLeaders";
+    public static final String ApiVolumenesDeProduccion = "api/VolumenesDeProduccion";
 }

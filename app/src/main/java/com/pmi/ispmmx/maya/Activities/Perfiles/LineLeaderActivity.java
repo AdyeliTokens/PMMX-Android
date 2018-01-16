@@ -18,9 +18,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,18 +30,15 @@ import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.RiperPagerAdapter;
 import com.pmi.ispmmx.maya.CircleTransform;
-import com.pmi.ispmmx.maya.DialogFragments.IngresarCantidadDeDesperdicioDialogFragment;
 import com.pmi.ispmmx.maya.DialogFragments.MarcasDialogFragment;
 import com.pmi.ispmmx.maya.Fragments.AreaFragment;
-import com.pmi.ispmmx.maya.Interfaces.IDesperdicioService;
 import com.pmi.ispmmx.maya.Interfaces.ILineLeaderService;
 import com.pmi.ispmmx.maya.Interfaces.IMarcaService;
-import com.pmi.ispmmx.maya.Interfaces.IModuloSeccionesService;
-import com.pmi.ispmmx.maya.Modelos.Entidades.Desperdicio;
+import com.pmi.ispmmx.maya.Interfaces.IVolumenService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.BussinesUnit;
-import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Marca;
+import com.pmi.ispmmx.maya.Modelos.Entidades.VolumenesDeProduccion;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
@@ -62,8 +61,7 @@ import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS
 public class LineLeaderActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         AreaFragment.OnInteractionListener,
-        MarcasDialogFragment.Listener,
-        IngresarCantidadDeDesperdicioDialogFragment.Listener {
+        MarcasDialogFragment.Listener {
 
     private SharedPreferences pref;
     private Retrofit retrofit;
@@ -80,8 +78,7 @@ public class LineLeaderActivity extends AppCompatActivity
 
     private ILineLeaderService lineLeaderService;
     private IMarcaService marcaService;
-    private IDesperdicioService desperdicioService;
-    private IModuloSeccionesService moduloSeccionesService;
+    private IVolumenService volumenService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +100,7 @@ public class LineLeaderActivity extends AppCompatActivity
     private void createServicios() {
         lineLeaderService = retrofit.create(ILineLeaderService.class);
         marcaService = retrofit.create(IMarcaService.class);
-        desperdicioService = retrofit.create(IDesperdicioService.class);
-        moduloSeccionesService = retrofit.create(IModuloSeccionesService.class);
+        volumenService = retrofit.create(IVolumenService.class);
     }
 
     @Override
@@ -367,7 +363,7 @@ public class LineLeaderActivity extends AppCompatActivity
             public void onResponse(@NonNull Call<RespuestaServicio<List<WorkCenter>>> call, @NonNull Response<RespuestaServicio<List<WorkCenter>>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        if (response.body().getEjecucionCorrecta() ) {
+                        if (response.body().getEjecucionCorrecta()) {
                             areaFragment.workCenters.clear();
                             areaFragment.workCenters.addAll(response.body().getRespuesta());
                             areaFragment.mAdapter.notifyDataSetChanged();
@@ -408,34 +404,18 @@ public class LineLeaderActivity extends AppCompatActivity
         });
     }
 
-    private void retrofiCallModuloSecciones(final WorkCenter workCenter, final Marca marca) {
-        moduloSeccionesService.getModuloSeccionesApi().enqueue(new Callback<List<ModuloSeccion>>() {
+    private void retrofiPostVolumen(VolumenesDeProduccion volumen) {
+        volumenService.postVolumen(volumen).enqueue(new Callback<RespuestaServicio<VolumenesDeProduccion>>() {
             @Override
-            public void onResponse(@NonNull Call<List<ModuloSeccion>> call, @NonNull Response<List<ModuloSeccion>> response) {
+            public void onResponse(@NonNull Call<RespuestaServicio<VolumenesDeProduccion>> call, @NonNull Response<RespuestaServicio<VolumenesDeProduccion>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        BottomSheetDialogFragment newFragment = IngresarCantidadDeDesperdicioDialogFragment.newInstance(workCenter, marca, response.body());
-                        newFragment.show(getSupportFragmentManager(), newFragment.getTag());
-                    }
-                } else {
-                    messageDialog(response.errorBody().toString());
-                }
-            }
+                        if (response.body().getEjecucionCorrecta()) {
+                            messageDialog("Desperdicio generado correctamente #" + response.body().getRespuesta().getId());
+                        } else {
+                            messageDialog(response.body().getMensaje());
+                        }
 
-            @Override
-            public void onFailure(@NonNull Call<List<ModuloSeccion>> call, @NonNull Throwable t) {
-                messageDialog("Por favor!! Validatu conexion a internet");
-            }
-        });
-    }
-
-    private void retrofitGuardarPostDesperdicio(Desperdicio desperdicio) {
-        desperdicioService.postDesperdicio(desperdicio).enqueue(new Callback<Desperdicio>() {
-            @Override
-            public void onResponse(@NonNull Call<Desperdicio> call, @NonNull Response<Desperdicio> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        messageDialog("Desperdicio generado correctamente #" + response.body().getId());
 
                     }
                 } else {
@@ -444,8 +424,8 @@ public class LineLeaderActivity extends AppCompatActivity
             }
 
             @Override
-            public void onFailure(@NonNull Call<Desperdicio> call, @NonNull Throwable t) {
-                messageDialog("Por favor!! Validatu conexion a internet");
+            public void onFailure(@NonNull Call<RespuestaServicio<VolumenesDeProduccion>> call, @NonNull Throwable t) {
+                messageDialog(t.getMessage());
             }
         });
     }
@@ -457,16 +437,40 @@ public class LineLeaderActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMarcaClicked(WorkCenter workCenter, Marca marca) {
-        retrofiCallModuloSecciones(workCenter, marca);
+    public void onMarcaClicked(final WorkCenter workCenter, final Marca marca) {
+        AlertDialog.Builder builder;
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER |
+                InputType.TYPE_NUMBER_FLAG_DECIMAL |
+                InputType.TYPE_NUMBER_FLAG_SIGNED);
+
+
+        builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+
+        builder
+                .setView(input)
+                .setTitle("Ingresa el Volumen producido")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        VolumenesDeProduccion volumen = new VolumenesDeProduccion();
+
+                        volumen.setIdMarca(marca.getId());
+                        volumen.setIdWorkCenter(workCenter.getId());
+                        volumen.setIdPersona(pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0));
+                        volumen.setCantidad(Double.parseDouble(input.getText().toString()));
+
+                        retrofiPostVolumen(volumen);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .show();
 
 
     }
 
-    @Override
-    public void GenerarDesperdicio(Desperdicio desperdicio) {
-        desperdicio.setIdPersona(pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0));
-        retrofitGuardarPostDesperdicio(desperdicio);
-    }
 
 }

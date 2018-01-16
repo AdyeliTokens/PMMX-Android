@@ -430,6 +430,7 @@ public class RiperActivity extends AppCompatActivity
         });
     }
     private void retrofitGuardarPostDesperdicio(Desperdicio  desperdicio) {
+        desperdicio.setIdPersona(pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0));
         desperdicioService.postDesperdicio(desperdicio).enqueue(new Callback<Desperdicio>() {
             @Override
             public void onResponse(@NonNull Call<Desperdicio> call, @NonNull Response<Desperdicio> response) {
