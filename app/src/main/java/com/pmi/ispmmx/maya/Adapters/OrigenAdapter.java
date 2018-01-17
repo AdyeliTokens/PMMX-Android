@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pmi.ispmmx.maya.CircleTransform;
+import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.R;
 import com.squareup.picasso.MemoryPolicy;

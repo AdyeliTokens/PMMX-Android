@@ -19,7 +19,7 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Marca;
 import com.pmi.ispmmx.maya.R;
-import com.pmi.ispmmx.maya.ShadowTransformer;
+import com.pmi.ispmmx.maya.Utils.ShadowTransformer;
 
 import java.util.List;
 

@@ -13,7 +13,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pmi.ispmmx.maya.CircleTransform;
+import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.Defecto;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Persona;
 import com.pmi.ispmmx.maya.R;

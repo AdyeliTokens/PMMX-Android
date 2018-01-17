@@ -102,7 +102,7 @@
         <!-- MecanicoActivity -->
         <!-- MecanicoActivity -->
         <activity
-            android:name=".DefectosActivity"
+            android:name=".Activities.DefectosActivity"
             android:label="@string/title_activity_defectos"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -152,8 +152,8 @@
             android:label="@string/title_activity_riper"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.PhotoActivity" />
-        <activity android:name=".CRRActivity" />
-        <activity android:name=".PlanAttainmentActivity"></activity>
+        <activity android:name=".Activities.CRRActivity" />
+        <activity android:name=".Activities.PlanAttainmentActivity"></activity>
     </application>
 
 </manifest>

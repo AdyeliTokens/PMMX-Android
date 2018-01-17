@@ -1,4 +1,4 @@
-package com.pmi.ispmmx.maya;
+package com.pmi.ispmmx.maya.Activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.pmi.ispmmx.maya.R;
 
 public class DefectosActivity extends AppCompatActivity {
 
