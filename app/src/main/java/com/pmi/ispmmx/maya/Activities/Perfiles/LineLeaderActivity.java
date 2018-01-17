@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.RiperPagerAdapter;
-import com.pmi.ispmmx.maya.CircleTransform;
+import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.DialogFragments.MarcasDialogFragment;
 import com.pmi.ispmmx.maya.Fragments.AreaFragment;
 import com.pmi.ispmmx.maya.Interfaces.ILineLeaderService;

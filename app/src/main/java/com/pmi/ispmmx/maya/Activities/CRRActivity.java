@@ -1,13 +1,15 @@
-package com.pmi.ispmmx.maya;
+package com.pmi.ispmmx.maya.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class PlanAttainmentActivity extends AppCompatActivity {
+import com.pmi.ispmmx.maya.R;
+
+public class CRRActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plan_attainment);
+        setContentView(R.layout.activity_crr);
     }
 }

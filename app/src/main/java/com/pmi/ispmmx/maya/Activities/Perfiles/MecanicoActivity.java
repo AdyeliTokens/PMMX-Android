@@ -33,7 +33,7 @@ import com.pmi.ispmmx.maya.Activities.DefectoActivity;
 import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ParoActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.MecanicoPagerAdapter;
-import com.pmi.ispmmx.maya.CircleTransform;
+import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.DialogFragments.DefectosActivosPorWorkCenterDialogFragment;
 import com.pmi.ispmmx.maya.DialogFragments.ParosActivosPorWorkCenterDialogFragment;
 import com.pmi.ispmmx.maya.Fragments.BusinessUnitFragment;

@@ -8,20 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Entorno;
 import com.pmi.ispmmx.maya.R;
 
 import java.util.List;
+
 public class EntornoAdapter extends RecyclerView.Adapter<EntornoAdapter.ViewHolder> {
 
 
     private List<Entorno> entornoList;
     private int layout;
     private OnItemClickListener itemClickListener;
+    private Context context;
 
 
-    public EntornoAdapter(List<Entorno> entornoList,  int layout, OnItemClickListener listener) {
+    public EntornoAdapter(List<Entorno> entornoList, int layout, OnItemClickListener listener) {
         this.entornoList = entornoList;
         this.layout = layout;
         this.itemClickListener = listener;
@@ -34,7 +35,7 @@ public class EntornoAdapter extends RecyclerView.Adapter<EntornoAdapter.ViewHold
 
         View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         ViewHolder vh = new ViewHolder(view);
-
+        this.context = parent.getContext();
 
         return vh;
     }
@@ -67,10 +68,9 @@ public class EntornoAdapter extends RecyclerView.Adapter<EntornoAdapter.ViewHold
 
         }
 
-        public void blind(final Entorno entorno , final OnItemClickListener listener) {
+        public void blind(final Entorno entorno, final OnItemClickListener listener) {
             _nombre.setText(entorno.getNombre());
-            //ColorGenerator generator = ColorGenerator.MATERIAL;
-            //_cvEntorno.setCardBackgroundColor(generator.getColor(entorno.getNombre()));
+
             _cvEntorno.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -1,4 +1,4 @@
-package com.pmi.ispmmx.maya;
+package com.pmi.ispmmx.maya.Utils;
 
 
 import android.graphics.Bitmap;

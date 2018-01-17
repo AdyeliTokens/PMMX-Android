@@ -28,7 +28,7 @@
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>
     <string name="title_activity_shift_leader">Shift Leader</string>
-    <string name="title_activity_riper">RiperActivity</string>
+    <string name="title_activity_riper">Pesador</string>
     <string name="title_mecanico">Mecanico</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -186,7 +186,8 @@
     <string name="plan_attainment">PLAN ATTAINMENT</string>
 
     <string name="entornos_disponibles">Interfaces disponibles</string>
-    <string name="title_login">Login</string>
+    <string name="title_login">Log In</string>
     <string name="selecciona_una_marca_para_poder_ingresar_su_desperdicio">Selecciona una marca para poder ingresar su desperdicio.</string>
     <string name="guardar">Guardar</string>
+    <string name="registrarte">Registrarte</string>
 </resources>
