@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.R;
+import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -68,10 +68,14 @@ public class OrigenAdapter extends RecyclerView.Adapter<OrigenAdapter.ViewHolder
 
     public interface OnItemClickListener {
         void OnItemClick(Origen origen, int position);
+
+        void OnImageItemClick(Origen origen, int position);
+
         boolean OnLongClick(Origen origen, int position);
 
         void OnBadgeDefectoClick(Origen origen, int position);
-        void OnBadgeParoClick(Origen origen,int position);
+
+        void OnBadgeParoClick(Origen origen, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -86,8 +90,6 @@ public class OrigenAdapter extends RecyclerView.Adapter<OrigenAdapter.ViewHolder
         private TextView seccion;
 
 
-
-
         public ViewHolder(View itemView) {
             super(itemView);
             badgeParos = itemView.findViewById(R.id.cv_NumParos);
@@ -96,7 +98,7 @@ public class OrigenAdapter extends RecyclerView.Adapter<OrigenAdapter.ViewHolder
             nombreOrigen = itemView.findViewById(R.id.txtNombreOrigen);
             numParos = itemView.findViewById(R.id.txt_num_paros);
             numDefectos = itemView.findViewById(R.id.txt_num_defectos);
-            imgOpciones =  itemView.findViewById(R.id.img_opciones);
+            imgOpciones = itemView.findViewById(R.id.img_opciones);
             seccion = itemView.findViewById(R.id.txt_session_modulo);
             layout = itemView.findViewById(R.id.layoutOrigen);
 
@@ -111,18 +113,19 @@ public class OrigenAdapter extends RecyclerView.Adapter<OrigenAdapter.ViewHolder
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .into(imgOpciones);
 
+
             nombreOrigen.setText(origen.getModulo().getNombreCorto());
-            if(origen.getModulo().getSeccion()!= null){
+            if (origen.getModulo().getSeccion() != null) {
                 seccion.setText(origen.getModulo().getSeccion().getNombre());
-            }else{
-                seccion.setText("Sin seccion asignada!!");;
+            } else {
+                seccion.setText("Sin seccion asignada!!");
+                ;
             }
 
-            if(origen.getDefectosActivos()>0){
+            if (origen.getDefectosActivos() > 0) {
                 numDefectos.setText("" + origen.getDefectosActivos() + "");
                 badgeDefectos.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 badgeDefectos.setVisibility(View.GONE);
             }
 
@@ -140,7 +143,7 @@ public class OrigenAdapter extends RecyclerView.Adapter<OrigenAdapter.ViewHolder
             imgOpciones.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    listener.OnImageItemClick(origen, getAdapterPosition());
                 }
             });
 
