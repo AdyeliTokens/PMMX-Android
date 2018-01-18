@@ -20,17 +20,18 @@
             android:id="@+id/img_foto"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_gravity="center"
             android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:visibility="visible"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center"
             android:contentDescription="@string/todo"
+            android:scaleType="centerCrop"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="16dp" />
+            app:srcCompat="@mipmap/ic_launcher_round" />
 
         <TextView
             android:id="@+id/tv_nombre_marca"
