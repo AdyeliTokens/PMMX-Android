@@ -54,6 +54,13 @@ public class EntornosDialogFragment extends BottomSheetDialogFragment {
     private void elementosUI() {
         _rvListaEntornos = _view.findViewById(R.id.list_entornos);
 
+        _fabAgregarEntorno = _view.findViewById(R.id.fab_agregar_entorno);
+        _fabAgregarEntorno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onClickFloatButton();
+            }
+        });
 
     }
 
@@ -72,6 +79,11 @@ public class EntornosDialogFragment extends BottomSheetDialogFragment {
             @Override
             public void OnItemClick(Entorno entorno) {
                 mListener.onEntornoClicked(entorno);
+            }
+
+            @Override
+            public void OnClickDelete(Entorno entorno) {
+                mListener.onDeleteEntornoClicked(entorno);
             }
 
         });
@@ -98,6 +110,10 @@ public class EntornosDialogFragment extends BottomSheetDialogFragment {
 
     public interface Listener {
         void onEntornoClicked(Entorno entorno);
+
+        void onDeleteEntornoClicked(Entorno entorno);
+
+        void onClickFloatButton();
     }
 
 
