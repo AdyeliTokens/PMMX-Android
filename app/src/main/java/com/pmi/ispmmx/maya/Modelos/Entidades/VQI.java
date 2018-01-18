@@ -5,9 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-/**
- * Created by chan jacky chan on 01/12/2017.
- */
 
 public class VQI {
     @SerializedName("VQI_Total")
