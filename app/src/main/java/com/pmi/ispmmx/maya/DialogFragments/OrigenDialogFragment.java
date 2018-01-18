@@ -1,16 +1,15 @@
 package com.pmi.ispmmx.maya.DialogFragments;
 
-/**
- * Created by chan jacky chan on 06/11/2017.
- */
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +27,6 @@ public class OrigenDialogFragment extends BottomSheetDialogFragment {
 
     private OnInteractionListener mListener;
 
-
     private View _view;
     private TextView _title;
     private TextView _subTitle;
@@ -36,6 +34,21 @@ public class OrigenDialogFragment extends BottomSheetDialogFragment {
     private FloatingActionButton _fabAgregarFalla;
     private FloatingActionButton _fabAgregarFoto;
     private ImageView _imgOrigenBig;
+
+
+    private TextView defectosMecanicos;
+    private CardView cvdefectosMecanicos;
+
+    private TextView fallasMecanicos;
+    private CardView cvfallasMecanicos;
+
+    private CardView cvDefectosMecanicosPrincipal;
+    private CardView cvDefectosElectricosPrincipal;
+
+    private CardView cvFallasMecanicosPrincipal;
+    private CardView cvFallasElectricosPrincipal;
+
+    private Button btnVerDetalle;
 
 
     public static OrigenDialogFragment newInstance(Origen origen) {
@@ -83,10 +96,9 @@ public class OrigenDialogFragment extends BottomSheetDialogFragment {
 
 
     private void elementosUI() {
-        //_toolbar = _view.findViewById(R.id.toolbar);
         _title = _view.findViewById(R.id.title);
         _subTitle = _view.findViewById(R.id.subtitle);
-        _fabAgregarDefecto = _view.findViewById(R.id.fab_agregar_texto);
+        _fabAgregarDefecto = _view.findViewById(R.id.fab_agregar_defecto_mecanico);
         _fabAgregarDefecto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +119,13 @@ public class OrigenDialogFragment extends BottomSheetDialogFragment {
                 mListener.onClickAgregarFalla(origen);
             }
         });
+
+        cvdefectosMecanicos = _view.findViewById(R.id.cv_NumDefectos_mecanicos);
+        defectosMecanicos = _view.findViewById(R.id.txt_num_defectos_mecanicos);
+
+        fallasMecanicos = _view.findViewById(R.id.txt_num_paros_mecanicas);
+        cvfallasMecanicos = _view.findViewById(R.id.cv_NumParos_Mecanicos);
+
         _imgOrigenBig = _view.findViewById(R.id.imgOrigenBig);
         _imgOrigenBig.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,12 +134,48 @@ public class OrigenDialogFragment extends BottomSheetDialogFragment {
             }
         });
 
+        cvDefectosMecanicosPrincipal = _view.findViewById(R.id.cv_defectos_mecanico_principal);
+        cvDefectosMecanicosPrincipal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.OnClickDefectosMecanicosPrincipal(origen);
+            }
+        });
+
+        cvFallasMecanicosPrincipal = _view.findViewById(R.id.cv_fallas_mecanicos_principal);
+        cvFallasMecanicosPrincipal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.OnClicFallasMecanicosPrincipal(origen);
+            }
+        });
+        btnVerDetalle = _view.findViewById(R.id.button_ver_detalle);
+        btnVerDetalle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onClickVerDetalle(origen);
+            }
+        });
 
     }
 
     private void llenarInformacion() {
         _title.setText(origen.getModulo().getNombre());
         _subTitle.setText(origen.getModulo().getNombreCorto());
+        if (origen.getDefectosActivos() > 0) {
+            defectosMecanicos.setText("" + origen.getDefectosActivos() + "");
+            cvdefectosMecanicos.setVisibility(View.VISIBLE);
+        } else {
+            cvdefectosMecanicos.setVisibility(View.GONE);
+        }
+
+        if (origen.getParosActivos() > 0) {
+            //cvFallasMecanicosPrincipal.setVisibility(View.VISIBLE);
+            cvfallasMecanicos.setVisibility(View.VISIBLE);
+            fallasMecanicos.setText("" + origen.getParosActivos() + "");
+        } else {
+            cvfallasMecanicos.setVisibility(View.GONE);
+        }
 
         Picasso.with(context)
                 .load(URL_FOTOS_ORIGENES + origen.getId())
@@ -128,8 +183,6 @@ public class OrigenDialogFragment extends BottomSheetDialogFragment {
                 .networkPolicy(NetworkPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .into(_imgOrigenBig);
-
-
     }
 
     public interface OnInteractionListener {
@@ -144,7 +197,17 @@ public class OrigenDialogFragment extends BottomSheetDialogFragment {
 
         void OnClickDefectosActivos(Origen origen);
 
+        void OnClickDefectosMecanicosPrincipal(Origen origen);
+
+        void OnClickDefectosElectricosPrincipal(Origen origen);
+
+        void OnClicFallasMecanicosPrincipal(Origen origen);
+
+        void OnClickFallasElectricosPrincipal(Origen origen);
+
         void onClickParosActivos(Origen origen);
+
+        void onClickVerDetalle(Origen origen);
 
     }
 
