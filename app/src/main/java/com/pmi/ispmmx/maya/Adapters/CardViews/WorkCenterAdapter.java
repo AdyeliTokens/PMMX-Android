@@ -1,13 +1,10 @@
 package com.pmi.ispmmx.maya.Adapters.CardViews;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,19 +16,13 @@ import com.pmi.ispmmx.maya.Adapters.OrigenAdapter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.R;
-import com.willowtreeapps.spruce.Spruce;
-import com.willowtreeapps.spruce.animation.DefaultAnimations;
-import com.willowtreeapps.spruce.sort.DefaultSort;
 
 import java.util.List;
 
 
 public class WorkCenterAdapter extends RecyclerView.Adapter<WorkCenterAdapter.ViewHolder> {
 
-
     private List<WorkCenter> workCenterList;
-    private Animator spruceAnimator;
-
 
     private int layout;
     private OnItemClickListener itemClickListener;
@@ -73,12 +64,15 @@ public class WorkCenterAdapter extends RecyclerView.Adapter<WorkCenterAdapter.Vi
     }
 
 
-
     public interface OnItemClickListener {
         void OnItemClick(WorkCenter workCenter, int position);
+
         void OnOrigenClick(Origen origen, int position);
+
         boolean OnOrigenLongClick(Origen origen, int position);
+
         void OnBadgeDefectoClick(Origen origen, int position);
+
         void OnBadgeParoClick(Origen origen, int position);
     }
 
@@ -99,7 +93,6 @@ public class WorkCenterAdapter extends RecyclerView.Adapter<WorkCenterAdapter.Vi
             _imgOpciones = itemView.findViewById(R.id.imgOpciones);
             _imgWorkCenter = itemView.findViewById(R.id.img_business_unit);
             _rvOrigenes = itemView.findViewById(R.id.rvOrigenes);
-
         }
 
         public void blind(final WorkCenter workCenter, final OnItemClickListener listener) {
@@ -149,7 +142,7 @@ public class WorkCenterAdapter extends RecyclerView.Adapter<WorkCenterAdapter.Vi
                 @Override
                 public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
                     super.onLayoutChildren(recycler, state);
-                    initSpruce(_rvOrigenes);
+                    //initSpruce(_rvOrigenes);
                 }
             };
             _rvOrigenes.setHasFixedSize(true);
@@ -157,16 +150,7 @@ public class WorkCenterAdapter extends RecyclerView.Adapter<WorkCenterAdapter.Vi
             _rvOrigenes.setLayoutManager(mLayoutManager);
             _rvOrigenes.setAdapter(mAdapter);
             _rvOrigenes.setNestedScrollingEnabled(false);
-            _rvOrigenes.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    //if (FAB_Status) {
-                    //  hideFAB();
-                    //FAB_Status = false;
-                    //}
-                    return false;
-                }
-            });
+
 
             _imgWorkCenter.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -178,12 +162,5 @@ public class WorkCenterAdapter extends RecyclerView.Adapter<WorkCenterAdapter.Vi
         }
     }
 
-    private void initSpruce(RecyclerView _rv) {
-        spruceAnimator = new Spruce.SpruceBuilder(_rv)
-                .sortWith(new DefaultSort(100))
-                .animateWith(DefaultAnimations.shrinkAnimator(_rv, 800),
-                        ObjectAnimator.ofFloat(_rv, "translationX", -_rv.getWidth(), 0f).setDuration(800))
-                .start();
-    }
 
 }
