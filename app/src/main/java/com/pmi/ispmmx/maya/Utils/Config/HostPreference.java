@@ -7,4 +7,5 @@ public class HostPreference {
     public static final String URL_FOTOS_ORIGENES = URL_BASE+"/Fotos/Origenes/";
     public static final String URL_FOTOS_PERSONAS = URL_BASE+"/Fotos/Personas/";
     public static final String URL_FOTOS_MARCAS = URL_BASE+"/Fotos/Marcas/";
+    public static final String URL_FOTOS_ENTORNOS = URL_BASE+"/Fotos/Entornos/";
 }

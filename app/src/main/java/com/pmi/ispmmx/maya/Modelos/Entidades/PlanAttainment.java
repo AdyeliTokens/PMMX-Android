@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 
-public class CRR {
-    @SerializedName("CRR_Total")
+public class PlanAttainment {
+    @SerializedName("Plan_Attainment_Total")
     @Expose
-    private double crr_total;
+    private double plan_total;
 
     @SerializedName("Objetivo")
     @Expose
@@ -21,8 +21,8 @@ public class CRR {
 
     private Date fecha;
 
-    public double getCRR_total() {
-        return crr_total;
+    public double getPlan_total() {
+        return plan_total;
     }
 
 
@@ -51,3 +51,4 @@ public class CRR {
 
 
 }
+

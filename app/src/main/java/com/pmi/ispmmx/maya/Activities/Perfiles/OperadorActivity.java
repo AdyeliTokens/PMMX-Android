@@ -49,6 +49,11 @@ import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Activities.VQIActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.OperadorPagerAdapter;
 import com.pmi.ispmmx.maya.Activities.CRRActivity;
+import com.pmi.ispmmx.maya.Interfaces.ICRRService;
+import com.pmi.ispmmx.maya.Interfaces.IVolumenService;
+import com.pmi.ispmmx.maya.Modelos.Entidades.CRR;
+import com.pmi.ispmmx.maya.Modelos.Entidades.PlanAttainment;
+import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.Activities.DefectosActivity;
 import com.pmi.ispmmx.maya.DialogFragments.DefectoActivosPorOrigenDialogFragment;
@@ -134,6 +139,8 @@ public class OperadorActivity extends AppCompatActivity implements
     private IDefectoService defectoService;
     private IFotoService fotoService;
     private IVQIService vqiService;
+    private ICRRService crrService;
+    private IVolumenService volumenService;
 
     private WorkCenter workCenter;
 
@@ -182,6 +189,8 @@ public class OperadorActivity extends AppCompatActivity implements
         defectoService = retrofit.create(IDefectoService.class);
         fotoService = retrofit.create(IFotoService.class);
         vqiService = retrofit.create(IVQIService.class);
+        crrService = retrofit.create(ICRRService.class);
+        volumenService = retrofit.create(IVolumenService.class);
     }
 
     private void elementosUI() {
@@ -250,9 +259,9 @@ public class OperadorActivity extends AppCompatActivity implements
 
     private void generarTabs() {
 
-        _tabLayout.addTab(_tabLayout.newTab().setText("Feed"));
-        _tabLayout.addTab(_tabLayout.newTab().setText("Indicadores"));
-        _tabLayout.addTab(_tabLayout.newTab().setText("Mantenimiento"));
+        _tabLayout.addTab(_tabLayout.newTab().setIcon(R.drawable.ic_notifications_white));
+        _tabLayout.addTab(_tabLayout.newTab().setIcon(R.drawable.ic_insert_chart_white));
+        _tabLayout.addTab(_tabLayout.newTab().setIcon(R.drawable.ic_dashboard_white));
 
 
         _tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -427,8 +436,33 @@ public class OperadorActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void OnClickDefectosMecanicosPrincipal(Origen origen) {
+        retrofitDefectosActivos(origen);
+    }
+
+    @Override
+    public void OnClickDefectosElectricosPrincipal(Origen origen) {
+        retrofitDefectosActivos(origen);
+    }
+
+    @Override
+    public void OnClicFallasMecanicosPrincipal(Origen origen) {
+        retrofitParosActivos(origen);
+    }
+
+    @Override
+    public void OnClickFallasElectricosPrincipal(Origen origen) {
+
+    }
+
+    @Override
     public void onClickParosActivos(Origen origen) {
         startParosActivity();
+    }
+
+    @Override
+    public void onClickVerDetalle(Origen origen) {
+
     }
 
     @Override
@@ -768,6 +802,8 @@ public class OperadorActivity extends AppCompatActivity implements
                     if (response.body() != null) {
                         workCenter = response.body();
                         retrofiCallVQI();
+                        retrofiCallCRR();
+                        retrofiCallPlanAttainment();
                         workCenterFragment.llenarInformacion(response.body());
                     }
                 } else {
@@ -798,6 +834,52 @@ public class OperadorActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(@NonNull Call<List<VQI>> call, @NonNull Throwable t) {
+                messageDialog("Por favor!! Validatu conexion a internet");
+            }
+        });
+    }
+
+    private void retrofiCallCRR() {
+        crrService.getCRRByWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<CRR>>>() {
+            @Override
+            public void onResponse(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Response<RespuestaServicio<List<CRR>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if(response.body().getEjecucionCorrecta()){
+                            indicadoresFragment.llenarInformacion_CRR(response.body().getRespuesta());
+                        }
+
+                    }
+                } else {
+                    messageDialog(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Throwable t) {
+                messageDialog("Por favor!! Validatu conexion a internet");
+            }
+        });
+    }
+
+    private void retrofiCallPlanAttainment() {
+        volumenService.getPlanByWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<PlanAttainment>>>() {
+            @Override
+            public void onResponse(@NonNull Call<RespuestaServicio<List<PlanAttainment>>> call, @NonNull Response<RespuestaServicio<List<PlanAttainment>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if(response.body().getEjecucionCorrecta()){
+                            indicadoresFragment.llenarInformacion_PLAN(response.body().getRespuesta());
+                        }
+
+                    }
+                } else {
+                    messageDialog(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RespuestaServicio<List<PlanAttainment>>> call, @NonNull Throwable t) {
                 messageDialog("Por favor!! Validatu conexion a internet");
             }
         });

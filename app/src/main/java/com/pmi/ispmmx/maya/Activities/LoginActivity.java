@@ -35,8 +35,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-
-public class LoginActivity extends AppCompatActivity implements EntornosDialogFragment.Listener {
+public class LoginActivity extends AppCompatActivity implements
+        EntornosDialogFragment.Listener {
 
     private static Gson gson = new GsonBuilder()
             .setLenient()
@@ -123,12 +123,11 @@ public class LoginActivity extends AppCompatActivity implements EntornosDialogFr
             @Override
             public void onResponse(@NonNull Call<RespuestaServicio<User>> call, @NonNull Response<RespuestaServicio<User>> response) {
                 if (response.isSuccessful()) {
-                    if(response.body().getEjecucionCorrecta()){
+                    if (response.body().getEjecucionCorrecta()) {
                         if (isValidUser(response.body().getRespuesta())) {
                             onLoginSuccess(response.body().getRespuesta());
                         }
-                    }
-                    else{
+                    } else {
                         messageDialog("Error!! " + response.body().getMensaje());
                     }
 
@@ -148,12 +147,8 @@ public class LoginActivity extends AppCompatActivity implements EntornosDialogFr
         this.user = user;
         _loginButton.setEnabled(true);
         progressDialog.hide();
-        if (user.getEntornos().size() == 1) {
-            redireccionar(user.getEntornos().get(0).getNombre());
-            userPreferences(user.getEntornos().get(0));
-        } else {
-            EntornosDialogFragment.newInstance(user.getEntornos()).show(getSupportFragmentManager(), "dialog");
-        }
+
+        EntornosDialogFragment.newInstance(user.getEntornos()).show(getSupportFragmentManager(), "Entornos");
 
 
     }
@@ -244,5 +239,15 @@ public class LoginActivity extends AppCompatActivity implements EntornosDialogFr
     public void onEntornoClicked(Entorno entorno) {
         redireccionar(entorno.getNombre());
         userPreferences(entorno);
+    }
+
+    @Override
+    public void onDeleteEntornoClicked(Entorno entorno) {
+
+    }
+
+    @Override
+    public void onClickFloatButton() {
+
     }
 }

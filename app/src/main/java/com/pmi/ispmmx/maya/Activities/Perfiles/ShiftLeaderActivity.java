@@ -645,8 +645,33 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void OnClickDefectosMecanicosPrincipal(Origen origen) {
+
+    }
+
+    @Override
+    public void OnClickDefectosElectricosPrincipal(Origen origen) {
+
+    }
+
+    @Override
+    public void OnClicFallasMecanicosPrincipal(Origen origen) {
+
+    }
+
+    @Override
+    public void OnClickFallasElectricosPrincipal(Origen origen) {
+
+    }
+
+    @Override
     public void onClickParosActivos(Origen origen) {
         startParosActivity();
+    }
+
+    @Override
+    public void onClickVerDetalle(Origen origen) {
+
     }
 
 
