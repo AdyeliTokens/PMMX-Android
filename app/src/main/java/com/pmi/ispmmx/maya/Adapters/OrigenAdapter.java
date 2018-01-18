@@ -23,10 +23,6 @@ import java.util.List;
 
 import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_ORIGENES;
 
-/**
- * Created by chan jacky chan on 15/09/2017.
- */
-
 
 public class OrigenAdapter extends RecyclerView.Adapter<OrigenAdapter.ViewHolder> {
 
