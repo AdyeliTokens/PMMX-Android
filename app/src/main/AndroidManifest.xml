@@ -152,8 +152,14 @@
             android:label="@string/title_activity_riper"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.PhotoActivity" />
-        <activity android:name=".Activities.CRRActivity" />
-        <activity android:name=".Activities.PlanAttainmentActivity"></activity>
+
+        <activity
+            android:name=".Activities.CRRActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".Activities.PlanAttainmentActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
