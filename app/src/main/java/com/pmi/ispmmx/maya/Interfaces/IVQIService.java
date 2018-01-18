@@ -15,7 +15,6 @@ public interface IVQIService {
     @GET(ApisPreference.ApiVQI)
     Call<List<VQI>> getVQIByWorkCenter(@Query("idWorkCenter") int idWorkCenter);
 
-
     @GET(ApisPreference.ApiVQI)
     Call<List<VQI>> getVQIByWorkCenter(@Query("fecha") String fecha, @Query("idWorkCenter") int idWorkCenter);
 
