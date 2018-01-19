@@ -69,6 +69,8 @@ public class WorkCenterAdapter extends RecyclerView.Adapter<WorkCenterAdapter.Vi
 
         void OnOrigenClick(Origen origen, int position);
 
+        void OnImageOrigenClick(Origen origen, int position);
+
         boolean OnOrigenLongClick(Origen origen, int position);
 
         void OnBadgeDefectoClick(Origen origen, int position);
@@ -119,6 +121,11 @@ public class WorkCenterAdapter extends RecyclerView.Adapter<WorkCenterAdapter.Vi
                 @Override
                 public void OnItemClick(Origen origen, int position) {
                     listener.OnOrigenClick(origen, position);
+                }
+
+                @Override
+                public void OnImageItemClick(Origen origen, int position) {
+                    listener.OnImageOrigenClick(origen, position);
                 }
 
                 @Override

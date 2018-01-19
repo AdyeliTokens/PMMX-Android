@@ -142,6 +142,11 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
             }
 
             @Override
+            public void OnImageItemClick(Origen origen, int position) {
+                listener.OnImageOrigenItem(origen, position);
+            }
+
+            @Override
             public boolean OnLongClick(Origen origen, int position) {
                 listener.OnOrigenLongClick(origen, position);
                 return true;
@@ -190,6 +195,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     }
 
     public interface OnItemClickListener {
+        void OnImageOrigenItem(Origen origen, int position);
         void OnItemClick(WorkCenter workCenter, int position);
         void OnOrigenClick(Origen origen, int position);
         boolean OnOrigenLongClick(Origen origen, int position);

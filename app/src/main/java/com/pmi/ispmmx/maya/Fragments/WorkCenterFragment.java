@@ -135,6 +135,11 @@ public class WorkCenterFragment extends Fragment {
             }
 
             @Override
+            public void OnImageOrigenClick(Origen origen, int position) {
+                mListener.onClickImageOrigen(origen);
+            }
+
+            @Override
             public boolean OnOrigenLongClick(Origen origen, int position) {
                 mListener.onLongClickOrigen(origen);
                 return true;
@@ -184,6 +189,8 @@ public class WorkCenterFragment extends Fragment {
         void onBadgeDefectoClick(Origen origen, int position);
 
         void onBadgeParoClick(Origen origen, int position);
+
+        void onClickImageOrigen(Origen origen);
 
         void onClickOrigen(Origen origen);
 

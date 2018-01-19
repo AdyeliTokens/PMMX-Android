@@ -151,6 +151,11 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
 
                         mCardAdapter = new CardPagerAdapter(new CardPagerAdapter.OnItemClickListener() {
                             @Override
+                            public void OnImageOrigenItem(Origen origen, int position) {
+
+                            }
+
+                            @Override
                             public void OnItemClick(WorkCenter workCenter, int position) {
                                 Toast.makeText(getApplicationContext(), "OnItemClick", Toast.LENGTH_LONG).show();
                             }

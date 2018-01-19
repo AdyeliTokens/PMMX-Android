@@ -385,6 +385,11 @@ public class OperadorActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onClickImageOrigen(Origen origen) {
+        startOrigenActivity(origen);
+    }
+
+    @Override
     public void onClickOrigen(Origen origen) {
         startBSOrigen(origen);
 
