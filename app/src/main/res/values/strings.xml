@@ -190,4 +190,5 @@
     <string name="selecciona_una_marca_para_poder_ingresar_su_desperdicio">Selecciona una marca para poder ingresar su desperdicio.</string>
     <string name="guardar">Guardar</string>
     <string name="registrarte">Registrarte</string>
+    <string name="title_activity_bottom_example">BottomExampleActivity</string>
 </resources>
