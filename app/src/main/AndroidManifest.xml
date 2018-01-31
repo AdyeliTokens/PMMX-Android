@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pmi.ispmmx.maya">
+    package="com.pmi.ispmmx.maya"
+    android:versionCode="1"
+    android:versionName="0.1.6.109 dev">
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -32,6 +34,16 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
 
         <service android:name=".Services.MyFirebaseMessagingService">
             <intent-filter>
@@ -152,14 +164,15 @@
             android:label="@string/title_activity_riper"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.PhotoActivity" />
-
         <activity
             android:name=".Activities.CRRActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.PlanAttainmentActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BottomExampleActivity"
+            android:label="@string/title_activity_bottom_example"></activity>
     </application>
 
 </manifest>
