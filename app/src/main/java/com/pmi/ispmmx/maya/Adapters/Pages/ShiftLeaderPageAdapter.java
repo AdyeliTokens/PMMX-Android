@@ -6,9 +6,7 @@ import android.support.v4.app.Fragment;
         import android.support.v4.app.FragmentManager;
         import android.support.v4.app.FragmentStatePagerAdapter;
 
-        import com.pmi.ispmmx.maya.Fragments.IndicadoresFragment;
-        import com.pmi.ispmmx.maya.Fragments.LookBookFragment;
-        import com.pmi.ispmmx.maya.Fragments.WorkCenterFragment;
+import com.pmi.ispmmx.maya.Fragments.WorkCenterFragment;
 
 
 public class ShiftLeaderPageAdapter extends FragmentStatePagerAdapter {
