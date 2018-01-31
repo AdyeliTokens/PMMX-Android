@@ -40,40 +40,42 @@ import android.widget.TextView;
 
 import com.pmi.ispmmx.maya.Activities.AboutMayaActivity;
 import com.pmi.ispmmx.maya.Activities.AgregarDefectoActivity;
+import com.pmi.ispmmx.maya.Activities.CRRActivity;
 import com.pmi.ispmmx.maya.Activities.DefectoActivity;
+import com.pmi.ispmmx.maya.Activities.DefectosActivity;
 import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ParoActivity;
 import com.pmi.ispmmx.maya.Activities.ParosActivity;
 import com.pmi.ispmmx.maya.Activities.PhotoActivity;
+import com.pmi.ispmmx.maya.Activities.PlanAttainmentActivity;
 import com.pmi.ispmmx.maya.Activities.ProfileActivity;
 import com.pmi.ispmmx.maya.Activities.VQIActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.OperadorPagerAdapter;
-import com.pmi.ispmmx.maya.Activities.CRRActivity;
-import com.pmi.ispmmx.maya.Interfaces.ICRRService;
-import com.pmi.ispmmx.maya.Interfaces.IVolumenService;
-import com.pmi.ispmmx.maya.Modelos.Entidades.CRR;
-import com.pmi.ispmmx.maya.Modelos.Entidades.PlanAttainment;
-import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
-import com.pmi.ispmmx.maya.Utils.CircleTransform;
-import com.pmi.ispmmx.maya.Activities.DefectosActivity;
 import com.pmi.ispmmx.maya.DialogFragments.DefectoActivosPorOrigenDialogFragment;
 import com.pmi.ispmmx.maya.DialogFragments.OrigenDialogFragment;
 import com.pmi.ispmmx.maya.DialogFragments.ParosActivosPorOrigenDialogFragment;
+import com.pmi.ispmmx.maya.Fragments.FeedFragment;
 import com.pmi.ispmmx.maya.Fragments.IndicadoresFragment;
-import com.pmi.ispmmx.maya.Fragments.LookBookFragment;
 import com.pmi.ispmmx.maya.Fragments.WorkCenterFragment;
+import com.pmi.ispmmx.maya.Interfaces.ICRRService;
 import com.pmi.ispmmx.maya.Interfaces.IDefectoService;
+import com.pmi.ispmmx.maya.Interfaces.IFeedService;
 import com.pmi.ispmmx.maya.Interfaces.IFotoService;
 import com.pmi.ispmmx.maya.Interfaces.IOperadoresPorWorkCenterService;
 import com.pmi.ispmmx.maya.Interfaces.IParoService;
 import com.pmi.ispmmx.maya.Interfaces.IVQIService;
+import com.pmi.ispmmx.maya.Interfaces.IVolumenService;
+import com.pmi.ispmmx.maya.Modelos.Entidades.CRR;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.Defecto;
+import com.pmi.ispmmx.maya.Modelos.Entidades.Feed;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
+import com.pmi.ispmmx.maya.Modelos.Entidades.PlanAttainment;
 import com.pmi.ispmmx.maya.Modelos.Entidades.VQI;
-import com.pmi.ispmmx.maya.Activities.PlanAttainmentActivity;
 import com.pmi.ispmmx.maya.R;
+import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
+import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 import com.squareup.picasso.MemoryPolicy;
@@ -107,7 +109,7 @@ public class OperadorActivity extends AppCompatActivity implements
         ParosActivosPorOrigenDialogFragment.OnInteractionListener,
         DefectoActivosPorOrigenDialogFragment.OnInteractionListener,
         IndicadoresFragment.OnInteractionListener,
-        LookBookFragment.OnFragmentInteractionListener {
+        FeedFragment.OnFragmentInteractionListener {
 
     private static final int PICTURE_FROM_CAMARA = 1000;
     private static final int MY_PERMISSIONS_REQUEST_CAMARA = 2000;
@@ -122,7 +124,7 @@ public class OperadorActivity extends AppCompatActivity implements
 
     private WorkCenterFragment workCenterFragment;
     private IndicadoresFragment indicadoresFragment;
-    private LookBookFragment lookBookFragment;
+    private FeedFragment feedFragment;
 
     private Toolbar _toolbar;
     private TabLayout _tabLayout;
@@ -141,6 +143,7 @@ public class OperadorActivity extends AppCompatActivity implements
     private IVQIService vqiService;
     private ICRRService crrService;
     private IVolumenService volumenService;
+    private IFeedService feedService;
 
     private WorkCenter workCenter;
 
@@ -191,6 +194,7 @@ public class OperadorActivity extends AppCompatActivity implements
         vqiService = retrofit.create(IVQIService.class);
         crrService = retrofit.create(ICRRService.class);
         volumenService = retrofit.create(IVolumenService.class);
+        feedService = retrofit.create(IFeedService.class);
     }
 
     private void elementosUI() {
@@ -254,20 +258,21 @@ public class OperadorActivity extends AppCompatActivity implements
 
         indicadoresFragment = new IndicadoresFragment();
 
-        lookBookFragment = new LookBookFragment();
+        feedFragment = new FeedFragment();
+        feedFragment.feedList = new ArrayList<>();
+        feedFragment.iniciarAdapter();
     }
 
     private void generarTabs() {
 
         _tabLayout.addTab(_tabLayout.newTab().setIcon(R.drawable.ic_notifications_white));
-        _tabLayout.addTab(_tabLayout.newTab().setIcon(R.drawable.ic_insert_chart_white));
         _tabLayout.addTab(_tabLayout.newTab().setIcon(R.drawable.ic_dashboard_white));
-
+        _tabLayout.addTab(_tabLayout.newTab().setIcon(R.drawable.ic_insert_chart_white));
 
         _tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        OperadorPagerAdapter operadorPagerAdapter = new OperadorPagerAdapter(getSupportFragmentManager(), _tabLayout.getTabCount(), lookBookFragment, indicadoresFragment, workCenterFragment);
+        OperadorPagerAdapter operadorPagerAdapter = new OperadorPagerAdapter(getSupportFragmentManager(), _tabLayout.getTabCount(), feedFragment, indicadoresFragment, workCenterFragment);
 
         _viewPager.setAdapter(operadorPagerAdapter);
         _viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(_tabLayout));
@@ -493,6 +498,14 @@ public class OperadorActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void refreshCharts() {
+        retrofiCallVQI();
+        retrofiCallCRR();
+        retrofiCallPlanAttainment();
+        indicadoresFragment.cargaOff();
+    }
+
+    @Override
     public void onClickVQI() {
         startVQIActivity();
     }
@@ -516,6 +529,27 @@ public class OperadorActivity extends AppCompatActivity implements
     public void hideViews() {
         _toolbar.animate().translationY(-_toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
     }
+
+    @Override
+    public void getFeed() {
+        retrofiCallFeed();
+    }
+
+    @Override
+    public void refreshFeed() {
+        retrofiCallFeed();
+    }
+
+    @Override
+    public void OnClickFeedFalla(Paro paro) {
+        startParoActivity(paro);
+    }
+
+    @Override
+    public void OnClickFeedDefecto(Defecto defecto) {
+        startDefectoActivity(defecto);
+    }
+
 
     @Override
     public void showViews() {
@@ -785,6 +819,17 @@ public class OperadorActivity extends AppCompatActivity implements
         }
     }
 
+    private void startDefectoActivity(Defecto defecto) {
+        Intent intent = new Intent(this, DefectoActivity.class);
+        intent.putExtra("idDefecto", defecto.getId());
+        intent.putExtra("cerrarDefecto", true);
+        intent.putExtra("asignarDefecto", false);
+
+
+            startActivity(intent);
+
+    }
+
     private void startAboutMayaActivity() {
         Intent intent = new Intent(this, AboutMayaActivity.class);
         startActivity(intent);
@@ -806,10 +851,10 @@ public class OperadorActivity extends AppCompatActivity implements
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         workCenter = response.body();
-                        retrofiCallVQI();
-                        retrofiCallCRR();
-                        retrofiCallPlanAttainment();
                         workCenterFragment.llenarInformacion(response.body());
+
+                        retrofiCallFeed();
+
                     }
                 } else {
                     messageDialog(response.errorBody().toString());
@@ -818,6 +863,27 @@ public class OperadorActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(@NonNull Call<WorkCenter> call, @NonNull Throwable t) {
+                messageDialog("Por favor!! Validatu conexion a internet");
+            }
+        });
+    }
+
+    private void retrofiCallFeed() {
+
+        feedService.getFeedPorWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<Feed>>>() {
+            @Override
+            public void onResponse(@NonNull Call<RespuestaServicio<List<Feed>>> call, @NonNull Response<RespuestaServicio<List<Feed>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        feedFragment.llenarInformacion(response.body().getRespuesta());
+                    }
+                } else {
+                    messageDialog(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RespuestaServicio<List<Feed>>> call, @NonNull Throwable t) {
                 messageDialog("Por favor!! Validatu conexion a internet");
             }
         });
@@ -850,7 +916,7 @@ public class OperadorActivity extends AppCompatActivity implements
             public void onResponse(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Response<RespuestaServicio<List<CRR>>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        if(response.body().getEjecucionCorrecta()){
+                        if (response.body().getEjecucionCorrecta()) {
                             indicadoresFragment.llenarInformacion_CRR(response.body().getRespuesta());
                         }
 
@@ -873,7 +939,7 @@ public class OperadorActivity extends AppCompatActivity implements
             public void onResponse(@NonNull Call<RespuestaServicio<List<PlanAttainment>>> call, @NonNull Response<RespuestaServicio<List<PlanAttainment>>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        if(response.body().getEjecucionCorrecta()){
+                        if (response.body().getEjecucionCorrecta()) {
                             indicadoresFragment.llenarInformacion_PLAN(response.body().getRespuesta());
                         }
 
