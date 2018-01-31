@@ -2,7 +2,6 @@ package com.pmi.ispmmx.maya.Fragments;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,10 +17,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.pmi.ispmmx.maya.Modelos.Entidades.CRR;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Indicador;
@@ -193,7 +189,8 @@ public class IndicadoresFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                mListener.refreshCharts();
+                mListener.refreshCharts();
             }
         });
     }
@@ -216,6 +213,10 @@ public class IndicadoresFragment extends Fragment {
         configPlanChart(planList);
     }
 
+    public void cargaOff() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -236,7 +237,7 @@ public class IndicadoresFragment extends Fragment {
 
 
     private LineData setDataVQI(List<VQI> vqiList) {
-        Collections.sort(vqiList, new Comparator<VQI>(){
+        Collections.sort(vqiList, new Comparator<VQI>() {
             public int compare(VQI obj1, VQI obj2) {
                 // ## Ascending order
                 return obj1.getFecha().compareTo(obj2.getFecha()); // To compare string values
@@ -249,21 +250,17 @@ public class IndicadoresFragment extends Fragment {
         });
 
 
-
-
         ArrayList<Entry> vals1 = new ArrayList<>();
-        int i=1;
+        int i = 1;
         for (VQI data : vqiList) {
             vals1.add(new Entry(i++, data.getVqi_total()));
         }
 
         ArrayList<Entry> vals2 = new ArrayList<>();
-        i=1;
+        i = 1;
         for (VQI data : vqiList) {
             vals2.add(new Entry(i++, data.getObjetivo()));
         }
-
-
 
 
         LineDataSet set1 = new LineDataSet(vals1, "VQI");
@@ -286,7 +283,7 @@ public class IndicadoresFragment extends Fragment {
         set2.setColor(Color.GREEN);
         set2.setFillAlpha(100);
 
-        LineData data = new LineData(set1,set2);
+        LineData data = new LineData(set1, set2);
         data.setValueTextSize(9f);
         data.setDrawValues(true);
         return data;
@@ -294,7 +291,7 @@ public class IndicadoresFragment extends Fragment {
     }
 
     private LineData setDataCRR(List<CRR> crrList) {
-        Collections.sort(crrList, new Comparator<CRR>(){
+        Collections.sort(crrList, new Comparator<CRR>() {
             public int compare(CRR obj1, CRR obj2) {
                 // ## Ascending order
                 return obj1.getFecha().compareTo(obj2.getFecha()); // To compare string values
@@ -307,21 +304,17 @@ public class IndicadoresFragment extends Fragment {
         });
 
 
-
-
         ArrayList<Entry> vals1 = new ArrayList<>();
-        int i=1;
+        int i = 1;
         for (CRR data : crrList) {
             vals1.add(new Entry(i++, (float) data.getCRR_total()));
         }
 
         ArrayList<Entry> vals2 = new ArrayList<>();
-        i=1;
+        i = 1;
         for (CRR data : crrList) {
-            vals2.add(new Entry(i++,(float) data.getObjetivo()));
+            vals2.add(new Entry(i++, (float) data.getObjetivo()));
         }
-
-
 
 
         LineDataSet set1 = new LineDataSet(vals1, "CRR");
@@ -344,7 +337,7 @@ public class IndicadoresFragment extends Fragment {
         set2.setColor(Color.GREEN);
         set2.setFillAlpha(100);
 
-        LineData data = new LineData(set1,set2);
+        LineData data = new LineData(set1, set2);
         data.setValueTextSize(9f);
         data.setDrawValues(true);
         return data;
@@ -352,7 +345,7 @@ public class IndicadoresFragment extends Fragment {
     }
 
     private LineData setDataPlan(List<PlanAttainment> planList) {
-        Collections.sort(planList, new Comparator<PlanAttainment>(){
+        Collections.sort(planList, new Comparator<PlanAttainment>() {
             public int compare(PlanAttainment obj1, PlanAttainment obj2) {
                 // ## Ascending order
                 return obj1.getFecha().compareTo(obj2.getFecha()); // To compare string values
@@ -365,21 +358,17 @@ public class IndicadoresFragment extends Fragment {
         });
 
 
-
-
         ArrayList<Entry> vals1 = new ArrayList<>();
-        int i=1;
+        int i = 1;
         for (PlanAttainment data : planList) {
             vals1.add(new Entry(i++, (float) data.getPlan_total()));
         }
 
         ArrayList<Entry> vals2 = new ArrayList<>();
-        i=1;
+        i = 1;
         for (PlanAttainment data : planList) {
-            vals2.add(new Entry(i++,(float) data.getObjetivo()));
+            vals2.add(new Entry(i++, (float) data.getObjetivo()));
         }
-
-
 
 
         LineDataSet set1 = new LineDataSet(vals1, "CRR");
@@ -402,7 +391,7 @@ public class IndicadoresFragment extends Fragment {
         set2.setColor(Color.GREEN);
         set2.setFillAlpha(100);
 
-        LineData data = new LineData(set1,set2);
+        LineData data = new LineData(set1, set2);
         data.setValueTextSize(9f);
         data.setDrawValues(true);
         return data;
@@ -417,7 +406,6 @@ public class IndicadoresFragment extends Fragment {
         _chartVQI.setScaleEnabled(false);
         _chartVQI.setPinchZoom(false);
         _chartVQI.setDrawGridBackground(false);
-
 
 
         XAxis xAxis = _chartVQI.getXAxis();
@@ -451,7 +439,6 @@ public class IndicadoresFragment extends Fragment {
         _chartCRR.setDrawGridBackground(false);
 
 
-
         XAxis xAxis = _chartCRR.getXAxis();
         xAxis.setEnabled(false);
         xAxis.setDrawAxisLine(false);
@@ -483,7 +470,6 @@ public class IndicadoresFragment extends Fragment {
         _chartPLANATTAINMENT.setDrawGridBackground(false);
 
 
-
         XAxis xAxis = _chartPLANATTAINMENT.getXAxis();
         xAxis.setEnabled(false);
         xAxis.setDrawAxisLine(false);
@@ -506,6 +492,8 @@ public class IndicadoresFragment extends Fragment {
     }
 
     public interface OnInteractionListener {
+        void refreshCharts();
+
         void onClickVQI();
 
         void onClickCPQI();
