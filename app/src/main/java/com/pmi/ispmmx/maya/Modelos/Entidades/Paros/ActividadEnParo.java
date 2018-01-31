@@ -20,8 +20,11 @@ public class ActividadEnParo {
     private int idParo;
     @SerializedName("Descripcion")
     private String descripcion;
-    @SerializedName("Fecha")
+
     private Date fecha;
+    @SerializedName("Fecha")
+    @Expose
+    private String fechaApi;
 
     @SerializedName("Paro")
     private Paro paro;
@@ -62,6 +65,12 @@ public class ActividadEnParo {
     }
 
     public Date getFecha() {
+        int idx1 = fechaApi.indexOf("(");
+        int idx2 = fechaApi.indexOf(")") - 5;
+        String s = fechaApi.substring(idx1 + 1, idx2);
+        long l = Long.valueOf(s);
+        fecha = new Date(l);
+
         return fecha;
     }
 
