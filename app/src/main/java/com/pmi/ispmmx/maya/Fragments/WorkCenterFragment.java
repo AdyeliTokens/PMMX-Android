@@ -79,10 +79,10 @@ public class WorkCenterFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (spruceAnimator != null) {
-            spruceAnimator.start();
-            mListener.refreshWorkCenters();
-        }
+        //if (spruceAnimator != null) {
+         //   spruceAnimator.start();
+        //    mListener.refreshWorkCenters();
+        //}
 
 
     }
