@@ -1,7 +1,5 @@
 package com.pmi.ispmmx.maya.Modelos.Entidades.Paros;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.BussinesUnit;
@@ -11,9 +9,6 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Persona;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by ispmmx on 7/19/17.
- */
 
 public class Paro {
     @SerializedName("Id")
@@ -63,12 +58,6 @@ public class Paro {
     @SerializedName("TiempoDeParos")
     @Expose
     private List<TiempoDeParo> tiempoDeParos;
-
-    public static Persona parseReportadorJson(String response) {
-        Gson gson = new GsonBuilder().create();
-        Persona persona = gson.fromJson(response, Persona.class);
-        return persona;
-    }
 
     public Persona getMecanico() {
         return mecanico;
