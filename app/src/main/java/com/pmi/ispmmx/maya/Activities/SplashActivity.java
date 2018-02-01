@@ -1,13 +1,18 @@
 package com.pmi.ispmmx.maya.Activities;
 
-import android.app.ProgressDialog;
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -20,16 +25,12 @@ import com.google.gson.GsonBuilder;
 import com.pmi.ispmmx.maya.BuildConfig;
 import com.pmi.ispmmx.maya.Interfaces.IMAYAService;
 import com.pmi.ispmmx.maya.Modelos.Infopdate;
+import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.MalformedURLException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,29 +41,45 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FILE;
 
 public class SplashActivity extends AppCompatActivity {
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 3000;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 4000;
+
+
     private static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
     private SharedPreferences pref;
-    private ProgressDialog bar;
 
     private IMAYAService imayaService;
 
+    public static int getVersionCode(Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            return pi.versionCode;
+        } catch (PackageManager.NameNotFoundException ex) {
+            return -1;
+        }
+    }
+
+    public static String getVersionName(Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            return pi.versionName;
+        } catch (PackageManager.NameNotFoundException ex) {
+            return "";
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set portrait orientation
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        // Hide title bar
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //
-        // setContentView(R.drawable.splash);
 
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         iniciarRetrofit();
         CheckInfoUpdate();
-
 
     }
 
@@ -79,10 +96,23 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<Infopdate> call, @NonNull Response<Infopdate> response) {
                 if (response.isSuccessful()) {
-                    downloadUpdates();
+                    int versionCode = getVersionCode(getApplicationContext());
+                    if (response.body().getVersionCode() <= versionCode) {
+                        Toast.makeText(getApplicationContext(), "Aplicacion al dia!! :D", Toast.LENGTH_LONG).show();
+                        if (pref.getBoolean(OperadorPreference.LOGGEDIN_SHARED_PREF, false)) {
+                            redireccionar(pref.getString(OperadorPreference.NOMBRE_ENTORNO_SHARED_PREF, ""));
+                        } else {
+                            logout();
+                        }
+                    } else if (response.body().getVersionCode() > versionCode) {
+                        alertDownload();
+
+                    }
+
 
                 } else {
-
+                    Toast.makeText(getApplicationContext(), response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                    logout();
                 }
 
 
@@ -90,40 +120,72 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<Infopdate> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public static int getVersionCode(Context context) {
-        PackageManager pm = context.getPackageManager();
-        try {
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            return pi.versionCode;
-        } catch (PackageManager.NameNotFoundException ex) {}
-        return 0;
-    }
-
-    public static String getVersionName(Context context) {
-        PackageManager pm = context.getPackageManager();
-        try {
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            return pi.versionName;
-        } catch (PackageManager.NameNotFoundException ex) {}
-        return "";
-    }
-
-
     private void downloadUpdates() {
-        new DownloadNewVersion().execute();
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{
+
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                        }
+                        , MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+            } else {
+                try {
+                    descarga_Instala();
+                } catch (MalformedURLException e) {
+                    Toast.makeText(getApplicationContext(), "Update Error: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Update Error: " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+
+
+        }
+    }
+
+    private void alertDownload() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Existe una nueva version. \n ¿Quieres descargarla?");
+        alertDialogBuilder.setPositiveButton("Si",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        downloadUpdates();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        if (pref.getBoolean(OperadorPreference.LOGGEDIN_SHARED_PREF, false)) {
+                            redireccionar(pref.getString(OperadorPreference.NOMBRE_ENTORNO_SHARED_PREF, ""));
+                        } else {
+                            logout();
+                        }
+                    }
+                });
+
+        //Showing the alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 
     private void redireccionar(String entorno) {
-        Class<?> c = null;
+        Class<?> c;
         if (entorno != null) {
             try {
-                if (entorno != "Login") {
+                if (!entorno.equals("Login")) {
                     entorno = "Perfiles." + entorno;
                 }
                 c = Class.forName("com.pmi.ispmmx.maya.Activities." + entorno + "Activity");
@@ -150,141 +212,89 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    void OpenNewVersion(String location) {
+    private void descarga_Instala() throws MalformedURLException {
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = FileProvider.getUriForFile(SplashActivity.this,
-                BuildConfig.APPLICATION_ID + ".provider",
-                new File(location + "Maya.apk"));
-
-        intent.setDataAndType(uri,
-                "application/vnd.android.package-archive");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(intent);
+        String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
+        String fileName = "Maya.apk";
+        destination += fileName;
+        final Uri uri = Uri.parse("file://" + destination);
 
 
+        File file = new File(destination);
+        if (file.exists())
+            file.delete();
+
+
+        String url = URL_FILE;
+        //set downloadmanager
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setDescription("Actualizacion en progreso");
+        request.setTitle(getResources().getString(R.string.app_name));
+
+        //set destination
+        request.setDestinationUri(uri);
+
+        // get download service and enqueue file
+        final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        final long downloadId = manager.enqueue(request);
+
+        //set BroadcastReceiver to install app when .apk is downloaded
+        final String finalDestination = destination;
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
+            public void onReceive(Context ctxt, Intent intent) {
+
+                Uri uris = FileProvider.getUriForFile(ctxt,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        new File(finalDestination));
+
+
+                Intent install = new Intent(Intent.ACTION_VIEW);
+                install.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                install.setDataAndType(uris, "application/vnd.android.package-archive");
+                //install.setDataAndType(uris, manager.getMimeTypeForDownloadedFile(downloadId));
+                install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(install);
+
+                unregisterReceiver(this);
+                finish();
+            }
+        };
+        //register receiver for when .apk download is compete
+        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
     }
 
-    class DownloadNewVersion extends AsyncTask<String, Integer, Boolean> {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
+                String permission_Write = permissions[0];
+                int result_write = grantResults[0];
+                if (permission_Write.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    if (result_write == PackageManager.PERMISSION_GRANTED) {
+                        try {
+                            descarga_Instala();
+                        } catch (MalformedURLException e) {
+                            Toast.makeText(getApplicationContext(), "Update Error: " + e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
 
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            bar = new ProgressDialog(SplashActivity.this);
-            bar.setCancelable(false);
-
-            bar.setMessage("Downloading...");
-
-            bar.setIndeterminate(true);
-            bar.setCanceledOnTouchOutside(false);
-            bar.show();
-
-        }
-
-        protected void onProgressUpdate(Integer... progress) {
-            super.onProgressUpdate(progress);
-
-            bar.setIndeterminate(false);
-            bar.setMax(100);
-            bar.setProgress(progress[0]);
-            String msg = "";
-            if (progress[0] > 99) {
-
-                msg = "Finishing... ";
-
-            } else {
-
-                msg = "Downloading... " + progress[0] + "%";
-            }
-            bar.setMessage(msg);
-
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-
-            bar.dismiss();
-
-            if (result) {
-
-                Toast.makeText(getApplicationContext(), "Update Done",
-                        Toast.LENGTH_SHORT).show();
-
-            } else {
-
-                Toast.makeText(getApplicationContext(), "Error: Try Again",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-
-        }
-
-
-        @Override
-        protected Boolean doInBackground(String... arg0) {
-            Boolean flag = false;
-
-            try {
-
-
-                URL url = new URL(URL_FILE);
-
-
-                HttpURLConnection c = (HttpURLConnection) url.openConnection();
-                c.setRequestMethod("GET");
-                c.setDoOutput(true);
-                c.connect();
-
-
-                String PATH = Environment.getExternalStorageDirectory()+"/Download/";
-                File file = new File(PATH);
-                file.mkdirs();
-
-                File outputFile = new File(file,"Maya.apk");
-                if(outputFile.exists()){
-                    outputFile.delete();
+                    }
                 }
 
 
-                InputStream is = c.getInputStream();
-
-                int total_size = 111440303;//size of apk
-
-                byte[] buffer = new byte[1024];
-                int len1 = 0;
-                int per = 0;
-                int downloaded=0;
-
-                FileOutputStream fos = new FileOutputStream(outputFile);
-
-                while ((len1 = is.read(buffer)) != -1) {
-                    fos.write(buffer, 0, len1);
-                    downloaded +=len1;
-                    per = (int) (downloaded * 100 / total_size);
-                    publishProgress(per);
-                }
-                fos.close();
-                is.close();
-
-                OpenNewVersion(PATH);
-
-                flag = true;
-            } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "Update Error: " + e.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-
-                flag = false;
-            }
-            return flag;
+                break;
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
 
 
+                break;
+
+
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                break;
         }
-
     }
+
 }
