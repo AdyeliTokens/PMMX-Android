@@ -14,7 +14,7 @@ public abstract class HidingScrollListener extends RecyclerView.OnScrollListener
     private int toolbarHeight;
 
     public HidingScrollListener(Context context) {
-        int[] actionBarAttr = new int[] { android.R.attr.actionBarSize };
+        int[] actionBarAttr = new int[]{android.R.attr.actionBarSize};
         TypedArray a = context.obtainStyledAttributes(actionBarAttr);
         toolbarHeight = (int) a.getDimension(0, 0) + 10;
         a.recycle();
@@ -27,15 +27,15 @@ public abstract class HidingScrollListener extends RecyclerView.OnScrollListener
         clipToolbarOffset();
         onMoved(toolbarOffset);
 
-        if((toolbarOffset < toolbarHeight && dy>0) || (toolbarOffset > 0 && dy<0)) {
+        if ((toolbarOffset < toolbarHeight && dy > 0) || (toolbarOffset > 0 && dy < 0)) {
             toolbarOffset += dy;
         }
     }
 
     private void clipToolbarOffset() {
-        if(toolbarOffset > toolbarHeight) {
+        if (toolbarOffset > toolbarHeight) {
             toolbarOffset = toolbarHeight;
-        } else if(toolbarOffset < 0) {
+        } else if (toolbarOffset < 0) {
             toolbarOffset = 0;
         }
     }

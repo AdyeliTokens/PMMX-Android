@@ -8,9 +8,9 @@
                 android:icon="@drawable/ic_settings_white"
                 android:title="Configuracion" />
             <item
-            android:id="@+id/item_acerca_de_maya"
-            android:icon="@drawable/ic_help_black"
-            android:title="Acerca de MAYA" />
+                android:id="@+id/item_acerca_de_maya"
+                android:icon="@drawable/ic_help_black"
+                android:title="Acerca de MAYA" />
             <item
                 android:id="@+id/close_sesion"
                 android:icon="@drawable/ic_input_black_24dp"

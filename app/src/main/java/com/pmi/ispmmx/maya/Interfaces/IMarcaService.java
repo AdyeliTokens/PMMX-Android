@@ -11,7 +11,7 @@ import retrofit2.http.GET;
 
 public interface IMarcaService {
 
-    @GET(ApisPreference.ApiMarcas )
+    @GET(ApisPreference.ApiMarcas)
     Call<List<Marca>> getMarcas();
 
 }

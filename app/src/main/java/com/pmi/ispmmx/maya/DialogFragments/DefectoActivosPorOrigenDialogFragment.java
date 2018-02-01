@@ -24,17 +24,13 @@ import java.util.List;
  */
 
 public class DefectoActivosPorOrigenDialogFragment extends BottomSheetDialogFragment {
-   private DefectoActivosPorOrigenDialogFragment.OnInteractionListener mListener;
-
-
-   private List<Defecto> defectoList;
-   private Origen origen;
-
-
+    public RecyclerView.Adapter mAdapter;
+    private DefectoActivosPorOrigenDialogFragment.OnInteractionListener mListener;
+    private List<Defecto> defectoList;
+    private Origen origen;
     private View _view;
     private RecyclerView _rvDefectosActivos;
     private RecyclerView.LayoutManager _managerDefectosActivos;
-    public RecyclerView.Adapter mAdapter;
     private FloatingActionButton _fabAgregarDefecto;
 
 
@@ -100,10 +96,11 @@ public class DefectoActivosPorOrigenDialogFragment extends BottomSheetDialogFrag
             }
         });
     }
+
     private void iniciarRecycleActivos() {
         //_managerDefectosActivos = new LinearLayoutManager(_view.getContext());
 
-        _managerDefectosActivos =new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        _managerDefectosActivos = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         _rvDefectosActivos.setHasFixedSize(false);
         _rvDefectosActivos.setItemAnimator(new DefaultItemAnimator());
         _rvDefectosActivos.setLayoutManager(_managerDefectosActivos);
@@ -123,8 +120,8 @@ public class DefectoActivosPorOrigenDialogFragment extends BottomSheetDialogFrag
     public interface OnInteractionListener {
 
         void onClickDefecto(Defecto defecto, int position, View foto);
-        void OnClickAgregarDefecto(Origen origen);
 
+        void OnClickAgregarDefecto(Origen origen);
 
 
     }

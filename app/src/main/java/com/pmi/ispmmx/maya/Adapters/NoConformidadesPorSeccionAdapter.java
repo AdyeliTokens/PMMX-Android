@@ -99,10 +99,6 @@ public class NoConformidadesPorSeccionAdapter extends RecyclerView.Adapter<NoCon
             _rvNoConformidades.setNestedScrollingEnabled(false);
 
 
-
-
-
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

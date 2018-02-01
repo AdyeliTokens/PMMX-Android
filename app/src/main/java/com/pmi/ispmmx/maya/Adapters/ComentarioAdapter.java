@@ -30,7 +30,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
     public ComentarioAdapter(List<Comentario> comentarioList, int idPersona, int layout, OnItemClickListener listener) {
         this.comentarioList = comentarioList;
         this.layout = layout;
-        this.idPersona= idPersona;
+        this.idPersona = idPersona;
         this.itemClickListener = listener;
 
 
@@ -81,26 +81,24 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
         }
 
         public void blind(final Comentario comentario, final OnItemClickListener listener) {
-            if(comentario.getIdComentador()==idPersona){
+            if (comentario.getIdComentador() == idPersona) {
 
 
                 _cvRecibido.setVisibility(View.GONE);
                 _cvEnviados.setVisibility(View.VISIBLE);
                 _comentarioEnviado.setText(comentario.getOpinion());
-            }
-            else{
+            } else {
                 _cvRecibido.setVisibility(View.VISIBLE);
                 _cvEnviados.setVisibility(View.GONE);
                 _comentarioRecibido.setText(comentario.getOpinion());
-                _remitente.setText(comentario.getComentador().getNombre() +" " + comentario.getComentador().getApellido1() + " " + comentario.getComentador().getApellido2());
+                _remitente.setText(comentario.getComentador().getNombre() + " " + comentario.getComentador().getApellido1() + " " + comentario.getComentador().getApellido2());
             }
-
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    
+
                 }
             });
         }

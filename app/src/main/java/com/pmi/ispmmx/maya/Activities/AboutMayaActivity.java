@@ -12,7 +12,6 @@ import com.redbooth.WelcomeCoordinatorLayout;
 public class AboutMayaActivity extends AppCompatActivity {
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +20,8 @@ public class AboutMayaActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final WelcomeCoordinatorLayout coordinatorLayout = (WelcomeCoordinatorLayout)findViewById(R.id.coordinator);
-        coordinatorLayout.addPage(R.layout.welcome_page_1,R.layout.welcome_page_2,R.layout.welcome_page_3,R.layout.welcome_page_4);
-
+        final WelcomeCoordinatorLayout coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
+        coordinatorLayout.addPage(R.layout.welcome_page_1, R.layout.welcome_page_2, R.layout.welcome_page_3, R.layout.welcome_page_4);
 
 
     }

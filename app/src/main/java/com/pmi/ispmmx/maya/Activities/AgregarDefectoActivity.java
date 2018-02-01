@@ -69,10 +69,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AgregarDefectoActivity extends AppCompatActivity {
-    private NotificationManager mNotifyManager;
-    private NotificationCompat.Builder mBuilder;
-    int id = 1;
-
     static final int PICTURE_FROM_CAMARA = 1000;
     private static final int MY_PERMISSIONS_REQUEST_CAMARA = 10;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 20;
@@ -82,6 +78,9 @@ public class AgregarDefectoActivity extends AppCompatActivity {
     private static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
+    int id = 1;
+    private NotificationManager mNotifyManager;
+    private NotificationCompat.Builder mBuilder;
     private SharedPreferences pref;
     private ProgressDialog progressDialog;
     private Bitmap mImageBitmap;
@@ -648,7 +647,7 @@ public class AgregarDefectoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<RespuestaServicio<Defecto>> call, Response<RespuestaServicio<Defecto>> response) {
                 RespuestaServicio<Defecto> respuesta = response.body();
-                if(respuesta.getEjecucionCorrecta()){
+                if (respuesta.getEjecucionCorrecta()) {
                     mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(AgregarDefectoActivity.this);
                     mBuilder.setContentTitle("Download")
@@ -657,8 +656,7 @@ public class AgregarDefectoActivity extends AppCompatActivity {
 
                     new Downloader().execute();
                     crearImagen(respuesta.getRespuesta().getId());
-                }
-                else{
+                } else {
                     messageDialog(respuesta.getMensaje());
                 }
 

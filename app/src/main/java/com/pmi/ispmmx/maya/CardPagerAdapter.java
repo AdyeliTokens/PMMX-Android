@@ -33,12 +33,12 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private OnItemClickListener itemClickListener;
 
 
-    public CardPagerAdapter(List<WorkCenter> workCenters,  Context context, OnItemClickListener listener) {
+    public CardPagerAdapter(List<WorkCenter> workCenters, Context context, OnItemClickListener listener) {
         this.context = context;
         this.mData = workCenters;
         mViews = new ArrayList<>();
         this.itemClickListener = listener;
-        for (WorkCenter wc: workCenters) {
+        for (WorkCenter wc : workCenters) {
             mViews.add(null);
         }
 
@@ -196,10 +196,15 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
     public interface OnItemClickListener {
         void OnImageOrigenItem(Origen origen, int position);
+
         void OnItemClick(WorkCenter workCenter, int position);
+
         void OnOrigenClick(Origen origen, int position);
+
         boolean OnOrigenLongClick(Origen origen, int position);
+
         void OnBadgeDefectoClick(Origen origen, int position);
+
         void OnBadgeParoClick(Origen origen, int position);
     }
 

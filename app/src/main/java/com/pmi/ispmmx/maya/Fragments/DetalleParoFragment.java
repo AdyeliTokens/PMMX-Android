@@ -143,7 +143,8 @@ public class DetalleParoFragment extends Fragment {
         _cvAgregarMotivo = view.findViewById(R.id.cv_AgregarMotivoDeParo);
         _cvAgregarMotivo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {mListener.onClickMotivoParo("");
+            public void onClick(View view) {
+                mListener.onClickMotivoParo("");
             }
         });
         _cvAsignarmeParo = view.findViewById(R.id.cv_AsignarmeParo);
@@ -156,7 +157,8 @@ public class DetalleParoFragment extends Fragment {
         _cvCerrar = view.findViewById(R.id.cv_Cerrar);
         _cvCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {mListener.onClickCerrarParo(paro);
+            public void onClick(View view) {
+                mListener.onClickCerrarParo(paro);
             }
         });
 

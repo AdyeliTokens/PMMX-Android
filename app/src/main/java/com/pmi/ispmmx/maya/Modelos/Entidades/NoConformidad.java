@@ -64,9 +64,6 @@ public class NoConformidad {
     private WorkCenter workCenter;
 
 
-
-
-
     public int getId() {
         return id;
     }

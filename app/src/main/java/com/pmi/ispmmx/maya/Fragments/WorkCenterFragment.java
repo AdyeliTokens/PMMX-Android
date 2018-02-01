@@ -33,12 +33,12 @@ public class WorkCenterFragment extends Fragment {
 
     private OnInteractionListener mListener;
 
-    public static WorkCenterFragment newInstance() {
-        return new WorkCenterFragment();
-    }
-
     public WorkCenterFragment() {
 
+    }
+
+    public static WorkCenterFragment newInstance() {
+        return new WorkCenterFragment();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class WorkCenterFragment extends Fragment {
     public void onResume() {
         super.onResume();
         //if (spruceAnimator != null) {
-         //   spruceAnimator.start();
+        //   spruceAnimator.start();
         //    mListener.refreshWorkCenters();
         //}
 
@@ -101,7 +101,6 @@ public class WorkCenterFragment extends Fragment {
         });
 
     }
-
 
 
     private void llenarWorkCenters() {

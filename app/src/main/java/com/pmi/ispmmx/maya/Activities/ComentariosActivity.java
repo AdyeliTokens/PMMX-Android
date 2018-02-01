@@ -32,13 +32,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ComentariosActivity extends AppCompatActivity implements ComentariosFragment.OnInteractionListener {
-    private ComentariosFragment comentariosFragment;
-
-
     private static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
-
+    private ComentariosFragment comentariosFragment;
     private SharedPreferences pref;
 
     private Retrofit retrofit;
@@ -66,7 +63,6 @@ public class ComentariosActivity extends AppCompatActivity implements Comentario
     }
 
 
-
     private void elementosUI() {
         _toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(_toolbar);
@@ -78,6 +74,7 @@ public class ComentariosActivity extends AppCompatActivity implements Comentario
         _tabLayout.setVisibility(View.GONE);
 
     }
+
     private void iniciarRetrofit() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(HostPreference.URL_BASE)
@@ -85,6 +82,7 @@ public class ComentariosActivity extends AppCompatActivity implements Comentario
                 .build();
         comentariosService = retrofit.create(IComentariosService.class);
     }
+
     private void getIntents() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -115,10 +113,11 @@ public class ComentariosActivity extends AppCompatActivity implements Comentario
 
     private void instanciarFragments() {
         comentariosFragment = new ComentariosFragment();
-        comentariosFragment.idPersona= pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0);
+        comentariosFragment.idPersona = pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0);
         comentariosFragment.comentarioList = new ArrayList<Comentario>();
         comentariosFragment.iniciarAdapter();
     }
+
     private void createTabLayout() {
 
         _tabLayout.addTab(_tabLayout.newTab().setText("Comentarios"));
@@ -153,7 +152,7 @@ public class ComentariosActivity extends AppCompatActivity implements Comentario
             public void onResponse(Call<List<Comentario>> call, Response<List<Comentario>> response) {
                 if (response.isSuccessful()) {
                     comentariosFragment.comentarioList.clear();
-                    for (Comentario comentario: response.body()) {
+                    for (Comentario comentario : response.body()) {
                         comentariosFragment.comentarioList.add(comentario);
                         comentariosFragment.mAdapter.notifyDataSetChanged();
                         comentariosFragment.bajarscroll();
@@ -175,7 +174,7 @@ public class ComentariosActivity extends AppCompatActivity implements Comentario
             public void onResponse(Call<List<Comentario>> call, Response<List<Comentario>> response) {
                 if (response.isSuccessful()) {
                     comentariosFragment.comentarioList.clear();
-                    for (Comentario comentario: response.body()) {
+                    for (Comentario comentario : response.body()) {
                         comentariosFragment.comentarioList.add(comentario);
                         comentariosFragment.mAdapter.notifyDataSetChanged();
                         comentariosFragment.bajarscroll();

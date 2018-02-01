@@ -22,7 +22,7 @@ public class RespuestaServicio<T> implements IRespuestaServicio<T> {
     }
 
     public boolean getEjecucionCorrecta() {
-        if(mensaje.length()>0){
+        if (mensaje.length() > 0) {
             return false;
         }
         return this.ejecucionCorrecta;

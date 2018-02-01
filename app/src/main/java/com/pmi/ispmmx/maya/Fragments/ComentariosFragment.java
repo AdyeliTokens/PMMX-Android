@@ -123,12 +123,12 @@ public class ComentariosFragment extends Fragment {
 
     }
 
-    public void bajarscroll(){
+    public void bajarscroll() {
         _rvComentarios.scrollToPosition(comentarioList.size() - 1);
     }
 
 
-    private Comentario generarComentario(){
+    private Comentario generarComentario() {
         Comentario comentario = new Comentario();
         comentario.setOpinion(_etMensaje.getText().toString());
         return comentario;

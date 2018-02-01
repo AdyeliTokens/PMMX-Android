@@ -23,17 +23,13 @@ import java.util.List;
  */
 
 public class DefectosActivosPorWorkCenterDialogFragment extends BottomSheetDialogFragment {
+    public RecyclerView.Adapter mAdapter;
     private OnInteractionListener mListener;
-
-
     private List<Defecto> defectoList;
     private WorkCenter workCenter;
-
-
     private View _view;
     private RecyclerView _rvDefectosActivos;
     private RecyclerView.LayoutManager _managerDefectosActivos;
-    public RecyclerView.Adapter mAdapter;
     private FloatingActionButton _fabAgregarDefecto;
 
 
@@ -94,10 +90,11 @@ public class DefectosActivosPorWorkCenterDialogFragment extends BottomSheetDialo
             }
         });
     }
+
     private void iniciarRecycleActivos() {
         //_managerDefectosActivos = new LinearLayoutManager(_view.getContext());
 
-        _managerDefectosActivos =new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        _managerDefectosActivos = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         _rvDefectosActivos.setHasFixedSize(false);
         _rvDefectosActivos.setItemAnimator(new DefaultItemAnimator());
         _rvDefectosActivos.setLayoutManager(_managerDefectosActivos);

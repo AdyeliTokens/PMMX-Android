@@ -67,9 +67,13 @@ public class BusinessUnitAdapter extends RecyclerView.Adapter<BusinessUnitAdapte
 
     public interface OnItemClickListener {
         void OnItemClick(BussinesUnit bussinesUnit, int position);
+
         void OnWorkCenterClick(WorkCenter workCenter, int position);
+
         boolean OnWorkCenterLongClick(WorkCenter workCenter, int position);
+
         void OnBadgeDefectoClick(WorkCenter workCenter, int position);
+
         void OnBadgeParoClick(WorkCenter workCenter, int position);
     }
 

@@ -115,7 +115,7 @@ public class IngresarCantidadDeDesperdicioDialogFragment extends BottomSheetDial
 
     }
 
-    private void cerrar(){
+    private void cerrar() {
         this.dismiss();
     }
 

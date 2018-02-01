@@ -286,7 +286,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-
     private void retrofitUpdateImageOrigen(File file) {
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);

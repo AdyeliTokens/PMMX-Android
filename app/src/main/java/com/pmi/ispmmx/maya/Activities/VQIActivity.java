@@ -205,7 +205,7 @@ public class VQIActivity extends AppCompatActivity {
     }
 
     private void createServicios() {
-        noConformidadesService=retrofit.create(INoConformidadesService.class);
+        noConformidadesService = retrofit.create(INoConformidadesService.class);
         vqiService = retrofit.create(IVQIService.class);
     }
 
@@ -236,7 +236,7 @@ public class VQIActivity extends AppCompatActivity {
 
 
     private void retrofiCallVQI(String fecha) {
-        vqiService.getVQIByWorkCenter(fecha,idWorkCenter).enqueue(new Callback<List<VQI>>() {
+        vqiService.getVQIByWorkCenter(fecha, idWorkCenter).enqueue(new Callback<List<VQI>>() {
             @Override
             public void onResponse(@NonNull Call<List<VQI>> call, @NonNull Response<List<VQI>> response) {
                 if (response.isSuccessful()) {
@@ -283,7 +283,7 @@ public class VQIActivity extends AppCompatActivity {
     }
 
     private LineData setData(List<VQI> vqiList) {
-        Collections.sort(vqiList, new Comparator<VQI>(){
+        Collections.sort(vqiList, new Comparator<VQI>() {
             public int compare(VQI obj1, VQI obj2) {
                 // ## Ascending order
                 return obj1.getFecha().compareTo(obj2.getFecha()); // To compare string values
@@ -296,21 +296,17 @@ public class VQIActivity extends AppCompatActivity {
         });
 
 
-
-
         ArrayList<Entry> vals1 = new ArrayList<>();
-        int i=1;
+        int i = 1;
         for (VQI data : vqiList) {
             vals1.add(new Entry(i++, data.getVqi_total()));
         }
 
         ArrayList<Entry> vals2 = new ArrayList<>();
-        i=1;
+        i = 1;
         for (VQI data : vqiList) {
             vals2.add(new Entry(i++, data.getObjetivo()));
         }
-
-
 
 
         LineDataSet set1 = new LineDataSet(vals1, "VQI");
@@ -333,7 +329,7 @@ public class VQIActivity extends AppCompatActivity {
         set2.setColor(Color.GREEN);
         set2.setFillAlpha(100);
 
-        LineData data = new LineData(set1,set2);
+        LineData data = new LineData(set1, set2);
         data.setValueTextSize(9f);
         data.setDrawValues(true);
         return data;
@@ -348,7 +344,6 @@ public class VQIActivity extends AppCompatActivity {
         _chartVQI.setScaleEnabled(false);
         _chartVQI.setPinchZoom(false);
         _chartVQI.setDrawGridBackground(false);
-
 
 
         XAxis xAxis = _chartVQI.getXAxis();

@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             app:selectedDateBackground="@color/colorAccent"
-            app:textColorSelected="@color/colorWhite"
             app:selectorColor="@color/colorPrimary"
-            app:textColorNormal="@color/colorSecondaryText"/>
+            app:textColorNormal="@color/colorSecondaryText"
+            app:textColorSelected="@color/colorWhite" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_secciones"

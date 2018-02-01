@@ -110,7 +110,7 @@ public class MisServiciosFragment extends Fragment {
     }
 
     public void iniciarAdapterParosAbirtos() {
-        mAdapterParos = new ParoActivoAdapter(getContext(),paroList, R.layout.cardview_paro_activo, new ParoActivoAdapter.OnItemClickListener() {
+        mAdapterParos = new ParoActivoAdapter(getContext(), paroList, R.layout.cardview_paro_activo, new ParoActivoAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(Paro paro, int position) {
                 mListener.onClickParo(paro);

@@ -66,7 +66,6 @@ public class UsuariosRecordadosDialogFragment extends BottomSheetDialogFragment 
         //_toolbar = _view.findViewById(R.id.toolbar);
 
 
-
     }
 
 

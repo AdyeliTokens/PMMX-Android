@@ -7,5 +7,4 @@ package com.pmi.ispmmx.maya.Interfaces;
 public interface IIndicadorService {
 
 
-
 }

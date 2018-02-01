@@ -113,7 +113,7 @@ public class ParosFragment extends Fragment {
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     public void iniciarAdapterAbirtos() {
-        adapparosactivos = new ParoActivoAdapter(getContext(),parosAbiertos, R.layout.cardview_paro_activo, new ParoActivoAdapter.OnItemClickListener() {
+        adapparosactivos = new ParoActivoAdapter(getContext(), parosAbiertos, R.layout.cardview_paro_activo, new ParoActivoAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(Paro paro, int position) {
                 mListener.abrirActivityParo(paro);

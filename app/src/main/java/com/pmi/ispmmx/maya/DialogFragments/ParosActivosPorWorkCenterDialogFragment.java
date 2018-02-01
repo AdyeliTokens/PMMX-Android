@@ -80,7 +80,7 @@ public class ParosActivosPorWorkCenterDialogFragment extends BottomSheetDialogFr
     }
 
     public void iniciarAdapterAbirtos() {
-        adapparosactivos = new ParoActivoAdapter(_view.getContext(),paroList, R.layout.cardview_paro_activo, new ParoActivoAdapter.OnItemClickListener() {
+        adapparosactivos = new ParoActivoAdapter(_view.getContext(), paroList, R.layout.cardview_paro_activo, new ParoActivoAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(Paro paro, int position) {
                 mListener.onClickParo(paro);

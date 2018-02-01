@@ -238,7 +238,7 @@ public class CRRActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Response<RespuestaServicio<List<CRR>>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        if(response.body().getEjecucionCorrecta()){
+                        if (response.body().getEjecucionCorrecta()) {
                             llenarInformacion_CRR(response.body().getRespuesta());
                         }
 

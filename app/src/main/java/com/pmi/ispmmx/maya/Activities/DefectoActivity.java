@@ -503,13 +503,13 @@ public class DefectoActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-    private void startActivityPhotoOrigen(){
+    private void startActivityPhotoOrigen() {
         Intent intent = new Intent(this, PhotoActivity.class);
         intent.putExtra("idDefecto", defecto.getId());
         startActivity(intent);
     }
 
-    private void startActivityPhotoReportante(){
+    private void startActivityPhotoReportante() {
         Intent intent = new Intent(this, PhotoActivity.class);
         intent.putExtra("idPersona", defecto.getIdReportador());
         startActivity(intent);
