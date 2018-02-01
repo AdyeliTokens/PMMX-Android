@@ -118,7 +118,6 @@ public class MecanicoActivity extends AppCompatActivity implements
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -167,6 +166,7 @@ public class MecanicoActivity extends AppCompatActivity implements
         _navUsername = _headerView.findViewById(R.id.textViewNombreUser);
         _navPosition = _headerView.findViewById(R.id.textViewPuestoUser);
     }
+
     private void personalizarHeaderBar() {
         String nombre = pref.getString(OperadorPreference.NOMBRE_PERSONA_SHARED_PREF, "no available");
         String apellido1 = pref.getString(OperadorPreference.APELLIDO1_PERSONA_SHARED_PREF, "no available");
@@ -189,12 +189,13 @@ public class MecanicoActivity extends AppCompatActivity implements
             }
         });
 
-        _navUsername.setText(nombre + " "+ apellido1  + " "+ apellido2+".");
+        _navUsername.setText(nombre + " " + apellido1 + " " + apellido2 + ".");
 
         _navPosition.setText(puesto);
 
         menuAnimation();
     }
+
     private void menuAnimation() {
         ActionBarDrawerToggle _toggle = new ActionBarDrawerToggle(
                 this, _drawer, _toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -202,7 +203,6 @@ public class MecanicoActivity extends AppCompatActivity implements
         _drawer.setDrawerListener(_toggle);
         _toggle.syncState();
     }
-
 
 
     private void createFragments() {
@@ -216,6 +216,7 @@ public class MecanicoActivity extends AppCompatActivity implements
         misServiciosFragment.iniciarAdapterParosAbirtos();
         misServiciosFragment.iniciarAdapterDefectosAbirtos();
     }
+
     private void generarTabs() {
 
         _tabLayout.addTab(_tabLayout.newTab().setText("Mis Servicios"));
@@ -246,7 +247,6 @@ public class MecanicoActivity extends AppCompatActivity implements
 
 
     }
-
 
 
     private void inicio() {
@@ -473,7 +473,8 @@ public class MecanicoActivity extends AppCompatActivity implements
                     }
 
                 } else {
-                    if(response.errorBody()!= null) messageDialog(response.errorBody().toString());
+                    if (response.errorBody() != null)
+                        messageDialog(response.errorBody().toString());
                 }
             }
 

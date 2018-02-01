@@ -1,7 +1,6 @@
 package com.pmi.ispmmx.maya.Utils.Config;
 
 
-
 public class ApisPreference {
     public static final String GET_USER = "api/User";
     public static final String GET_WORKCENTER = "api/WorkCenter";

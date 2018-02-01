@@ -15,7 +15,6 @@ public class ComentariosPagerAdapter extends FragmentStatePagerAdapter {
     private int numberOfTabs;
 
 
-
     public ComentariosPagerAdapter(FragmentManager fm, int numberOfTabs, ComentariosFragment comentariosFragment) {
         super(fm);
         this.numberOfTabs = numberOfTabs;

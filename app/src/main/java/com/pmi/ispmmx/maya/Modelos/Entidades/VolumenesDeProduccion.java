@@ -77,6 +77,9 @@ public class VolumenesDeProduccion {
         return fecha;
     }
 
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
     public Date getFechaApi() {
         int idx1 = fechaApi.indexOf("(");
@@ -85,10 +88,6 @@ public class VolumenesDeProduccion {
         long l = Long.valueOf(s);
         fecha = new Date(l);
         return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     public int getIdPersona() {

@@ -46,7 +46,6 @@ public class ActividadEnDefecto {
     }
 
 
-
     public String getDescripcion() {
         return descripcion;
     }

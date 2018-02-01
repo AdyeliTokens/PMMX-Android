@@ -38,8 +38,6 @@ public class ModuloSeccion {
     private List<NoConformidad> noconformidad;
 
 
-
-
     public int getId() {
         return id;
     }

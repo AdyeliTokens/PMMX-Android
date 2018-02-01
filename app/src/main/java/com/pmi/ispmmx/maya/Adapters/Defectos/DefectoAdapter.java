@@ -89,7 +89,6 @@ public class DefectoAdapter extends RecyclerView.Adapter<DefectoAdapter.ViewHold
             }
 
 
-
             Picasso.with(context)
                     .load(URL_FOTOS_DEFECTOS + defecto.getId())
                     .fit()

@@ -20,7 +20,7 @@ public class OperadorPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         this.numberOfTabs = numberOfTabs;
         this.workCenterFragment = workCenterFragment;
-        this.indicadoresFragment=indicadoresFragment;
+        this.indicadoresFragment = indicadoresFragment;
         this.feedFragment = feedFragment;
     }
 
@@ -30,7 +30,7 @@ public class OperadorPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return feedFragment;
             case 1:
-                return workCenterFragment ;
+                return workCenterFragment;
             case 2:
                 return indicadoresFragment;
             default:
