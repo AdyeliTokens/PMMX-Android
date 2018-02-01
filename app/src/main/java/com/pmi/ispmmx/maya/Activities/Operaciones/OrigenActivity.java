@@ -16,8 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.pmi.ispmmx.maya.Activities.AgregarDefectoActivity;
 import com.pmi.ispmmx.maya.Activities.DefectoActivity;
 import com.pmi.ispmmx.maya.Activities.ParoActivity;

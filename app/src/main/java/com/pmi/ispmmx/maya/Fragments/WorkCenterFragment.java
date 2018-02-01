@@ -2,7 +2,6 @@ package com.pmi.ispmmx.maya.Fragments;
 
 
 import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,9 +17,6 @@ import com.pmi.ispmmx.maya.Adapters.CardViews.WorkCenterAdapter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.R;
-import com.willowtreeapps.spruce.Spruce;
-import com.willowtreeapps.spruce.animation.DefaultAnimations;
-import com.willowtreeapps.spruce.sort.DefaultSort;
 
 import java.util.List;
 

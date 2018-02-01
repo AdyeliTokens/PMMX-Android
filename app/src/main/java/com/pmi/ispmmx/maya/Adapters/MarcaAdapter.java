@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Marca;
 import com.pmi.ispmmx.maya.R;
+import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;

@@ -1,7 +1,6 @@
 package com.pmi.ispmmx.maya.Activities;
 
 import android.Manifest;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;

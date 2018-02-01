@@ -2,7 +2,6 @@ package com.pmi.ispmmx.maya.Modelos.Entidades;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 
 import java.util.Date;

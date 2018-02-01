@@ -1,6 +1,5 @@
 package com.pmi.ispmmx.maya.Interfaces;
 
-import com.pmi.ispmmx.maya.Modelos.Entidades.CRR;
 import com.pmi.ispmmx.maya.Modelos.Entidades.PlanAttainment;
 import com.pmi.ispmmx.maya.Modelos.Entidades.VolumenesDeProduccion;
 import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;

@@ -26,7 +26,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.pmi.ispmmx.maya.Adapters.NoConformidadesPorSeccionAdapter;
 import com.pmi.ispmmx.maya.Interfaces.ICRRService;
-import com.pmi.ispmmx.maya.Interfaces.INoConformidadesService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.CRR;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
 import com.pmi.ispmmx.maya.R;

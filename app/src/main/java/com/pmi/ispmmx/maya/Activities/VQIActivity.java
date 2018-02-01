@@ -19,16 +19,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.pmi.ispmmx.maya.Adapters.NoConformidadesPorSeccionAdapter;
 import com.pmi.ispmmx.maya.Interfaces.INoConformidadesService;
 import com.pmi.ispmmx.maya.Interfaces.IVQIService;
