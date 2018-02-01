@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator_operador"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorFondoApp">
+    android:layout_height="wrap_content">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -29,10 +28,44 @@
             android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:visibility="visible"
+            android:visibility="gone"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorWhite"
             app:tabIndicatorHeight="@dimen/app_bar_indicator_height" />
+
+        <com.github.florent37.bubbletab.BubbleTab
+            android:id="@+id/bubbleTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:clipToPadding="false"
+            android:elevation="0dp"
+            app:bubbleTab_circleColor="@color/colorPrimary"
+            app:bubbleTab_circleRatio="1.25">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="16dp"
+                app:srcCompat="@drawable/ic_home_gray" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="16dp"
+                app:srcCompat="@drawable/ic_dashboard_gray" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="16dp"
+                app:srcCompat="@drawable/ic_insert_chart_gray" />
+
+
+        </com.github.florent37.bubbletab.BubbleTab>
 
 
     </android.support.design.widget.AppBarLayout>

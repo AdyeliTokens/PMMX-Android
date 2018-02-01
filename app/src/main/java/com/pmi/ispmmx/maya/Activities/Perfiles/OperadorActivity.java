@@ -38,6 +38,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.florent37.bubbletab.BubbleTab;
 import com.pmi.ispmmx.maya.Activities.AboutMayaActivity;
 import com.pmi.ispmmx.maya.Activities.AgregarDefectoActivity;
 import com.pmi.ispmmx.maya.Activities.CRRActivity;
@@ -133,6 +134,7 @@ public class OperadorActivity extends AppCompatActivity implements
     private TextView _navPosition;
     private ViewPager _viewPager;
     private ImageView _imgUsuario;
+    private BubbleTab bubbleTab;
 
 
     ///Servicios
@@ -207,6 +209,9 @@ public class OperadorActivity extends AppCompatActivity implements
         _navigationView.setNavigationItemSelectedListener(this);
         View _headerView = _navigationView.getHeaderView(0);
         _tabLayout = findViewById(R.id.tabLayout);
+
+        bubbleTab = findViewById(R.id.bubbleTab);
+        bubbleTab.setupWithViewPager(_viewPager);
 
         _imgUsuario = _headerView.findViewById(R.id.img_persona);
         _navUsername = _headerView.findViewById(R.id.textViewNombreUser);
@@ -826,7 +831,7 @@ public class OperadorActivity extends AppCompatActivity implements
         intent.putExtra("asignarDefecto", false);
 
 
-            startActivity(intent);
+        startActivity(intent);
 
     }
 
