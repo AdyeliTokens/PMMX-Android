@@ -191,4 +191,5 @@
     <string name="guardar">Guardar</string>
     <string name="registrarte">Registrarte</string>
     <string name="title_activity_bottom_example">BottomExampleActivity</string>
+    <string name="title_activity_prueba_login">Sign in</string>
 </resources>
