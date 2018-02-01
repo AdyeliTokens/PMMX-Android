@@ -2,7 +2,6 @@ package com.pmi.ispmmx.maya.Interfaces;
 
 
 import com.pmi.ispmmx.maya.Modelos.Entidades.Desperdicio;
-import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.Utils.Config.ApisPreference;
 
 import java.util.List;

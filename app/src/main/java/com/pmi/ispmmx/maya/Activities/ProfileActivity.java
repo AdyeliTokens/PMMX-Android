@@ -1,7 +1,5 @@
 package com.pmi.ispmmx.maya.Activities;
 
-import android.*;
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,12 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.pmi.ispmmx.maya.*;
-import com.pmi.ispmmx.maya.Interfaces.IDefectoService;
 import com.pmi.ispmmx.maya.Interfaces.IFotoService;
-import com.pmi.ispmmx.maya.Interfaces.IOperadoresPorWorkCenterService;
-import com.pmi.ispmmx.maya.Interfaces.IParoService;
-import com.pmi.ispmmx.maya.Interfaces.IVQIService;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -51,7 +44,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_ORIGENES;
 import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS;
 
 public class ProfileActivity extends AppCompatActivity {

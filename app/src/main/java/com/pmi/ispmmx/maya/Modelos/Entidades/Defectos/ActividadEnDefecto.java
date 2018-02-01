@@ -2,7 +2,6 @@ package com.pmi.ispmmx.maya.Modelos.Entidades.Defectos;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Persona;
 
 import java.util.Date;

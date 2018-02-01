@@ -1,7 +1,5 @@
 package com.pmi.ispmmx.maya.Modelos.Entidades;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.ActividadEnDefecto;
