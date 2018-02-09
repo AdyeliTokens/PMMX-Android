@@ -56,6 +56,8 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.redbooth:WelcomeCoordinator:1.0.1'
     compile 'com.github.florent37:bubbletab:1.0.2'
+    compile 'com.ogaclejapan.arclayout:library:1.1.0@aar'
+    compile 'com.steelkiwi:cropiwa:1.0.3'
 
     testCompile 'junit:junit:4.12'
 }
