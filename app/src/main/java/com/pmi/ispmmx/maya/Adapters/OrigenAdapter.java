@@ -109,6 +109,7 @@ public class OrigenAdapter extends RecyclerView.Adapter<OrigenAdapter.ViewHolder
                     .load(URL_FOTOS_ORIGENES + origen.getId())
                     .transform(new CircleTransform())
                     .error(R.drawable.ic_error_outline_gray)
+                    .placeholder(R.color.colorDivider)
                     .networkPolicy(NetworkPolicy.NO_CACHE)
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .into(imgOpciones);
@@ -119,7 +120,7 @@ public class OrigenAdapter extends RecyclerView.Adapter<OrigenAdapter.ViewHolder
                 seccion.setText(origen.getModulo().getSeccion().getNombre());
             } else {
                 seccion.setText("Sin seccion asignada!!");
-                ;
+
             }
 
             if (origen.getDefectosActivos() > 0) {
