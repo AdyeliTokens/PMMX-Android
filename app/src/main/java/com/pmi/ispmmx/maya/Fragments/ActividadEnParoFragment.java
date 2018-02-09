@@ -4,11 +4,8 @@ package com.pmi.ispmmx.maya.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -86,7 +83,7 @@ public class ActividadEnParoFragment extends Fragment {
                     List<ActividadEnParo> actividades = new ArrayList<ActividadEnParo>();
                     actividades.add(1, new ActividadEnParo());
                     actividades.add(2, new ActividadEnParo());
-                    llenarActividades(actividades);
+
                 }
             }
 
@@ -95,32 +92,6 @@ public class ActividadEnParoFragment extends Fragment {
 
             }
         });
-    }
-
-    private void llenarActividades(List<ActividadEnParo> actividades) {
-        mLayoutManager = new LinearLayoutManager(view.getContext());
-        mAdapter = new ActividadesEnParoAdapter(actividades, R.layout.item_timeline, new ActividadesEnParoAdapter.OnItemClickListener() {
-            @Override
-            public void OnItemClick(ActividadEnParo actividad, int position) {
-
-            }
-        });
-
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //if (FAB_Status) {
-                //  hideFAB();
-                //FAB_Status = false;
-                //}
-                return false;
-            }
-        });
-
     }
 
 
