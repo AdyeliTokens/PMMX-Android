@@ -244,7 +244,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onReceive(Context ctxt, Intent intent) {
 
                 Uri uris = FileProvider.getUriForFile(ctxt,
-                        BuildConfig.APPLICATION_ID + ".provider",
+                        BuildConfig.APPLICATION_ID,
                         new File(finalDestination));
 
 

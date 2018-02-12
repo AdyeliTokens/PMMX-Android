@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-
 public class VQI {
     @SerializedName("VQI_Total")
     @Expose

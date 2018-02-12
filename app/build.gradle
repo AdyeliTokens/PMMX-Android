@@ -4,6 +4,20 @@ apply plugin: 'io.fabric'
 
 
 android {
+    signingConfigs {
+        signingRelease {
+            keyAlias 'maya innovations'
+            keyPassword 'Espartedemivida'
+            storeFile file('C:/Users/chan jacky chan/Documents/Keystores/android.jks')
+            storePassword 'Espartedemivida'
+        }
+        signingDebug {
+            keyAlias 'keyDevelop'
+            keyPassword 'Espartedemivida'
+            storeFile file('C:/Users/chan jacky chan/Documents/Keystores/maya-develop.jks')
+            storePassword 'Espartedemivida'
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
@@ -17,6 +31,28 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signingRelease
+        }
+        debug {
+            signingConfig signingConfigs.signingDebug
+        }
+    }
+    productFlavors {
+        dev {
+            manifestPlaceholders = [appName: "MAYA innovations (dev)"]
+            minSdkVersion 16
+            targetSdkVersion 26
+            flavorDimensions "default"
+            versionNameSuffix "-dev"
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        }
+        prod {
+            manifestPlaceholders = [appName: "MAYA innovations"]
+            minSdkVersion 16
+            flavorDimensions "default"
+            targetSdkVersion 26
+
+            versionNameSuffix "-prod"
         }
     }
 }
@@ -25,7 +61,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.8.0'
     implementation 'com.google.firebase:firebase-crash:11.8.0'
     implementation 'com.google.firebase:firebase-config:11.8.0'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }
@@ -33,7 +69,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annota' +
                 'tions'
     })
-
     compile 'com.github.vipulasri:timelineview:1.0.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:appcompat-v7:26.1.0'
@@ -58,7 +93,6 @@ dependencies {
     compile 'com.github.florent37:bubbletab:1.0.2'
     compile 'com.ogaclejapan.arclayout:library:1.1.0@aar'
     compile 'com.steelkiwi:cropiwa:1.0.3'
-
     testCompile 'junit:junit:4.12'
 }
 
