@@ -3,6 +3,7 @@ package com.pmi.ispmmx.maya.Modelos.Entidades;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
+import com.pmi.ispmmx.maya.Utils.FormatDate;
 
 import java.util.Date;
 
@@ -69,22 +70,16 @@ public class VolumenesDeProduccion {
     }
 
     public Date getFecha() {
-        int idx1 = fechaApi.indexOf("(");
-        int idx2 = fechaApi.indexOf(")") - 5;
-        String s = fechaApi.substring(idx1 + 1, idx2);
-        long l = Long.valueOf(s);
-        fecha = new Date(l);
+        FormatDate format = new FormatDate();
+        fecha = format.fromISO8601UTC(fechaApi);
+
         return fecha;
     }
 
 
-    public Date getFechaApi() {
-        int idx1 = fechaApi.indexOf("(");
-        int idx2 = fechaApi.indexOf(")") - 5;
-        String s = fechaApi.substring(idx1 + 1, idx2);
-        long l = Long.valueOf(s);
-        fecha = new Date(l);
-        return fecha;
+    public String getFechaApi() {
+
+        return fechaApi;
     }
 
     public void setFecha(Date fecha) {

@@ -3,6 +3,7 @@ package com.pmi.ispmmx.maya.Modelos.Entidades.Defectos;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Persona;
+import com.pmi.ispmmx.maya.Utils.FormatDate;
 
 import java.util.Date;
 
@@ -17,12 +18,10 @@ public class ActividadEnDefecto {
     private int idDefecto;
     @SerializedName("Descripcion")
     private String descripcion;
-
     private Date fecha;
     @SerializedName("Fecha")
     @Expose
     private String fechaApi;
-
     @SerializedName("Defecto")
     private Defecto defecto;
     @SerializedName("Persona")
@@ -45,8 +44,6 @@ public class ActividadEnDefecto {
         this.idPersona = idPersona;
     }
 
-
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -56,11 +53,8 @@ public class ActividadEnDefecto {
     }
 
     public Date getFecha() {
-        int idx1 = fechaApi.indexOf("(");
-        int idx2 = fechaApi.indexOf(")") - 5;
-        String s = fechaApi.substring(idx1 + 1, idx2);
-        long l = Long.valueOf(s);
-        fecha = new Date(l);
+        FormatDate format = new FormatDate();
+        fecha = format.fromISO8601UTC(fechaApi);
 
         return fecha;
     }

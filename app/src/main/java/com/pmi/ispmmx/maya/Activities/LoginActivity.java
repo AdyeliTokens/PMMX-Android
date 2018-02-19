@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
@@ -115,7 +116,8 @@ public class LoginActivity extends AppCompatActivity implements
     private void messageDialog(String message) {
         _loginButton.setEnabled(true);
         progressDialog.hide();
-        Snackbar.make(findViewById(R.id.scrollViewLayout), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG).show();
+        //Snackbar.make(findViewById(R.id.scrollViewLayout), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 
     private void login(LoginViewModel model) {
@@ -132,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements
                     }
 
                 } else {
-                    messageDialog("Error!! " + response.errorBody().toString());
+                    messageDialog("Error!! " + response.errorBody().byteStream().toString());
                 }
             }
 

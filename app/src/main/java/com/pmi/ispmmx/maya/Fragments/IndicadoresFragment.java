@@ -371,7 +371,7 @@ public class IndicadoresFragment extends Fragment {
         }
 
 
-        LineDataSet set1 = new LineDataSet(vals1, "CRR");
+        LineDataSet set1 = new LineDataSet(vals1, "PLAN");
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set1.setCubicIntensity(0.2f);
         set1.setDrawCircles(true);

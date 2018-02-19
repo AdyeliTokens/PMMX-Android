@@ -183,7 +183,7 @@ public class DetalleParoFragment extends Fragment {
             long tiempoTotal = 0;
             Boolean activo = false;
             if (tiempoDeParos.size() > 1) {
-                long lastSuccess = paro.getFechaApiReporte().getTime(); //Some Date object
+                long lastSuccess = paro.getFechaReporte().getTime(); //Some Date object
                 long elapsedRealtimeOffset = System.currentTimeMillis() - SystemClock.elapsedRealtime();
                 _time.setBase(lastSuccess - elapsedRealtimeOffset);
 

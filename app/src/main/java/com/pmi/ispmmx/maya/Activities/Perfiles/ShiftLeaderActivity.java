@@ -75,6 +75,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_BASE;
 import static com.pmi.ispmmx.maya.Utils.Config.HostPreference.URL_FOTOS_PERSONAS;
 
 public class ShiftLeaderActivity extends AppCompatActivity implements
@@ -131,7 +132,7 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(HostPreference.URL_BASE)
+                .baseUrl(URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -413,7 +414,7 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
 
         if (defecto.getFotos() != null && defecto.getFotos().size() > 0) {
             String imagen = defecto.getFotos().get(0).getPath();
-            intent.putExtra("path", "http://serverpmi.tr3sco.net" + imagen);
+            intent.putExtra("path", URL_BASE + imagen);
         }
 
 
@@ -584,7 +585,7 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
     }
 
     private void messageDialog(String message) {
-        Snackbar.make(findViewById(R.id.coordinator_operador), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG).show();
     }
 
     private void logout() {
@@ -599,9 +600,7 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
     }
 
     private void remove() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            pref.edit().clear().apply();
-        }
+        pref.edit().clear().apply();
     }
 
     @Override

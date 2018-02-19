@@ -2,6 +2,7 @@ package com.pmi.ispmmx.maya.Modelos.Entidades.Paros;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.pmi.ispmmx.maya.Utils.FormatDate;
 
 import java.util.Date;
 
@@ -39,16 +40,12 @@ public class TiempoDeParo {
 
     public Date getInicio() {
         if (inicioApi != "") {
-            int idx1 = inicioApi.indexOf("(");
-            int idx2 = inicioApi.indexOf(")") - 5;
-            String s = inicioApi.substring(idx1 + 1, idx2);
-            long l = Long.valueOf(s);
-            inicio = new Date(l);
+            FormatDate format = new FormatDate();
+            inicio = format.fromISO8601UTC(inicioApi);
+
         } else {
             inicio = null;
         }
-
-
         return inicio;
     }
 
@@ -57,12 +54,10 @@ public class TiempoDeParo {
     }
 
     public Date getFin() {
-        if (inicioApi != "") {
-            int idx1 = finApi.indexOf("(");
-            int idx2 = finApi.indexOf(")") - 5;
-            String s = finApi.substring(idx1 + 1, idx2);
-            long l = Long.valueOf(s);
-            fin = new Date(l);
+        if (finApi != "") {
+            FormatDate format = new FormatDate();
+            fin = format.fromISO8601UTC(finApi);
+
         } else {
             fin = null;
         }

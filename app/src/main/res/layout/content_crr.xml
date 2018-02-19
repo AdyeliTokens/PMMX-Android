@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.pmi.ispmmx.maya.Activities.CRRActivity"
+    tools:context="com.pmi.ispmmx.maya.Activities.Indicadores.CRRActivity"
     tools:showIn="@layout/activity_crr">
 
     <LinearLayout

@@ -120,7 +120,7 @@ public class ParoActivoAdapter extends RecyclerView.Adapter<ParoActivoAdapter.Vi
                 String workCenter = paro.getOrigen().getWorkCenter().getNombreCorto();
 
 
-                long lastSuccess = paro.getFechaApiReporte().getTime(); //Some Date object
+                long lastSuccess = paro.getFechaReporte().getTime(); //Some Date object
                 long elapsedRealtimeOffset = System.currentTimeMillis() - SystemClock.elapsedRealtime();
                 time.setBase(lastSuccess - elapsedRealtimeOffset);
 

@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.BussinesUnit;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Persona;
+import com.pmi.ispmmx.maya.Utils.FormatDate;
 
 import java.util.Date;
 import java.util.List;
@@ -140,6 +141,9 @@ public class Paro {
     }
 
     public Date getFechaReporte() {
+        FormatDate format = new FormatDate();
+        fechaReporte = format.fromISO8601UTC(fechaApiReporte);
+
         return fechaReporte;
     }
 
@@ -147,19 +151,11 @@ public class Paro {
         this.fechaReporte = fechaReporte;
     }
 
-    public Date getFechaApiReporte() {
-        int idx1 = fechaApiReporte.indexOf("(");
-        int idx2 = fechaApiReporte.indexOf(")") - 5;
-        String s = fechaApiReporte.substring(idx1 + 1, idx2);
-        long l = Long.valueOf(s);
-        fechaReporte = new Date(l);
-
-        return fechaReporte;
-
+    public String getFechaApiReporte() {
+        return fechaApiReporte;
     }
 
     public void setFechaApiReporte(String fechaApiReporte) {
-
         this.fechaApiReporte = fechaApiReporte;
     }
 

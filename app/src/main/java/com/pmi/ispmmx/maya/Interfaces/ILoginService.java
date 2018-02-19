@@ -9,12 +9,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-/**
- * Created by chan jacky chan on 03/09/2017.
- */
 
 public interface ILoginService {
 
-    @POST(ApisPreference.ApiLogin)
+    @POST(ApisPreference.ApiLogin+ "/ExternalLogin")
     Call<RespuestaServicio<User>> postLogin(@Body LoginViewModel model);
 }

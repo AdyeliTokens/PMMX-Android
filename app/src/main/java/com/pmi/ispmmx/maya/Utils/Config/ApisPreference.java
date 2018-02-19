@@ -9,7 +9,7 @@ public class ApisPreference {
     public static final String ApiDefecto = "api/Defecto";
     public static final String GET_ORIGEN = "api/Origen";
     public static final String GET_PERSONA = "api/Persona";
-    public static final String ApiLogin = "api/Login";
+    public static final String ApiLogin = "api/Account";
     public static final String ApiFoto = "api/Fotos";
     public static final String ApiMecanico = "api/Mecanico";
     public static final String ApiOperadoresPorWorkCenter = "api/OperadoresPorWorkCenters";

@@ -1,4 +1,4 @@
-package com.pmi.ispmmx.maya.Activities;
+package com.pmi.ispmmx.maya.Activities.Indicadores;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +25,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.pmi.ispmmx.maya.Adapters.NoConformidadesPorSeccionAdapter;
-import com.pmi.ispmmx.maya.Interfaces.INoConformidadesService;
-import com.pmi.ispmmx.maya.Interfaces.IVQIService;
+import com.pmi.ispmmx.maya.Interfaces.IVolumenService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
-import com.pmi.ispmmx.maya.Modelos.Entidades.VQI;
+import com.pmi.ispmmx.maya.Modelos.Entidades.PlanAttainment;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -48,17 +47,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class VQIActivity extends AppCompatActivity {
+public class PlanAttainmentActivity extends AppCompatActivity {
     public RecyclerView.Adapter _mAdapter;
     private SharedPreferences pref;
     private Retrofit retrofit;
-    private LineChart _chartVQI;
+    private LineChart _chartPlan;
     private int idWorkCenter;
     private List<ModuloSeccion> seccionList;
     private RecyclerView _rvSecciones;
     private RecyclerView.LayoutManager _managerSecciones;
-    private IVQIService vqiService;
-    private INoConformidadesService noConformidadesService;
+    private IVolumenService volumenService;
     private Toolbar _toolbar;
     private CollapsingToolbarLayout _toolbarLayout;
 
@@ -67,7 +65,7 @@ public class VQIActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vqi);
+        setContentView(R.layout.activity_plan_attainment);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         Intent intent = getIntent();
@@ -76,16 +74,15 @@ public class VQIActivity extends AppCompatActivity {
         if (bundle != null) {
             idWorkCenter = (int) bundle.get("idWorkCenter");
 
+            elementosUI();
 
+
+            iniciarRetrofit();
+            createServicios();
+            IniciarEntidades();
+            iniciarAdapter();
+            iniciarRecycle();
         }
-        elementosUI();
-
-
-        iniciarRetrofit();
-        createServicios();
-        IniciarEntidades();
-        iniciarAdapter();
-        iniciarRecycle();
 
 
     }
@@ -119,7 +116,7 @@ public class VQIActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        _chartVQI = findViewById(R.id.chart_vqi);
+        _chartPlan = findViewById(R.id.chart_plan);
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 1);
         Calendar startDate = Calendar.getInstance();
@@ -168,7 +165,7 @@ public class VQIActivity extends AppCompatActivity {
             int anio = dateSelected.getYear();
             String fecha = monthNumber + "/" + day + "/" + year;
 
-            retrofiCallVQI(fecha);
+            retrofiCallPlan(fecha);
         } else {
 
         }
@@ -187,7 +184,7 @@ public class VQIActivity extends AppCompatActivity {
         String fecha = monthNumber + "/" + day + "/" + year;
 
 
-        retrofiCallVQIPorFechaYWorkCenter(fecha);
+        retrofiCallPlanPorFechaYWorkCenter(fecha);
 
         ValidarSemana(dateSelected);
 
@@ -205,8 +202,7 @@ public class VQIActivity extends AppCompatActivity {
     }
 
     private void createServicios() {
-        noConformidadesService=retrofit.create(INoConformidadesService.class);
-        vqiService = retrofit.create(IVQIService.class);
+        volumenService = retrofit.create(IVolumenService.class);
     }
 
     public void iniciarAdapter() {
@@ -235,13 +231,15 @@ public class VQIActivity extends AppCompatActivity {
     }
 
 
-    private void retrofiCallVQI(String fecha) {
-        vqiService.getVQIByWorkCenter(fecha,idWorkCenter).enqueue(new Callback<List<VQI>>() {
+    private void retrofiCallPlan(String fecha) {
+        volumenService.getPlanAttainmentByWorkCenter(fecha, idWorkCenter).enqueue(new Callback<List<PlanAttainment>>() {
             @Override
-            public void onResponse(@NonNull Call<List<VQI>> call, @NonNull Response<List<VQI>> response) {
+            public void onResponse(@NonNull Call<List<PlanAttainment>> call, @NonNull Response<List<PlanAttainment>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        llenarInformacion_VQI(response.body());
+                        llenarInformacion_PLAN(response.body());
+
+
                     }
                 } else {
 
@@ -249,42 +247,24 @@ public class VQIActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<VQI>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<PlanAttainment>> call, @NonNull Throwable t) {
 
             }
         });
     }
 
-    private void retrofiCallVQIPorFechaYWorkCenter(String fecha) {
-        noConformidadesService.getVQIByWorkCenterYFecha(fecha, idWorkCenter).enqueue(new Callback<List<ModuloSeccion>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<ModuloSeccion>> call, @NonNull Response<List<ModuloSeccion>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        seccionList.clear();
-                        seccionList.addAll(response.body());
-                        _mAdapter.notifyDataSetChanged();
-                    }
-                } else {
+    private void retrofiCallPlanPorFechaYWorkCenter(String fecha) {
 
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<ModuloSeccion>> call, @NonNull Throwable t) {
-
-            }
-        });
     }
 
 
-    public void llenarInformacion_VQI(List<VQI> vqiList) {
-        configVQIChart(vqiList);
+    public void llenarInformacion_PLAN(List<PlanAttainment> planAttainments) {
+        configPlanChart(planAttainments);
     }
 
-    private LineData setData(List<VQI> vqiList) {
-        Collections.sort(vqiList, new Comparator<VQI>(){
-            public int compare(VQI obj1, VQI obj2) {
+    private LineData setData(List<PlanAttainment> planAttainments) {
+        Collections.sort(planAttainments, new Comparator<PlanAttainment>() {
+            public int compare(PlanAttainment obj1, PlanAttainment obj2) {
                 // ## Ascending order
                 return obj1.getFecha().compareTo(obj2.getFecha()); // To compare string values
                 // return Integer.valueOf(obj1.empId).compareTo(obj2.empId); // To compare integer values
@@ -296,24 +276,20 @@ public class VQIActivity extends AppCompatActivity {
         });
 
 
-
-
         ArrayList<Entry> vals1 = new ArrayList<>();
-        int i=1;
-        for (VQI data : vqiList) {
-            vals1.add(new Entry(i++, data.getVqi_total()));
+        int i = 1;
+        for (PlanAttainment data : planAttainments) {
+            vals1.add(new Entry(i++, (float) data.getPlan_total()));
         }
 
         ArrayList<Entry> vals2 = new ArrayList<>();
-        i=1;
-        for (VQI data : vqiList) {
-            vals2.add(new Entry(i++, data.getObjetivo()));
+        i = 1;
+        for (PlanAttainment data : planAttainments) {
+            vals2.add(new Entry(i++, (float) data.getObjetivo()));
         }
 
 
-
-
-        LineDataSet set1 = new LineDataSet(vals1, "VQI");
+        LineDataSet set1 = new LineDataSet(vals1, "Plan Attainment");
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set1.setCubicIntensity(0.2f);
         set1.setDrawCircles(true);
@@ -333,43 +309,44 @@ public class VQIActivity extends AppCompatActivity {
         set2.setColor(Color.GREEN);
         set2.setFillAlpha(100);
 
-        LineData data = new LineData(set1,set2);
+        LineData data = new LineData(set1, set2);
         data.setValueTextSize(9f);
         data.setDrawValues(true);
         return data;
 
     }
 
-    private void configVQIChart(List<VQI> vqiList) {
+    private void configPlanChart(List<PlanAttainment> planAttainments) {
 
-        _chartVQI.setViewPortOffsets(20, 20, 20, 20);
-        _chartVQI.setTouchEnabled(false);
-        _chartVQI.setDragEnabled(false);
-        _chartVQI.setScaleEnabled(false);
-        _chartVQI.setPinchZoom(false);
-        _chartVQI.setDrawGridBackground(false);
+        _chartPlan.setViewPortOffsets(20, 20, 20, 20);
+        _chartPlan.setTouchEnabled(false);
+        _chartPlan.setDragEnabled(false);
+        _chartPlan.setScaleEnabled(false);
+        _chartPlan.setPinchZoom(false);
+        _chartPlan.setDrawGridBackground(false);
 
 
-
-        XAxis xAxis = _chartVQI.getXAxis();
+        XAxis xAxis = _chartPlan.getXAxis();
         xAxis.setEnabled(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f);
 
 
-        YAxis yAxis = _chartVQI.getAxisLeft();
+        YAxis yAxis = _chartPlan.getAxisLeft();
         yAxis.setEnabled(false);
         yAxis.setDrawAxisLine(false);
         yAxis.setDrawGridLines(false);
 
-        _chartVQI.getDescription().setEnabled(false);
-        _chartVQI.getAxisRight().setEnabled(false);
+        _chartPlan.getDescription().setEnabled(false);
+        _chartPlan.getAxisRight().setEnabled(false);
 
-        _chartVQI.setData(setData(vqiList));
-        _chartVQI.getLegend().setEnabled(true);
-        _chartVQI.animateXY(2000, 2000);
-        _chartVQI.invalidate();
+        _chartPlan.setData(setData(planAttainments));
+        _chartPlan.getLegend().setEnabled(true);
+        _chartPlan.animateXY(2000, 2000);
+        _chartPlan.invalidate();
     }
 
 }
+
+

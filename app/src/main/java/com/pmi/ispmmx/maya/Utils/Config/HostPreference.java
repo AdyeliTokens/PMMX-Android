@@ -4,10 +4,10 @@ package com.pmi.ispmmx.maya.Utils.Config;
 public class HostPreference {
 
     //Productivo
-    //public static final String URL_BASE = "http://serverpmi.tr3sco.net";
+    public static final String URL_BASE = "http://serverpmi.tr3sco.net";
 
     //Desarrollo
-    public static final String URL_BASE = "http://169.48.177.21:81";
+    //public static final String URL_BASE = "http://169.48.177.21:81";
 
     //Calidad
     //public static final String URL_BASE = "http://serverpmi.tr3sco.net";

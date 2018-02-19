@@ -143,7 +143,7 @@
             android:label="@string/title_activity_shift_leader"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.VQIActivity"
+            android:name=".Activities.Indicadores.VQIActivity"
             android:label="@string/title_activity_vqi"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -152,10 +152,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.PhotoActivity" />
         <activity
-            android:name=".Activities.CRRActivity"
+            android:name=".Activities.Indicadores.CRRActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.PlanAttainmentActivity"
+            android:name=".Activities.Indicadores.PlanAttainmentActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BottomExampleActivity"

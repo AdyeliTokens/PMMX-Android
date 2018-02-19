@@ -37,20 +37,21 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.florent37.bubbletab.BubbleTab;
 import com.pmi.ispmmx.maya.Activities.AboutMayaActivity;
 import com.pmi.ispmmx.maya.Activities.AgregarDefectoActivity;
-import com.pmi.ispmmx.maya.Activities.CRRActivity;
+import com.pmi.ispmmx.maya.Activities.Indicadores.CRRActivity;
 import com.pmi.ispmmx.maya.Activities.DefectoActivity;
 import com.pmi.ispmmx.maya.Activities.DefectosActivity;
 import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ParoActivity;
 import com.pmi.ispmmx.maya.Activities.ParosActivity;
 import com.pmi.ispmmx.maya.Activities.PhotoActivity;
-import com.pmi.ispmmx.maya.Activities.PlanAttainmentActivity;
+import com.pmi.ispmmx.maya.Activities.Indicadores.PlanAttainmentActivity;
 import com.pmi.ispmmx.maya.Activities.ProfileActivity;
-import com.pmi.ispmmx.maya.Activities.VQIActivity;
+import com.pmi.ispmmx.maya.Activities.Indicadores.VQIActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.OperadorPagerAdapter;
 import com.pmi.ispmmx.maya.DialogFragments.DefectoActivosPorOrigenDialogFragment;
 import com.pmi.ispmmx.maya.DialogFragments.OrigenDialogFragment;
@@ -1132,7 +1133,7 @@ public class OperadorActivity extends AppCompatActivity implements
     }
 
     private void messageDialog(String message) {
-        Snackbar.make(findViewById(R.id.coordinator_operador), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG).show();
     }
 
     private void logout() {

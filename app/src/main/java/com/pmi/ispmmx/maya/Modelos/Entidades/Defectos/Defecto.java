@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Foto;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.Origen;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Persona;
+import com.pmi.ispmmx.maya.Utils.FormatDate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -82,11 +83,9 @@ public class Defecto {
     }
 
     public Date getFechaApiReporte() {
-        int idx1 = fechaApiReporte.indexOf("(");
-        int idx2 = fechaApiReporte.indexOf(")") - 5;
-        String s = fechaApiReporte.substring(idx1 + 1, idx2);
-        long l = Long.valueOf(s);
-        fechaReporte = new Date(l);
+        FormatDate format = new FormatDate();
+        fechaReporte = format.fromISO8601UTC(fechaApiReporte);
+
         return fechaReporte;
     }
 
@@ -95,14 +94,7 @@ public class Defecto {
     }
 
     public String getFechaApiEstimada() {
-        int idx1 = fechaApiEstimada.indexOf("(");
-        int idx2 = fechaApiEstimada.indexOf(")") - 5;
-        String s = fechaApiEstimada.substring(idx1 + 1, idx2);
-        long l = Long.valueOf(s);
-        fechaEstimada = new Date(l);
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        return dateFormat.format(fechaEstimada);
+        return fechaApiEstimada;
     }
 
     public void setFechaApiEstimada(String fechaApiEstimada) {

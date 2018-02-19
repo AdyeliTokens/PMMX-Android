@@ -1,4 +1,4 @@
-package com.pmi.ispmmx.maya.Activities;
+package com.pmi.ispmmx.maya.Activities.Indicadores;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +25,11 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.pmi.ispmmx.maya.Adapters.NoConformidadesPorSeccionAdapter;
-import com.pmi.ispmmx.maya.Interfaces.IVolumenService;
+import com.pmi.ispmmx.maya.Interfaces.ICRRService;
+import com.pmi.ispmmx.maya.Modelos.Entidades.CRR;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
-import com.pmi.ispmmx.maya.Modelos.Entidades.PlanAttainment;
 import com.pmi.ispmmx.maya.R;
+import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 
@@ -47,16 +48,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class PlanAttainmentActivity extends AppCompatActivity {
+public class CRRActivity extends AppCompatActivity {
     public RecyclerView.Adapter _mAdapter;
     private SharedPreferences pref;
     private Retrofit retrofit;
-    private LineChart _chartPlan;
+    private LineChart _chartCRR;
     private int idWorkCenter;
     private List<ModuloSeccion> seccionList;
     private RecyclerView _rvSecciones;
     private RecyclerView.LayoutManager _managerSecciones;
-    private IVolumenService volumenService;
+    private ICRRService icrrService;
     private Toolbar _toolbar;
     private CollapsingToolbarLayout _toolbarLayout;
 
@@ -65,7 +66,7 @@ public class PlanAttainmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plan_attainment);
+        setContentView(R.layout.activity_crr);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         Intent intent = getIntent();
@@ -116,7 +117,7 @@ public class PlanAttainmentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        _chartPlan = findViewById(R.id.chart_plan);
+        _chartCRR = findViewById(R.id.chart_crr);
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 1);
         Calendar startDate = Calendar.getInstance();
@@ -165,7 +166,7 @@ public class PlanAttainmentActivity extends AppCompatActivity {
             int anio = dateSelected.getYear();
             String fecha = monthNumber + "/" + day + "/" + year;
 
-            retrofiCallPlan(fecha);
+            retrofiCallCRR(fecha);
         } else {
 
         }
@@ -184,7 +185,7 @@ public class PlanAttainmentActivity extends AppCompatActivity {
         String fecha = monthNumber + "/" + day + "/" + year;
 
 
-        retrofiCallPlanPorFechaYWorkCenter(fecha);
+        retrofiCallCRRPorFechaYWorkCenter(fecha);
 
         ValidarSemana(dateSelected);
 
@@ -202,7 +203,7 @@ public class PlanAttainmentActivity extends AppCompatActivity {
     }
 
     private void createServicios() {
-        volumenService = retrofit.create(IVolumenService.class);
+        icrrService = retrofit.create(ICRRService.class);
     }
 
     public void iniciarAdapter() {
@@ -231,14 +232,15 @@ public class PlanAttainmentActivity extends AppCompatActivity {
     }
 
 
-    private void retrofiCallPlan(String fecha) {
-        volumenService.getPlanAttainmentByWorkCenter(fecha, idWorkCenter).enqueue(new Callback<List<PlanAttainment>>() {
+    private void retrofiCallCRR(String fecha) {
+        icrrService.getCRRByWorkCenter(fecha, idWorkCenter).enqueue(new Callback<RespuestaServicio<List<CRR>>>() {
             @Override
-            public void onResponse(@NonNull Call<List<PlanAttainment>> call, @NonNull Response<List<PlanAttainment>> response) {
+            public void onResponse(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Response<RespuestaServicio<List<CRR>>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        llenarInformacion_PLAN(response.body());
-
+                        if(response.body().getEjecucionCorrecta()){
+                            llenarInformacion_CRR(response.body().getRespuesta());
+                        }
 
                     }
                 } else {
@@ -247,24 +249,24 @@ public class PlanAttainmentActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<PlanAttainment>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Throwable t) {
 
             }
         });
     }
 
-    private void retrofiCallPlanPorFechaYWorkCenter(String fecha) {
+    private void retrofiCallCRRPorFechaYWorkCenter(String fecha) {
 
     }
 
 
-    public void llenarInformacion_PLAN(List<PlanAttainment> planAttainments) {
-        configPlanChart(planAttainments);
+    public void llenarInformacion_CRR(List<CRR> crrList) {
+        configCRRChart(crrList);
     }
 
-    private LineData setData(List<PlanAttainment> planAttainments) {
-        Collections.sort(planAttainments, new Comparator<PlanAttainment>() {
-            public int compare(PlanAttainment obj1, PlanAttainment obj2) {
+    private LineData setData(List<CRR> crrList) {
+        Collections.sort(crrList, new Comparator<CRR>() {
+            public int compare(CRR obj1, CRR obj2) {
                 // ## Ascending order
                 return obj1.getFecha().compareTo(obj2.getFecha()); // To compare string values
                 // return Integer.valueOf(obj1.empId).compareTo(obj2.empId); // To compare integer values
@@ -278,18 +280,18 @@ public class PlanAttainmentActivity extends AppCompatActivity {
 
         ArrayList<Entry> vals1 = new ArrayList<>();
         int i = 1;
-        for (PlanAttainment data : planAttainments) {
-            vals1.add(new Entry(i++, (float) data.getPlan_total()));
+        for (CRR data : crrList) {
+            vals1.add(new Entry(i++, (float) data.getCRR_total()));
         }
 
         ArrayList<Entry> vals2 = new ArrayList<>();
         i = 1;
-        for (PlanAttainment data : planAttainments) {
+        for (CRR data : crrList) {
             vals2.add(new Entry(i++, (float) data.getObjetivo()));
         }
 
 
-        LineDataSet set1 = new LineDataSet(vals1, "Plan Attainment");
+        LineDataSet set1 = new LineDataSet(vals1, "CRR");
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         set1.setCubicIntensity(0.2f);
         set1.setDrawCircles(true);
@@ -316,37 +318,36 @@ public class PlanAttainmentActivity extends AppCompatActivity {
 
     }
 
-    private void configPlanChart(List<PlanAttainment> planAttainments) {
+    private void configCRRChart(List<CRR> crrList) {
 
-        _chartPlan.setViewPortOffsets(20, 20, 20, 20);
-        _chartPlan.setTouchEnabled(false);
-        _chartPlan.setDragEnabled(false);
-        _chartPlan.setScaleEnabled(false);
-        _chartPlan.setPinchZoom(false);
-        _chartPlan.setDrawGridBackground(false);
+        _chartCRR.setViewPortOffsets(20, 20, 20, 20);
+        _chartCRR.setTouchEnabled(false);
+        _chartCRR.setDragEnabled(false);
+        _chartCRR.setScaleEnabled(false);
+        _chartCRR.setPinchZoom(false);
+        _chartCRR.setDrawGridBackground(false);
 
 
-        XAxis xAxis = _chartPlan.getXAxis();
+        XAxis xAxis = _chartCRR.getXAxis();
         xAxis.setEnabled(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f);
 
 
-        YAxis yAxis = _chartPlan.getAxisLeft();
+        YAxis yAxis = _chartCRR.getAxisLeft();
         yAxis.setEnabled(false);
         yAxis.setDrawAxisLine(false);
         yAxis.setDrawGridLines(false);
 
-        _chartPlan.getDescription().setEnabled(false);
-        _chartPlan.getAxisRight().setEnabled(false);
+        _chartCRR.getDescription().setEnabled(false);
+        _chartCRR.getAxisRight().setEnabled(false);
 
-        _chartPlan.setData(setData(planAttainments));
-        _chartPlan.getLegend().setEnabled(true);
-        _chartPlan.animateXY(2000, 2000);
-        _chartPlan.invalidate();
+        _chartCRR.setData(setData(crrList));
+        _chartCRR.getLegend().setEnabled(true);
+        _chartCRR.animateXY(2000, 2000);
+        _chartCRR.invalidate();
     }
 
 }
-
 
