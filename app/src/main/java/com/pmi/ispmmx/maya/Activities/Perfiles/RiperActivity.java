@@ -90,7 +90,7 @@ public class RiperActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_riper);
+        setContentView(R.layout.activity_profile_riper);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         elementosUI();

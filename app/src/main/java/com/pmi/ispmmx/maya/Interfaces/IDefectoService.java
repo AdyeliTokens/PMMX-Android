@@ -2,7 +2,7 @@ package com.pmi.ispmmx.maya.Interfaces;
 
 import com.google.gson.JsonArray;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.Defecto;
-import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.ApisPreference;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.pmi.ispmmx.maya.Respuesta;
+package com.pmi.ispmmx.maya.Utils.Respuesta;
 
 public interface IRespuestaServicio<T> {
     boolean getEjecucionCorrecta();

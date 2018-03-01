@@ -34,10 +34,6 @@ public class VQI {
         return fecha;
     }
 
-    public String getFechaApi() {
-
-        return fechaApi;
-    }
 
     public int getObjetivo() {
         return objetivo;

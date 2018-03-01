@@ -68,7 +68,7 @@ public class VQIActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vqi);
+        setContentView(R.layout.activity_indicadores_vqi);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         Intent intent = getIntent();
@@ -77,16 +77,15 @@ public class VQIActivity extends AppCompatActivity {
         if (bundle != null) {
             idWorkCenter = (int) bundle.get("idWorkCenter");
 
+            elementosUI();
 
+
+            iniciarRetrofit();
+            createServicios();
+            IniciarEntidades();
+            iniciarAdapter();
+            iniciarRecycle();
         }
-        elementosUI();
-
-
-        iniciarRetrofit();
-        createServicios();
-        IniciarEntidades();
-        iniciarAdapter();
-        iniciarRecycle();
 
 
     }
@@ -190,6 +189,7 @@ public class VQIActivity extends AppCompatActivity {
 
         retrofiCallVQIPorFechaYWorkCenter(fecha);
 
+
         ValidarSemana(dateSelected);
 
     }
@@ -206,7 +206,7 @@ public class VQIActivity extends AppCompatActivity {
     }
 
     private void createServicios() {
-        noConformidadesService=retrofit.create(INoConformidadesService.class);
+        noConformidadesService = retrofit.create(INoConformidadesService.class);
         vqiService = retrofit.create(IVQIService.class);
     }
 
@@ -237,15 +237,14 @@ public class VQIActivity extends AppCompatActivity {
 
 
     private void retrofiCallVQI(String fecha) {
-        vqiService.getVQIByWorkCenter(fecha,idWorkCenter).enqueue(new Callback<List<VQI>>() {
+        vqiService.getVQIByWorkCenter(fecha, idWorkCenter).enqueue(new Callback<List<VQI>>() {
             @Override
             public void onResponse(@NonNull Call<List<VQI>> call, @NonNull Response<List<VQI>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         List<VQI> respuesta = response.body();
                         llenarInformacion_VQI(respuesta);
-                    }
-                    else{
+                    } else {
                         messageDialog("Elemento VQI vacio");
                     }
                 } else {
@@ -269,8 +268,7 @@ public class VQIActivity extends AppCompatActivity {
                         seccionList.clear();
                         seccionList.addAll(response.body());
                         _mAdapter.notifyDataSetChanged();
-                    }
-                    else{
+                    } else {
                         messageDialog("Elemento VQI vacio");
                     }
                 } else {
@@ -291,34 +289,26 @@ public class VQIActivity extends AppCompatActivity {
     }
 
     private LineData setData(List<VQI> vqiList) {
-        Collections.sort(vqiList, new Comparator<VQI>(){
+        Collections.sort(vqiList, new Comparator<VQI>() {
             public int compare(VQI obj1, VQI obj2) {
-                // ## Ascending order
-                return obj1.getFecha().compareTo(obj2.getFecha()); // To compare string values
-                // return Integer.valueOf(obj1.empId).compareTo(obj2.empId); // To compare integer values
-
-                // ## Descending order
-                // return obj2.firstName.compareToIgnoreCase(obj1.firstName); // To compare string values
-                // return Integer.valueOf(obj2.empId).compareTo(obj1.empId); // To compare integer values
+                if (obj1.getFecha() == null || obj2.getFecha() == null)
+                    return 0;
+                return obj1.getFecha().compareTo(obj2.getFecha());
             }
         });
 
 
-
-
         ArrayList<Entry> vals1 = new ArrayList<>();
-        int i=1;
+        int i = 1;
         for (VQI data : vqiList) {
             vals1.add(new Entry(i++, data.getVqi_total()));
         }
 
         ArrayList<Entry> vals2 = new ArrayList<>();
-        i=1;
+        i = 1;
         for (VQI data : vqiList) {
             vals2.add(new Entry(i++, data.getObjetivo()));
         }
-
-
 
 
         LineDataSet set1 = new LineDataSet(vals1, "VQI");
@@ -341,7 +331,7 @@ public class VQIActivity extends AppCompatActivity {
         set2.setColor(Color.GREEN);
         set2.setFillAlpha(100);
 
-        LineData data = new LineData(set1,set2);
+        LineData data = new LineData(set1, set2);
         data.setValueTextSize(9f);
         data.setDrawValues(true);
         return data;
@@ -356,7 +346,6 @@ public class VQIActivity extends AppCompatActivity {
         _chartVQI.setScaleEnabled(false);
         _chartVQI.setPinchZoom(false);
         _chartVQI.setDrawGridBackground(false);
-
 
 
         XAxis xAxis = _chartVQI.getXAxis();
@@ -382,7 +371,7 @@ public class VQIActivity extends AppCompatActivity {
 
 
     private void messageDialog(String message) {
-        Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
 }

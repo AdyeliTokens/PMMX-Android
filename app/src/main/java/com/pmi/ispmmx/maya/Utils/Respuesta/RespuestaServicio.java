@@ -1,4 +1,4 @@
-package com.pmi.ispmmx.maya.Respuesta;
+package com.pmi.ispmmx.maya.Utils.Respuesta;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -16,9 +16,7 @@ import com.pmi.ispmmx.maya.R;
 
 import java.util.List;
 
-/**
- * Created by ispmmx on 8/29/17.
- */
+
 
 public class ParoCerradoAdapter extends RecyclerView.Adapter<ParoCerradoAdapter.ViewHolder> {
 

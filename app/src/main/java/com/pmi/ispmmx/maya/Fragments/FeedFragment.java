@@ -141,6 +141,10 @@ public class FeedFragment extends Fragment {
         feedList.clear();
         feedList.addAll(feeds);
         mAdapter.notifyDataSetChanged();
+        CerrarUpdate();
+    }
+
+    public void CerrarUpdate(){
         swipeRefreshLayout.setRefreshing(false);
     }
 

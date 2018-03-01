@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -58,7 +57,6 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.CircleTransform;
-import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.ShadowTransformer;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 import com.squareup.picasso.MemoryPolicy;
@@ -121,7 +119,7 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shift_leader);
+        setContentView(R.layout.activity_profile_shiftleader);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         elementosUI();

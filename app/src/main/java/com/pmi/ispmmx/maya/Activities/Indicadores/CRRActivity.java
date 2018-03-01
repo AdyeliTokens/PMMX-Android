@@ -29,7 +29,7 @@ import com.pmi.ispmmx.maya.Interfaces.ICRRService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.CRR;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.ModuloSeccion;
 import com.pmi.ispmmx.maya.R;
-import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 
@@ -66,7 +66,7 @@ public class CRRActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crr);
+        setContentView(R.layout.activity_indicadores_crr);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         Intent intent = getIntent();

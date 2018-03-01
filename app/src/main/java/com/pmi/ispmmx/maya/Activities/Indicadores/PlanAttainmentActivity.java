@@ -65,7 +65,7 @@ public class PlanAttainmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plan_attainment);
+        setContentView(R.layout.activity_indicadores_planattainment);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         Intent intent = getIntent();

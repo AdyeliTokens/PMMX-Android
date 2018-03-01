@@ -43,7 +43,7 @@ import com.pmi.ispmmx.maya.Interfaces.IDefectoService;
 import com.pmi.ispmmx.maya.Interfaces.IFotoService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.Defecto;
 import com.pmi.ispmmx.maya.R;
-import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.DrawingView;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;

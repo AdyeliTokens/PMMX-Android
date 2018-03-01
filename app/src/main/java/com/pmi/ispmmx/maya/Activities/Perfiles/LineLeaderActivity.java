@@ -39,7 +39,7 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Marca;
 import com.pmi.ispmmx.maya.Modelos.Entidades.VolumenesDeProduccion;
 import com.pmi.ispmmx.maya.R;
-import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -83,7 +83,7 @@ public class LineLeaderActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_line_leader);
+        setContentView(R.layout.activity_profile_lineleader);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         elementosUI();

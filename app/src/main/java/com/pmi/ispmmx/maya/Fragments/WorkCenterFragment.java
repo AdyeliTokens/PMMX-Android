@@ -171,6 +171,12 @@ public class WorkCenterFragment extends Fragment {
         workCenterList.clear();
         workCenterList.add(workCenter);
         mAdapter.notifyDataSetChanged();
+        CerrarSwiper();
+    }
+
+    public void CerrarSwiper() {
+
+
         swipeRefreshLayout.setRefreshing(false);
     }
 

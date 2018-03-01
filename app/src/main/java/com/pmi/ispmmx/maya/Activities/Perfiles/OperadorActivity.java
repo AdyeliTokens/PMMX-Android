@@ -17,7 +17,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -42,17 +41,18 @@ import android.widget.Toast;
 import com.github.florent37.bubbletab.BubbleTab;
 import com.pmi.ispmmx.maya.Activities.AboutMayaActivity;
 import com.pmi.ispmmx.maya.Activities.AgregarDefectoActivity;
-import com.pmi.ispmmx.maya.Activities.Indicadores.CRRActivity;
 import com.pmi.ispmmx.maya.Activities.DefectoActivity;
 import com.pmi.ispmmx.maya.Activities.DefectosActivity;
+import com.pmi.ispmmx.maya.Activities.Indicadores.CRRActivity;
+import com.pmi.ispmmx.maya.Activities.Indicadores.PlanAttainmentActivity;
+import com.pmi.ispmmx.maya.Activities.Indicadores.VQIActivity;
 import com.pmi.ispmmx.maya.Activities.LoginActivity;
 import com.pmi.ispmmx.maya.Activities.ParoActivity;
 import com.pmi.ispmmx.maya.Activities.ParosActivity;
 import com.pmi.ispmmx.maya.Activities.PhotoActivity;
-import com.pmi.ispmmx.maya.Activities.Indicadores.PlanAttainmentActivity;
 import com.pmi.ispmmx.maya.Activities.ProfileActivity;
-import com.pmi.ispmmx.maya.Activities.Indicadores.VQIActivity;
 import com.pmi.ispmmx.maya.Adapters.Pages.OperadorPagerAdapter;
+import com.pmi.ispmmx.maya.Activities.CamaraActivity;
 import com.pmi.ispmmx.maya.DialogFragments.DefectoActivosPorOrigenDialogFragment;
 import com.pmi.ispmmx.maya.DialogFragments.OrigenDialogFragment;
 import com.pmi.ispmmx.maya.DialogFragments.ParosActivosPorOrigenDialogFragment;
@@ -76,7 +76,7 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.Modelos.Entidades.PlanAttainment;
 import com.pmi.ispmmx.maya.Modelos.Entidades.VQI;
 import com.pmi.ispmmx.maya.R;
-import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.CircleTransform;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
@@ -154,7 +154,7 @@ public class OperadorActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_operador);
+        setContentView(R.layout.activity_profile_operador);
         pref = getSharedPreferences(OperadorPreference.SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         elementosUI();
@@ -362,6 +362,8 @@ public class OperadorActivity extends AppCompatActivity implements
             startsettingsActivity();
         } else if (id == R.id.item_acerca_de_maya) {
             startAboutMayaActivity();
+        } else if (id == R.id.item_camara) {
+            startCamera();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -733,6 +735,21 @@ public class OperadorActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
+    private void startCamera() {
+        /*Intent intent = new Intent(this, OrigenActivity.class);
+        intent.putExtra("puedeAsignarce", false);
+        intent.putExtra("puedeCerrarse", true);
+        intent.putExtra("puedeComentarce", false);
+
+        intent.putExtra("idOrigen", origen.getId());
+        intent.putExtra("nombreModulo", origen.getModulo().getNombre());
+        intent.putExtra("nombreWorkCenter", "");
+        startActivity(intent);*/
+
+        Intent intent = new Intent(this, CamaraActivity.class);
+        startActivity(intent);
+    }
+
     private void startOrigenActivity(Origen origen) {
         /*Intent intent = new Intent(this, OrigenActivity.class);
         intent.putExtra("puedeAsignarce", false);
@@ -851,115 +868,138 @@ public class OperadorActivity extends AppCompatActivity implements
     }
 
     private void retrofiCallWorkCenters() {
-        operadoresPorWorkCenter.getModulosByWorkCenter(pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0)).enqueue(new Callback<WorkCenter>() {
+        int IDOperador = pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0);
+
+        operadoresPorWorkCenter.getModulosByWorkCenter(IDOperador).enqueue(new Callback<RespuestaServicio<WorkCenter>>() {
             @Override
-            public void onResponse(@NonNull Call<WorkCenter> call, @NonNull Response<WorkCenter> response) {
+            public void onResponse(@NonNull Call<RespuestaServicio<WorkCenter>> call, @NonNull Response<RespuestaServicio<WorkCenter>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        workCenter = response.body();
-                        workCenterFragment.llenarInformacion(response.body());
+                        if(response.body().getEjecucionCorrecta()){
 
-                        retrofiCallFeed();
+                            workCenter = response.body().getRespuesta();
+                            workCenterFragment.llenarInformacion(workCenter);
 
+                            retrofiCallFeed();
+                        }
+                        else{
+                            messageDialog(response.body().getMensaje());
+                            workCenterFragment.CerrarSwiper();
+                        }
+
+                    } else {
+                        messageDialog("Sin WorkCenter Asignados");
+                        workCenterFragment.CerrarSwiper();
                     }
                 } else {
                     messageDialog(response.errorBody().toString());
+                    workCenterFragment.CerrarSwiper();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<WorkCenter> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RespuestaServicio<WorkCenter>> call, @NonNull Throwable t) {
                 messageDialog("Por favor!! Validatu conexion a internet");
+                workCenterFragment.CerrarSwiper();
             }
         });
     }
 
     private void retrofiCallFeed() {
-
-        feedService.getFeedPorWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<Feed>>>() {
-            @Override
-            public void onResponse(@NonNull Call<RespuestaServicio<List<Feed>>> call, @NonNull Response<RespuestaServicio<List<Feed>>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        feedFragment.llenarInformacion(response.body().getRespuesta());
+        if (workCenter.getId() > 0) {
+            feedService.getFeedPorWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<Feed>>>() {
+                @Override
+                public void onResponse(@NonNull Call<RespuestaServicio<List<Feed>>> call, @NonNull Response<RespuestaServicio<List<Feed>>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            feedFragment.llenarInformacion(response.body().getRespuesta());
+                        }
+                    } else {
+                        messageDialog(response.errorBody().toString());
                     }
-                } else {
-                    messageDialog(response.errorBody().toString());
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<RespuestaServicio<List<Feed>>> call, @NonNull Throwable t) {
-                messageDialog("Por favor!! Validatu conexion a internet");
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<RespuestaServicio<List<Feed>>> call, @NonNull Throwable t) {
+                    messageDialog("Por favor!! Validatu conexion a internet");
+                }
+            });
+        } else {
+            feedFragment.CerrarUpdate();
+        }
+
     }
 
     private void retrofiCallVQI() {
-
-        vqiService.getVQIByWorkCenter(workCenter.getId()).enqueue(new Callback<List<VQI>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<VQI>> call, @NonNull Response<List<VQI>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        indicadoresFragment.llenarInformacion_VQI(response.body());
+        if (workCenter.getId() > 0) {
+            vqiService.getVQIByWorkCenter(workCenter.getId()).enqueue(new Callback<List<VQI>>() {
+                @Override
+                public void onResponse(@NonNull Call<List<VQI>> call, @NonNull Response<List<VQI>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            indicadoresFragment.llenarInformacion_VQI(response.body());
+                        }
+                    } else {
+                        messageDialog(response.errorBody().toString());
                     }
-                } else {
-                    messageDialog(response.errorBody().toString());
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<List<VQI>> call, @NonNull Throwable t) {
-                messageDialog("Por favor!! Validatu conexion a internet");
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<List<VQI>> call, @NonNull Throwable t) {
+                    messageDialog("Por favor!! Validatu conexion a internet");
+                }
+            });
+        }
     }
 
     private void retrofiCallCRR() {
-        crrService.getCRRByWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<CRR>>>() {
-            @Override
-            public void onResponse(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Response<RespuestaServicio<List<CRR>>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getEjecucionCorrecta()) {
-                            indicadoresFragment.llenarInformacion_CRR(response.body().getRespuesta());
+        if (workCenter.getId() > 0) {
+            crrService.getCRRByWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<CRR>>>() {
+                @Override
+                public void onResponse(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Response<RespuestaServicio<List<CRR>>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            if (response.body().getEjecucionCorrecta()) {
+                                indicadoresFragment.llenarInformacion_CRR(response.body().getRespuesta());
+                            }
+
                         }
-
+                    } else {
+                        messageDialog(response.errorBody().toString());
                     }
-                } else {
-                    messageDialog(response.errorBody().toString());
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Throwable t) {
-                messageDialog("Por favor!! Validatu conexion a internet");
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<RespuestaServicio<List<CRR>>> call, @NonNull Throwable t) {
+                    messageDialog("Por favor!! Validatu conexion a internet");
+                }
+            });
+        }
     }
 
     private void retrofiCallPlanAttainment() {
-        volumenService.getPlanByWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<PlanAttainment>>>() {
-            @Override
-            public void onResponse(@NonNull Call<RespuestaServicio<List<PlanAttainment>>> call, @NonNull Response<RespuestaServicio<List<PlanAttainment>>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getEjecucionCorrecta()) {
-                            indicadoresFragment.llenarInformacion_PLAN(response.body().getRespuesta());
+        if (workCenter.getId() > 0) {
+            volumenService.getPlanByWorkCenter(workCenter.getId()).enqueue(new Callback<RespuestaServicio<List<PlanAttainment>>>() {
+                @Override
+                public void onResponse(@NonNull Call<RespuestaServicio<List<PlanAttainment>>> call, @NonNull Response<RespuestaServicio<List<PlanAttainment>>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            if (response.body().getEjecucionCorrecta()) {
+                                indicadoresFragment.llenarInformacion_PLAN(response.body().getRespuesta());
+                            }
+
                         }
-
+                    } else {
+                        messageDialog(response.errorBody().toString());
                     }
-                } else {
-                    messageDialog(response.errorBody().toString());
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<RespuestaServicio<List<PlanAttainment>>> call, @NonNull Throwable t) {
-                messageDialog("Por favor!! Validatu conexion a internet");
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<RespuestaServicio<List<PlanAttainment>>> call, @NonNull Throwable t) {
+                    messageDialog("Por favor!! Validatu conexion a internet");
+                }
+            });
+        }
     }
 
     private void retrofitPostParo(Paro paro) throws IOException {
@@ -1133,7 +1173,7 @@ public class OperadorActivity extends AppCompatActivity implements
     }
 
     private void messageDialog(String message) {
-        Toast.makeText(getApplicationContext(), message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
     private void logout() {

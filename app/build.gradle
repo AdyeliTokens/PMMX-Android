@@ -94,6 +94,7 @@ dependencies {
     compile 'com.ogaclejapan.arclayout:library:1.1.0@aar'
     compile 'com.steelkiwi:cropiwa:1.0.3'
     testCompile 'junit:junit:4.12'
+
 }
 
 

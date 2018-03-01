@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -25,7 +24,7 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Entorno;
 import com.pmi.ispmmx.maya.Modelos.Entidades.User;
 import com.pmi.ispmmx.maya.Modelos.LoginViewModel;
 import com.pmi.ispmmx.maya.R;
-import com.pmi.ispmmx.maya.Respuesta.RespuestaServicio;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 

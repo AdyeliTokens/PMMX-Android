@@ -19,4 +19,14 @@
         </menu>
     </item>
 
+    <item android:title="Pruebas">
+        <menu>
+            <item
+                android:id="@+id/item_camara"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="Share" />
+
+        </menu>
+    </item>
+
 </menu>
