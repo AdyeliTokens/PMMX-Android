@@ -57,6 +57,7 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Maquinaria.WorkCenter;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.CircleTransform;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.ShadowTransformer;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 import com.squareup.picasso.MemoryPolicy;
@@ -439,22 +440,27 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
     }
 
     private void retrofitPostParo(Paro paro) throws IOException {
-        paroService.postParo(paro).enqueue(new Callback<Paro>() {
+        paroService.postParo(paro).enqueue(new Callback<RespuestaServicio<Paro>>() {
             @Override
-            public void onResponse(@NonNull Call<Paro> call, @NonNull Response<Paro> response) {
+            public void onResponse(@NonNull Call<RespuestaServicio<Paro>> call, @NonNull Response<RespuestaServicio<Paro>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        //getWorkCenters();
+                        if(response.body().getEjecucionCorrecta()){
+                            //getWorkCenters();
+                        }
+                        else{
+                            messageDialog(response.body().getMensaje());
+                        }
 
                     }
                 } else {
-                    messageDialog(response.errorBody().toString());
+                    messageDialog(response.errorBody().byteStream().toString());
                 }
 
             }
 
             @Override
-            public void onFailure(@NonNull Call<Paro> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RespuestaServicio<Paro>> call, @NonNull Throwable t) {
                 messageDialog("Por favor!! Validatu conexion a internet");
             }
         });
@@ -462,12 +468,12 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
     }
 
     private void retrofitParosActivos(final Origen origen) {
-        paroService.getParosByOrigen(origen.getId(), true, 100).enqueue(new Callback<List<Paro>>() {
+        paroService.getParosByOrigen(origen.getId()).enqueue(new Callback<RespuestaServicio<List<Paro>>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Paro>> call, @NonNull Response<List<Paro>> response) {
+            public void onResponse(@NonNull Call<RespuestaServicio<List<Paro>>> call, @NonNull Response<RespuestaServicio<List<Paro>>> response) {
 
                 if (response.isSuccessful()) {
-                    List<Paro> paros = response.body();
+                    List<Paro> paros = response.body().getRespuesta();
 
                     startBSParosActivos(origen, paros);
 
@@ -477,7 +483,7 @@ public class ShiftLeaderActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Paro>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RespuestaServicio<List<Paro>>> call, @NonNull Throwable t) {
                 messageDialog("Por favor!! Validatu conexion a internet");
             }
         });

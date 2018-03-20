@@ -880,7 +880,7 @@ public class OperadorActivity extends AppCompatActivity implements
                             workCenter = response.body().getRespuesta();
                             workCenterFragment.llenarInformacion(workCenter);
 
-                            retrofiCallFeed();
+                            //retrofiCallFeed();
                         }
                         else{
                             messageDialog(response.body().getMensaje());
@@ -1003,22 +1003,27 @@ public class OperadorActivity extends AppCompatActivity implements
     }
 
     private void retrofitPostParo(Paro paro) throws IOException {
-        paroService.postParo(paro).enqueue(new Callback<Paro>() {
+        paroService.postParo(paro).enqueue(new Callback<RespuestaServicio<Paro>>() {
             @Override
-            public void onResponse(@NonNull Call<Paro> call, @NonNull Response<Paro> response) {
+            public void onResponse(@NonNull Call<RespuestaServicio<Paro>> call, @NonNull Response<RespuestaServicio<Paro>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        getWorkCenters();
+                        if(response.body().getEjecucionCorrecta()){
+                            getWorkCenters();
+                        }
+                        else{
+                            messageDialog(response.body().getMensaje());
+                        }
 
                     }
                 } else {
-                    messageDialog(response.errorBody().toString());
+                    messageDialog(response.errorBody().byteStream().toString());
                 }
 
             }
 
             @Override
-            public void onFailure(@NonNull Call<Paro> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RespuestaServicio<Paro>> call, @NonNull Throwable t) {
                 messageDialog("Por favor!! Validatu conexion a internet");
             }
         });
@@ -1026,22 +1031,27 @@ public class OperadorActivity extends AppCompatActivity implements
     }
 
     private void retrofitParosActivos(final Origen origen) {
-        paroService.getParosByOrigen(origen.getId(), true, 100).enqueue(new Callback<List<Paro>>() {
+        paroService.getParosByOrigen(origen.getId()).enqueue(new Callback<RespuestaServicio<List<Paro>>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Paro>> call, @NonNull Response<List<Paro>> response) {
+            public void onResponse(@NonNull Call<RespuestaServicio<List<Paro>>> call, @NonNull Response<RespuestaServicio<List<Paro>>> response) {
 
                 if (response.isSuccessful()) {
-                    List<Paro> paros = response.body();
+                    if(response.body().getEjecucionCorrecta()){
+                        List<Paro> paros = response.body().getRespuesta();
 
-                    startBSParosActivos(origen, paros);
+                        startBSParosActivos(origen, paros);
+                    }else{
+                        messageDialog(response.body().getMensaje().toString());
+                    }
+
 
                 } else {
-                    messageDialog(response.errorBody().toString());
+                    messageDialog(response.errorBody().byteStream().toString());
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Paro>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<RespuestaServicio<List<Paro>>> call, @NonNull Throwable t) {
                 messageDialog("Por favor!! Validatu conexion a internet");
             }
         });
@@ -1151,6 +1161,8 @@ public class OperadorActivity extends AppCompatActivity implements
             public void onClick(DialogInterface arg0, int arg1) {
                 Paro paro = new Paro();
                 paro.setIdOrigen(origen.getId());
+                paro.setMotivo("");
+                paro.setDescripcion("");
                 paro.setIdReportador(pref.getInt(OperadorPreference.ID_PERSONA_SHARED_PREF, 0));
                 try {
                     retrofitPostParo(paro);

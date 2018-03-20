@@ -233,7 +233,7 @@ public class DetalleDefectoFragment extends Fragment {
 
         _tvNombreCompletoReportador.setText(nombreCompleto);
         _tvPuesto.setText(defecto.getReportador().getPuesto().getNombre());
-        _tvFechaReporte.setText(defecto.getFechaApiReporte().toString());
+        _tvFechaReporte.setText(defecto.getFechaReporte().toString());
         _tvSAP.setText(defecto.getNotificacionSap() + "");
         _tvActividadesCount.setText(defecto.getActividadesCount() + "");
         _tvComentariosCount.setText(defecto.getComentariosCount() + "");

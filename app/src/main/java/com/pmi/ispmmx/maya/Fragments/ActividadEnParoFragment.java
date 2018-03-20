@@ -15,8 +15,10 @@ import com.google.gson.JsonArray;
 import com.pmi.ispmmx.maya.Adapters.Paros.ActividadesEnParoAdapter;
 import com.pmi.ispmmx.maya.Interfaces.IParoService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.ActividadEnParo;
+import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,21 +76,22 @@ public class ActividadEnParoFragment extends Fragment {
                 .build();
 
         IParoService paroService = retrofit.create(IParoService.class);
-        Call<JsonArray> listParoCall = paroService.getParosByOrigen(idParo);
-        listParoCall.enqueue(new Callback<JsonArray>() {
+        Call<RespuestaServicio<List<Paro>>> listParoCall = paroService.getParosByOrigen(idParo);
+        listParoCall.enqueue(new Callback<RespuestaServicio<List<Paro>>>() {
 
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+            public void onResponse(Call<RespuestaServicio<List<Paro>>> call, Response<RespuestaServicio<List<Paro>>> response) {
                 if (response.isSuccessful()) {
                     List<ActividadEnParo> actividades = new ArrayList<ActividadEnParo>();
                     actividades.add(1, new ActividadEnParo());
                     actividades.add(2, new ActividadEnParo());
 
                 }
+
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
+            public void onFailure(Call<RespuestaServicio<List<Paro>>> call, Throwable t) {
 
             }
         });

@@ -29,6 +29,7 @@ import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.Modelos.Secciones.DefectoSeccion;
 import com.pmi.ispmmx.maya.R;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 
 import java.io.IOException;
@@ -369,18 +370,29 @@ public class OrigenActivity extends AppCompatActivity implements
     //////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     private void retrofitPostParo(Paro paro) throws IOException {
-        paroService.postParo(paro).enqueue(new Callback<Paro>() {
+        paroService.postParo(paro).enqueue(new Callback<RespuestaServicio<Paro>>() {
             @Override
-            public void onResponse(Call<Paro> call, Response<Paro> response) {
-                if (response.body() != null) {
-                    parosFragment.parosAbiertos.add(response.body());
-                    parosFragment.adapparosactivos.notifyDataSetChanged();
+            public void onResponse(Call<RespuestaServicio<Paro>> call, Response<RespuestaServicio<Paro>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if(response.body().getEjecucionCorrecta()){
+                            parosFragment.parosAbiertos.add(response.body().getRespuesta());
+                            parosFragment.adapparosactivos.notifyDataSetChanged();
+                        }else{
+
+                        }
+
+
+                    }
+                }
+                else{
 
                 }
+
             }
 
             @Override
-            public void onFailure(Call<Paro> call, Throwable t) {
+            public void onFailure(Call<RespuestaServicio<Paro>> call, Throwable t) {
 
             }
         });
@@ -395,19 +407,27 @@ public class OrigenActivity extends AppCompatActivity implements
             parosFragment.mensajeParosActivos = "";
             parosFragment.adapparosactivos.notifyDataSetChanged();
 
-            paroService.getParosByOrigen(idOrigen, true, 100).enqueue(new Callback<List<Paro>>() {
+            paroService.getParosByOrigen(idOrigen).enqueue(new Callback<RespuestaServicio<List<Paro>>>() {
                 @Override
-                public void onResponse(Call<List<Paro>> call, Response<List<Paro>> response) {
+                public void onResponse(Call<RespuestaServicio<List<Paro>>> call, Response<RespuestaServicio<List<Paro>>> response) {
 
                     if (response.isSuccessful()) {
-                        List<Paro> paros = response.body();
+                        if(response.body().getEjecucionCorrecta()){
+                            List<Paro> paros = response.body().getRespuesta();
 
-                        if (paros.size() > 0) {
-                            for (Paro paro : paros) {
-                                parosFragment.parosAbiertos.add(paro);
+                            if (paros.size() > 0) {
+                                for (Paro paro : paros) {
+                                    parosFragment.parosAbiertos.add(paro);
+                                }
+                                parosFragment.errorParosActivos = false;
                             }
-                            parosFragment.errorParosActivos = false;
+
                         }
+                        else{
+
+                        }
+
+
 
                     } else {
                         parosFragment.errorParosActivos = true;
@@ -420,7 +440,7 @@ public class OrigenActivity extends AppCompatActivity implements
                 }
 
                 @Override
-                public void onFailure(Call<List<Paro>> call, Throwable t) {
+                public void onFailure(Call<RespuestaServicio<List<Paro>>> call, Throwable t) {
                     parosFragment.errorParosActivos = true;
                     parosFragment.cargaParosActivos = false;
                     parosFragment.mensajeParosActivos = "Por favor!! Validatu conexion a internet";
@@ -430,11 +450,11 @@ public class OrigenActivity extends AppCompatActivity implements
     }
 
     private void retrofitParosCerradosByOrigen() {
-        paroService.getParosByOrigen(idOrigen, false, 10).enqueue(new Callback<List<Paro>>() {
+        paroService.getParosByOrigen(idOrigen).enqueue(new Callback<RespuestaServicio<List<Paro>>>() {
             @Override
-            public void onResponse(Call<List<Paro>> call, Response<List<Paro>> response) {
+            public void onResponse(Call<RespuestaServicio<List<Paro>>> call, Response<RespuestaServicio<List<Paro>>> response) {
                 if (response.isSuccessful()) {
-                    List<Paro> paros = response.body();
+                    List<Paro> paros = response.body().getRespuesta();
                     for (Paro paro : paros) {
                         parosFragment.parosCerrados.add(paro);
                     }
@@ -446,7 +466,7 @@ public class OrigenActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onFailure(Call<List<Paro>> call, Throwable t) {
+            public void onFailure(Call<RespuestaServicio<List<Paro>>> call, Throwable t) {
                 //parosFragment.estadoErrorParosCerrados(R.drawable.ic_error_outline_gray, "Por favor!! Validatu conexion a internet");
             }
         });

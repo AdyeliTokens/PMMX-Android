@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -39,13 +41,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pmi.ispmmx.maya.BuildConfig;
 import com.pmi.ispmmx.maya.Interfaces.IDefectoService;
 import com.pmi.ispmmx.maya.Interfaces.IFotoService;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Defectos.Defecto;
 import com.pmi.ispmmx.maya.R;
-import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.Config.HostPreference;
 import com.pmi.ispmmx.maya.Utils.DrawingView;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 import com.pmi.ispmmx.maya.Utils.User.OperadorPreference;
 
 import java.io.ByteArrayOutputStream;
@@ -69,10 +72,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AgregarDefectoActivity extends AppCompatActivity {
-    private NotificationManager mNotifyManager;
-    private NotificationCompat.Builder mBuilder;
-    int id = 1;
-
     static final int PICTURE_FROM_CAMARA = 1000;
     private static final int MY_PERMISSIONS_REQUEST_CAMARA = 10;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 20;
@@ -82,6 +81,12 @@ public class AgregarDefectoActivity extends AppCompatActivity {
     private static Gson gson = new GsonBuilder()
             .setLenient()
             .create();
+    public String photoFileName = "defecto.jpg";
+    int id = 1;
+    File photoFile;
+
+    private NotificationManager mNotifyManager;
+    private NotificationCompat.Builder mBuilder;
     private SharedPreferences pref;
     private ProgressDialog progressDialog;
     private Bitmap mImageBitmap;
@@ -99,7 +104,6 @@ public class AgregarDefectoActivity extends AppCompatActivity {
     private Retrofit retrofit;
     ////Servicios
     private IFotoService fotoService;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +183,35 @@ public class AgregarDefectoActivity extends AppCompatActivity {
         }
     }
 
+    // Returns the File for a photo stored on disk given the fileName
+    public File getPhotoFileUri(String fileName) {
+        // Only continue if the SD Card is mounted
+        if (isExternalStorageAvailable()) {
+            // Get safe storage directory for photos
+            // Use `getExternalFilesDir` on Context to access package-specific directories.
+            // This way, we don't need to request external read/write runtime permissions.
+            File mediaStorageDir = new File(
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES), "");
+
+            // Create the storage directory if it does not exist
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+                Log.d("", "failed to create directory");
+            }
+
+            // Return the file target for the photo based on filename
+            File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
+
+            return file;
+        }
+        return null;
+    }
+
+    // Returns true if external storage for photos is available
+    private boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
+    }
+
     private void elementosUI() {
 
         _txtDescripcion = findViewById(R.id.txtDescripcion);
@@ -211,10 +244,7 @@ public class AgregarDefectoActivity extends AppCompatActivity {
                             }
                             , MY_PERMISSIONS_REQUEST_CAMARA);
                 } else {
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(takePictureIntent, PICTURE_FROM_CAMARA);
-                    }
+                    tomarFoto();
                 }
 
             }
@@ -325,16 +355,23 @@ public class AgregarDefectoActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
             case PICTURE_FROM_CAMARA:
                 if (resultCode == RESULT_OK) {
 
 
-                    Uri uri = data.getData();
-                    Bitmap photo = (Bitmap) data.getExtras().get("data");
-                    Bitmap elBitmap = getBitmap(getRealPathFromURI(uri));
-                    Uri tempUri = getImageUri(getApplicationContext(), elBitmap);
-                    File finalFile = new File(getRealPathFromURI(tempUri));
+                    //Uri uri = data.getData();
+                    //Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+                    //Bitmap elBitmap = getBitmap(mCurrentPhotoPath);
+                    //Uri tempUri = getImageUri(getApplicationContext(), elBitmap);
+
+
+                    //File finalFile = new File(getRealPathFromURI(tempUri));
+                    //File finalFile = new File(mCurrentPhotoPath);
+
 
                     //if (laFoto.exists()) {
                     //fp=file.getAbsolutePath();
@@ -351,8 +388,10 @@ public class AgregarDefectoActivity extends AppCompatActivity {
                     LinearLayout mDrawingPad = findViewById(R.id.view_drawing_pad);
                     //LinearLayout draw=(LinearLayout)findViewById(R.id.imagechida);
                     mDrawingPad.addView(mDrawingView);
-                    Drawable d = Drawable.createFromPath(finalFile.getAbsolutePath());
-                    mDrawingPad.setBackgroundDrawable(d);
+                    Bitmap elbit = setPic();
+                    Drawable drawable = new BitmapDrawable(getResources(), elbit);
+                    //Drawable d = Drawable.createFromPath(mCurrentPhotoPath);
+                    mDrawingPad.setBackgroundDrawable(drawable);
 
                     //imgPhoto.setImageBitmap(bitmap);
 
@@ -404,6 +443,30 @@ public class AgregarDefectoActivity extends AppCompatActivity {
 
     }
 
+    public void tomarFoto(){
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(AgregarDefectoActivity.this,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, PICTURE_FROM_CAMARA);
+            }
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -441,10 +504,7 @@ public class AgregarDefectoActivity extends AppCompatActivity {
 
                 if (permission_Camara.equals(Manifest.permission.CAMERA)) {
                     if (result_Camara == PackageManager.PERMISSION_GRANTED) {
-                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(takePictureIntent, PICTURE_FROM_CAMARA);
-                        }
+                        tomarFoto();
                     } else {
 
 
@@ -486,6 +546,30 @@ public class AgregarDefectoActivity extends AppCompatActivity {
         }
     }
 
+    private Bitmap setPic() {
+        LinearLayout mDrawingPad = findViewById(R.id.view_drawing_pad);
+        // Get the dimensions of the View
+        int targetW = mDrawingPad.getWidth();
+        int targetH = mDrawingPad.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        return BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        //mImageView.setImageBitmap(bitmap);
+    }
 
     private void crearImagen(int IdDefecto) {
         LinearLayout draw = findViewById(R.id.imagechida);
@@ -547,20 +631,19 @@ public class AgregarDefectoActivity extends AppCompatActivity {
         return cursor.getString(idx);
     }
 
-    private File createImageFile(String currentPhotoPath) throws IOException {
-        // Create an imgWorkCenter file name
+    private File createImageFile() throws IOException {
+        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  // prefix
-                ".jpg",         // suffix
-                storageDir      // directory
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = "file:" + image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
@@ -647,20 +730,24 @@ public class AgregarDefectoActivity extends AppCompatActivity {
         defectoServicio.postDefecto(defecto).enqueue(new Callback<RespuestaServicio<Defecto>>() {
             @Override
             public void onResponse(Call<RespuestaServicio<Defecto>> call, Response<RespuestaServicio<Defecto>> response) {
-                RespuestaServicio<Defecto> respuesta = response.body();
-                if(respuesta.getEjecucionCorrecta()){
-                    mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    mBuilder = new NotificationCompat.Builder(AgregarDefectoActivity.this);
-                    mBuilder.setContentTitle("Download")
-                            .setContentText("Download in progress")
-                            .setSmallIcon(R.drawable.ic_flash_off_white_24dp);
+                if (response.isSuccessful()) {
+                    RespuestaServicio<Defecto> respuesta = response.body();
+                    if (respuesta.getEjecucionCorrecta()) {
+                        mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        mBuilder = new NotificationCompat.Builder(AgregarDefectoActivity.this);
+                        mBuilder.setContentTitle("Download")
+                                .setContentText("Download in progress")
+                                .setSmallIcon(R.drawable.ic_flash_off_white_24dp);
 
-                    new Downloader().execute();
-                    crearImagen(respuesta.getRespuesta().getId());
+                        new Downloader().execute();
+                        crearImagen(respuesta.getRespuesta().getId());
+                    } else {
+                        messageDialog(respuesta.getMensaje());
+                    }
+                } else {
+                    messageDialog(response.errorBody().byteStream().toString());
                 }
-                else{
-                    messageDialog(respuesta.getMensaje());
-                }
+
 
             }
 

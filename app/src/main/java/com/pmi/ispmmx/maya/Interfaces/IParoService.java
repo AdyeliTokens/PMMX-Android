@@ -3,6 +3,7 @@ package com.pmi.ispmmx.maya.Interfaces;
 import com.google.gson.JsonArray;
 import com.pmi.ispmmx.maya.Modelos.Entidades.Paros.Paro;
 import com.pmi.ispmmx.maya.Utils.Config.ApisPreference;
+import com.pmi.ispmmx.maya.Utils.Respuesta.RespuestaServicio;
 
 import java.util.List;
 
@@ -27,19 +28,14 @@ public interface IParoService {
     Call<List<Paro>> getParosByWorkCenter(@Query("idWorkCenter") int idWorkCenter, @Query("activo") Boolean activo, @Query("cantidad") int cantidad);
 
     @GET(ApisPreference.GET_PARO)
-    Call<List<Paro>> getParosByOrigen(@Query("idOrigen") int idOrigen, @Query("activo") Boolean activo, @Query("cantidad") int cantidad);
+    Call<RespuestaServicio<List<Paro>>> getParosByOrigen(@Query("idOrigen") int idOrigen);
 
     @GET(ApisPreference.GET_PARO)
     Call<JsonArray> getParosByBussinesUnit(@Query("idBussinesUnit") int idBussinesUnit, @Query("activo") Boolean activo, @Query("cantidad") int cantidad);
 
-
-    @GET(ApisPreference.GET_PARO)
-    Call<JsonArray> getParosByOrigen(@Query("idOrigen") int idOrigen);
-
-
     //@FormUrlEncoded
     @POST(ApisPreference.GET_PARO)
-    Call<Paro> postParo(@Body Paro paro);
+    Call<RespuestaServicio<Paro>> postParo(@Body Paro paro);
 
     @PUT(ApisPreference.GET_PARO + "/{id}/")
     Call<Paro> putParo(@Path("id") int idParo, @Body Paro paro);

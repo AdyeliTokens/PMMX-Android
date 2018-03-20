@@ -104,7 +104,7 @@ public class DefectoAdapter extends RecyclerView.Adapter<DefectoAdapter.ViewHold
             String descripcion = defecto.getDescripcion();
 
             this.defecto.setText(descripcion);
-            this.fecha.setText("" + defecto.getFechaApiReporte());
+            this.fecha.setText("" + defecto.getFechaReporte());
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

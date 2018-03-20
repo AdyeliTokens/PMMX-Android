@@ -134,6 +134,8 @@ public class SplashActivity extends AppCompatActivity {
                                 Manifest.permission.READ_EXTERNAL_STORAGE
                         }
                         , MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
+
             } else {
                 try {
                     descarga_Instala();
@@ -243,21 +245,27 @@ public class SplashActivity extends AppCompatActivity {
         BroadcastReceiver onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
 
-                Uri uris = FileProvider.getUriForFile(ctxt,
-                        BuildConfig.APPLICATION_ID,
-                        new File(finalDestination));
+                try {
+                    Uri uris = FileProvider.getUriForFile(ctxt,
+                            BuildConfig.APPLICATION_ID + ".provider",
+                            new File(finalDestination));
 
 
-                Intent install = new Intent(Intent.ACTION_VIEW);
-                install.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                install.setDataAndType(uris, "application/vnd.android.package-archive");
-                //install.setDataAndType(uris, manager.getMimeTypeForDownloadedFile(downloadId));
-                install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivity(install);
+                    Intent install = new Intent(Intent.ACTION_VIEW);
+                    install.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    install.setDataAndType(uris, "application/vnd.android.package-archive");
+                    //install.setDataAndType(uris, manager.getMimeTypeForDownloadedFile(downloadId));
+                    install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(install);
+                } catch (Exception e) {
+                    Toast.makeText(ctxt, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
 
                 unregisterReceiver(this);
                 finish();
+
+
             }
         };
         //register receiver for when .apk download is compete

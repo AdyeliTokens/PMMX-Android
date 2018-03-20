@@ -50,6 +50,13 @@ public class FormatDate {
             e.printStackTrace();
         }
 
+        df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        df.setTimeZone(tz);
+        try {
+            return df.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

@@ -82,24 +82,20 @@ public class Defecto {
         return persona;
     }
 
-    public Date getFechaApiReporte() {
+    public Date getFechaReporte() {
         FormatDate format = new FormatDate();
         fechaReporte = format.fromISO8601UTC(fechaApiReporte);
 
         return fechaReporte;
     }
 
-    public void setFechaApiReporte(String fechaApiReporte) {
-        this.fechaApiReporte = fechaApiReporte;
-    }
+
 
     public String getFechaApiEstimada() {
         return fechaApiEstimada;
     }
 
-    public void setFechaApiEstimada(String fechaApiEstimada) {
-        this.fechaApiEstimada = fechaApiEstimada;
-    }
+
 
     public int getId() {
         return id;
@@ -139,10 +135,6 @@ public class Defecto {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
-    }
-
-    public Date getFechaReporte() {
-        return fechaReporte;
     }
 
     public void setFechaReporte(Date fechaReporte) {

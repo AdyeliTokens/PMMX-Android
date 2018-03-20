@@ -9,9 +9,6 @@ import android.graphics.Path;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by chan jacky chan on 06/09/2017.
- */
 
 public class DrawingView extends View {
     private static final float TOUCH_TOLERANCE = 4;

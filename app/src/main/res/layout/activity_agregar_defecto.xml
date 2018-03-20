@@ -20,6 +20,8 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
+
+
     <LinearLayout
         android:id="@+id/imagechida"
         android:layout_width="match_parent"
@@ -71,7 +73,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
-                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:clickable="true"
                     android:contentDescription="@string/todo"
@@ -79,7 +80,8 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:srcCompat="@drawable/ic_camera_gray" />
+                    app:srcCompat="@drawable/ic_camera_gray"
+                    android:layout_marginLeft="15dp" />
 
                 <EditText
                     android:id="@+id/txtDescripcion"
@@ -108,14 +110,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
                     android:clickable="true"
                     android:contentDescription="@string/todo"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:srcCompat="@drawable/ic_mic_gray" />
+                    app:srcCompat="@drawable/ic_mic_gray"
+                    android:layout_marginRight="15dp" />
 
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
@@ -128,14 +130,14 @@
             android:layout_gravity="center"
             android:layout_marginBottom="100dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:max="2"
             android:progress="0"
             android:rotation="270"
             app:layout_constraintBottom_toTopOf="@+id/fab_Enviar"
             app:layout_constraintLeft_toLeftOf="@+id/fab_Enviar"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="8dp" />
 
 
         <android.support.design.widget.FloatingActionButton
@@ -145,7 +147,6 @@
             android:layout_gravity="top|start"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:clickable="true"
             android:focusable="true"
             app:elevation="3dp"
@@ -154,7 +155,8 @@
             app:layout_anchorGravity="bottom|right"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:srcCompat="@drawable/ic_edit" />
+            app:srcCompat="@drawable/ic_edit"
+            android:layout_marginRight="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 
